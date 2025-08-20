@@ -1,0 +1,8 @@
+export { default as PanaLogoSvg } from "../public/assets/svg/pana.svg";
+export { default as NotFoundSvg } from "../public/assets/svg/not_found.svg";
+export { default as TovtripSvg } from "../public/assets/svg/tovtrip.svg";
+export { default as ErrorImageSvg } from "../public/assets/svg/error_img.svg";
+export { default as LogoSvg } from "../public/assets/svg/Logo.svg";
+export { default as QRSvg } from "../public/assets/svg/qr.svg";
+export { default as TovtripLogoTextSvg } from "../public/assets/svg/logo_text.svg";
+export { default as LoginBackground } from "../public/assets/images/login.jpg";
