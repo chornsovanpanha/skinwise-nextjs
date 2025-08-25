@@ -1,28 +1,66 @@
-import { LoginBackground } from "@/assets";
+import { LoginBackground, RegisterBackground } from "@/assets";
+import AppInput from "@/components/AppInput";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import clsx from "clsx";
+import { Lock, Mail } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
-export function RegisterForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+import React from "react";
+type FormProps = {
+  title: string;
+  desc: string;
+  type: "login" | "register";
+};
+const Form: React.FC<FormProps> = ({ title, desc, type }) => {
+  const linkPrimary = "Already have an account?";
+  const linkBtn = type == "register" ? "Login" : "Register";
+  const url = type == "register" ? "/login" : "/register";
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn("flex flex-col gap-6")}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
           <form className="p-6 md:p-8">
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
-                <h1 className="text-2xl font-bold">
-                  Create a free account or login to continue reading.
-                </h1>
-                <p className="text-muted-foreground text-balance">
-                  Get access to the tools you&apos;ll need to achieve your skin
-                  goals.
+                <h1 className="text-lg md:text-2xl font-bold">{title}</h1>
+                <p
+                  className={clsx("text-muted-foreground text-sm md:text-lg ", {
+                    "text-balance": type == "login",
+                    "max-w-fit w-[300px]": type == "register",
+                  })}
+                >
+                  {desc}
                 </p>
+              </div>
+              <div className="grid gap-3">
+                <AppInput
+                  id="email"
+                  label="Email"
+                  type="email"
+                  icon={<Mail size={16} />}
+                  placeholder="Example@gmail.com"
+                  required
+                />
+              </div>
+              <div className="grid gap-3">
+                <AppInput
+                  id="password"
+                  label="Password"
+                  type="password"
+                  icon={<Lock size={16} />}
+                  placeholder="Enter Your Password"
+                  required
+                />
+                <div className="flex items-center">
+                  <Link
+                    href="/forgot-password"
+                    className="ml-auto text-sm underline-offset-2 hover:underline"
+                  >
+                    Forgot your password?
+                  </Link>
+                </div>
               </div>
 
               <div className="grid grid-cols-3 gap-4">
@@ -55,16 +93,17 @@ export function RegisterForm({
                 </Button>
               </div>
               <div className="text-center text-sm">
-                Already have an account?{" "}
-                <Link href="/login" className="underline underline-offset-4">
-                  Login
+                {linkPrimary}{" "}
+                <Link href={url} className="underline underline-offset-4">
+                  {linkBtn}
                 </Link>
               </div>
             </div>
           </form>
+
           <div className="bg-muted relative hidden md:block">
             <Image
-              src={LoginBackground}
+              src={type == "login" ? LoginBackground : RegisterBackground}
               alt="Image-Cover"
               width={400}
               height={400}
@@ -79,4 +118,6 @@ export function RegisterForm({
       </div>
     </div>
   );
-}
+};
+
+export default Form;

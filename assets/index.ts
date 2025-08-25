@@ -6,3 +6,4 @@ export { default as LogoSvg } from "../public/assets/svg/Logo.svg";
 export { default as QRSvg } from "../public/assets/svg/qr.svg";
 export { default as TovtripLogoTextSvg } from "../public/assets/svg/logo_text.svg";
 export { default as LoginBackground } from "../public/assets/images/login.jpg";
+export { default as RegisterBackground } from "../public/assets/images/register.jpg";
