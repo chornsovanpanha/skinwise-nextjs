@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
+import { Toaster } from "sonner";
 import JotaiProvider from "../lib/provider";
-import Monitoring from "./(utils)/_monitoring/page";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -26,8 +26,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${nunito.className}`}>
       <body className="antialiased max-h-[100vh] overflow-x-hidden">
+        <Toaster />
+
         <JotaiProvider>{children}</JotaiProvider>
-        <Monitoring />
+        {/* <Monitoring /> */}
       </body>
     </html>
   );

@@ -1,25 +1,28 @@
+"use client";
 import { Input } from "@/components/ui/input";
-import React from "react";
-import { Label } from "./ui/label";
-import { Eye } from "lucide-react";
 import clsx from "clsx";
+import { Eye, EyeClosed } from "lucide-react";
+import React, { useState } from "react";
+import { Label } from "./ui/label";
+import { Typography } from "./Typography";
 
 type AppInputProps = {
   label: string;
   icon?: React.ReactNode;
   className?: string;
-  error?: boolean;
+  error?: string;
 } & React.ComponentProps<"input">;
 
 const AppInput: React.FC<AppInputProps> = ({
   label,
-  icon,
+  icon = null,
   className,
   error,
   ...props
 }) => {
+  const [togglePassword, setTogglePassword] = useState(false);
   return (
-    <div className="grid w-full max-w-sm items-center gap-3 my-4">
+    <div className="grid w-full max-w-sm items-center gap-3">
       <Label htmlFor={props.id}>{label}</Label>
       <div className="relative">
         {icon && (
@@ -37,12 +40,25 @@ const AppInput: React.FC<AppInputProps> = ({
             }
           )}
           {...props}
+          type={togglePassword ? "text" : props.type}
         />
 
         {props.type == "password" && (
-          <span className="absolute inset-y-0 right-2 flex items-center pl-3 text-gray-400">
-            <Eye className="h-4 w-4" />
+          <span
+            className="absolute inset-y-0 right-2 flex items-center pl-3 text-gray-400"
+            onClick={() => setTogglePassword(!togglePassword)}
+          >
+            {togglePassword ? (
+              <Eye className="h-4 w-4" />
+            ) : (
+              <EyeClosed className="h-4 w-4" />
+            )}
           </span>
+        )}
+        {error && (
+          <Typography className="text-error-text" variant="caption" as="p">
+            {error}
+          </Typography>
         )}
       </div>
     </div>

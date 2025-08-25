@@ -1,9 +1,27 @@
 import { z } from "zod";
-
+export const socialSchema = z.object({
+  idToken: z.string().optional(),
+  loginBy: z.string().optional(),
+});
 export const loginSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(1, { message: "Password is required" }),
+  password: z.string().optional(),
 });
+
+export const extendedLoginSchema = loginSchema.and(socialSchema);
+export const registerSchema = z.object({
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z.string().min(1, { message: "Password is required" }),
+  firstName: z
+    .string()
+    .min(1, { message: "First name is required" })
+    .max(25, { message: "First name must be less then 25 characters" }),
+  lastName: z
+    .string()
+    .min(1, { message: "Last name is required" })
+    .max(50, { message: "Last name must be less then 50 characters" }),
+});
+export const extendedRegisterSchema = registerSchema.and(socialSchema);
 
 export const forgetPasswordSchema = loginSchema.pick({
   email: true,
@@ -11,28 +29,21 @@ export const forgetPasswordSchema = loginSchema.pick({
 export const resetPasswordSchema = z
   .object({
     password: z.string().min(1, { message: "Password is required" }),
-    confirmpassword: z
+    confirmPassword: z
       .string()
       .min(1, { message: "Confirm Password is required" }),
   })
-  .refine((data) => data.confirmpassword === data.password, {
+  .refine((data) => data.confirmPassword === data.password, {
     error: "Passwords don't match",
     path: ["confirmpassword"],
   });
 
-export const oAuthCodeSchema = z.object({
-  code: z
-    .string()
-    .min(6, { message: "Code must be 6 digits" })
-    .max(6, { message: "Code must be less then 6 digits" })
-    .refine((val) => /^\d{6}$/.test(val), {
-      message: "Code must contain only numbers",
-    }),
+export const emailSchema = z.object({
+  email: z.string().email(),
 });
 
-export const recoveryCodeSchema = z.object({
-  code: z
-    .string()
-    .min(9, { message: "Recovery code must be 9 digits" })
-    .max(10, { message: "Recovery code must be less then 10 digits" }),
-});
+export type EmailSchemaType = z.infer<typeof emailSchema>;
+export type ResetPasswordSchemaType = z.infer<typeof resetPasswordSchema>;
+
+export type RegisterSchemaType = z.infer<typeof extendedRegisterSchema>;
+export type LoginSchemaType = z.infer<typeof extendedLoginSchema>;
