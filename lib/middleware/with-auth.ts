@@ -1,10 +1,13 @@
 import { SESSION_NAME } from "@/utils/constant/cookie";
+import { User } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import prismaClientTools from "../prisma";
 
-type AppRouteHandler = (req: NextRequest, user: any) => Promise<NextResponse>;
+export type AppRouteHandler = (
+  req: NextRequest & { user: User }
+) => Promise<NextResponse>;
 
-export function withAuth(handler: AppRouteHandler): AppRouteHandler {
+export function withAuth(handler: AppRouteHandler) {
   return async function (req: NextRequest): Promise<NextResponse> {
     const token = req.cookies.get(SESSION_NAME)?.value;
     if (!token) {
@@ -23,6 +26,7 @@ export function withAuth(handler: AppRouteHandler): AppRouteHandler {
       return NextResponse.json({ error: "Session expired" }, { status: 401 });
     }
 
-    return handler(req, session.user);
+    const reqWithUser = Object.assign(req, { user: session.user });
+    return handler(reqWithUser);
   };
 }

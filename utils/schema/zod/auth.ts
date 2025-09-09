@@ -5,10 +5,9 @@ export const socialSchema = z.object({
 });
 export const loginSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().optional(),
+  password: z.string().min(1, { message: "Password is required" }),
 });
 
-export const extendedLoginSchema = loginSchema.and(socialSchema);
 export const registerSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
   password: z.string().min(1, { message: "Password is required" }),
@@ -21,6 +20,7 @@ export const registerSchema = z.object({
     .min(1, { message: "Last name is required" })
     .max(50, { message: "Last name must be less then 50 characters" }),
 });
+
 export const extendedRegisterSchema = registerSchema.and(socialSchema);
 
 export const forgetPasswordSchema = loginSchema.pick({
@@ -35,8 +35,16 @@ export const resetPasswordSchema = z
   })
   .refine((data) => data.confirmPassword === data.password, {
     error: "Passwords don't match",
-    path: ["confirmpassword"],
+    path: ["confirmPassword"],
   });
+
+export const authSchema = z.object({
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z.string().min(1, { message: "Password is required" }),
+  idToken: z.string().optional(),
+  loginBy: z.string().optional(),
+  photoUrl: z.string().optional(),
+});
 
 export const emailSchema = z.object({
   email: z.string().email(),
@@ -46,4 +54,5 @@ export type EmailSchemaType = z.infer<typeof emailSchema>;
 export type ResetPasswordSchemaType = z.infer<typeof resetPasswordSchema>;
 
 export type RegisterSchemaType = z.infer<typeof extendedRegisterSchema>;
-export type LoginSchemaType = z.infer<typeof extendedLoginSchema>;
+export type LoginSchemaType = z.infer<typeof loginSchema>;
+export type ApiLoginSchema = z.infer<typeof authSchema>;

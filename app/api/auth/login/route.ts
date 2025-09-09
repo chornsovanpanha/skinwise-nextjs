@@ -4,22 +4,26 @@ import { validateBody } from "@/lib/middleware/zod-validation";
 import prismaClientTools from "@/lib/prisma";
 import { EXPIRED_AT, SESSION_NAME } from "@/utils/constant/cookie";
 import { generateFallbackEmail } from "@/utils/generate/email-generate";
-import { extendedLoginSchema, LoginSchemaType } from "@/utils/schema";
+import { sendEmail } from "@/utils/node-mailer/send-email";
+import { ApiLoginSchema, loginSchema } from "@/utils/schema";
+import { LoginBy } from "@prisma/client";
 import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
 import z from "zod";
 
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as LoginSchemaType;
-    const data = await validateBody<LoginSchemaType>(body, extendedLoginSchema);
-    const { email: bodyEmail, idToken, loginBy } = body;
+    const body = (await request.json()) as ApiLoginSchema;
+    const data = await validateBody<ApiLoginSchema>(body, loginSchema);
+    const { email: bodyEmail, idToken, loginBy, photoUrl } = body;
 
     let user;
+    let oldUser;
+    let imageQuery;
 
     if (!loginBy || loginBy == "email") {
       user = await prismaClientTools.user.findUnique({
-        where: { email: bodyEmail },
+        where: { email: bodyEmail?.toLowerCase() },
         select: {
           email: true,
           id: true,
@@ -28,6 +32,11 @@ export async function POST(request: Request) {
           loginBy: true,
           name: true,
           role: true,
+          Image: {
+            select: {
+              url: true,
+            },
+          },
         },
       });
 
@@ -37,7 +46,7 @@ export async function POST(request: Request) {
 
       const isMatch = await validateUserPassword({
         hashedPassword: user.password!,
-        password: data?.password!,
+        password: data!.password!,
       });
 
       if (!isMatch) {
@@ -53,18 +62,30 @@ export async function POST(request: Request) {
       }
 
       const decodedToken = await adminAuth.verifyIdToken(idToken);
-      const email =
+      const userEmail =
+        bodyEmail ||
         decodedToken.email ||
         generateFallbackEmail(decodedToken.uid, loginBy ?? "email");
       const name = decodedToken.name || "";
+      oldUser = await prismaClientTools.user.findUnique({
+        where: { email: bodyEmail },
+      });
+
       // Check if user exists, create if not update the information email and override the name
+
       user = await prismaClientTools.user.upsert({
-        where: { email },
-        update: { name, platform: loginBy, password: loginBy },
-        create: {
-          email,
+        where: { email: userEmail },
+        update: {
           name,
-          platform: loginBy,
+          platform: "web",
+          password: loginBy,
+          loginBy: loginBy as LoginBy,
+        },
+        create: {
+          email: userEmail,
+          name,
+          platform: "web",
+          loginBy: loginBy as LoginBy,
           password: loginBy ?? "social",
         },
         select: {
@@ -74,6 +95,31 @@ export async function POST(request: Request) {
           loginBy: true,
           name: true,
           role: true,
+          Image: {
+            select: {
+              url: true,
+            },
+          },
+        },
+      });
+
+      // Upsert image separately
+      imageQuery = await prismaClientTools.image.upsert({
+        where: {
+          userId_url: {
+            userId: user.id,
+            url: photoUrl ?? "",
+          },
+        },
+        update: {
+          url: photoUrl ?? "",
+        },
+        create: {
+          userId: user.id,
+          url: photoUrl ?? "",
+        },
+        select: {
+          url: true,
         },
       });
     }
@@ -83,6 +129,24 @@ export async function POST(request: Request) {
     await prismaClientTools.session.create({
       data: { userId: user.id, token, expiresAt },
     });
+    if (!oldUser) {
+      await sendEmail({
+        sender: {
+          address: "Nightpp19@gmail.com",
+          name: "Skin Wise",
+        },
+
+        subject: "Welcome to skinwise",
+        receipients: [
+          {
+            address: user?.email,
+            name: user?.name ?? "N/A",
+          },
+        ],
+
+        message: `<p>This is a welcoming message thanks you for trusting us.Enjoy ur member as skinwise.</p>`,
+      });
+    }
 
     const response = NextResponse.json({
       data: {
@@ -91,6 +155,8 @@ export async function POST(request: Request) {
         loginBy: user.loginBy,
         name: user.name,
         role: user.role,
+        email: user.email,
+        photoUrl: imageQuery,
       },
     });
 
@@ -98,6 +164,7 @@ export async function POST(request: Request) {
       name: SESSION_NAME,
       value: token,
       httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
       path: "/",
       maxAge: EXPIRED_AT,
       expires: expiresAt,

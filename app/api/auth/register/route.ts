@@ -1,7 +1,8 @@
 import { validateBody } from "@/lib/middleware/zod-validation";
 import prismaClientTools from "@/lib/prisma";
 import { EXPIRED_AT, SESSION_NAME } from "@/utils/constant/cookie";
-import { registerSchema, RegisterSchemaType } from "@/utils/schema";
+import { sendEmail } from "@/utils/node-mailer/send-email";
+import { extendedRegisterSchema, RegisterSchemaType } from "@/utils/schema";
 import bcrypt from "bcrypt";
 import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
@@ -10,11 +11,14 @@ import z from "zod";
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as RegisterSchemaType;
-    await validateBody<RegisterSchemaType>(body, registerSchema);
+    const data = await validateBody<RegisterSchemaType>(
+      body,
+      extendedRegisterSchema
+    );
     const { email, password, firstName, lastName } = body;
 
     const existingUser = await prismaClientTools.user.findUnique({
-      where: { email },
+      where: { email: email?.toLowerCase() },
     });
     if (existingUser) {
       return NextResponse.json(
@@ -27,7 +31,7 @@ export async function POST(request: Request) {
 
     const user = await prismaClientTools.user.create({
       data: {
-        email,
+        email: data.email?.toLowerCase(),
         password: hashedPassword,
         name: firstName + " " + lastName,
         platform: request.headers.get("user-agent")?.toString(),
@@ -50,9 +54,26 @@ export async function POST(request: Request) {
       name: SESSION_NAME,
       value: token,
       httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
       path: "/",
       maxAge: EXPIRED_AT,
       expires: expiresAt,
+    });
+    await sendEmail({
+      sender: {
+        address: "amyjohn922@gmail.com",
+        name: "Skin Wise",
+      },
+
+      subject: "Welcome to skinwise",
+      receipients: [
+        {
+          address: user?.email,
+          name: user?.name ?? "N/A",
+        },
+      ],
+
+      message: `<p>This is a welcoming message thanks you for trusting us.Enjoy ur member as skinwise.</p>`,
     });
 
     return response;

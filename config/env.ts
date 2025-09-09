@@ -44,6 +44,7 @@ export class AppEnv {
   static readonly apiVersion = serverEnv?.API_VERSION!;
   static readonly port = serverEnv?.PORT!;
   static readonly databaseUrl = serverEnv?.DATABASE_URL!;
+  static readonly apiUrl = serverEnv?.API_URL!;
 }
 
 export class ClientAppEnv {
