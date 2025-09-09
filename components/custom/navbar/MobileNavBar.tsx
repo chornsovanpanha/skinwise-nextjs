@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
@@ -9,45 +8,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { User } from "lucide-react";
+import { menus } from "@/utils/constant/menus";
 import Link from "next/link";
+import AuthButtonMobile from "./AuthButtonMobile";
 import ContactInfo from "./ContactInfo";
 import RightOwnerDate from "./RightOwnerDate";
+import MobileLogout from "./MobileLogout";
 
-const menus = [
-  {
-    id: 1,
-    link: "#",
-    name: "Explore",
-  },
-  {
-    id: 2,
-    link: "#",
-    name: "Tools",
-  },
-  {
-    id: 3,
-    link: "#",
-    name: "Routine",
-  },
-  {
-    id: 4,
-    link: "#",
-    name: "Subscribe",
-  },
-  {
-    id: 5,
-    link: "#",
-    name: "Contact",
-  },
-  {
-    id: 6,
-    link: "#",
-    name: "About us",
-  },
-];
-
-const MobileNavBar = () => {
+const MobileNavBar = ({ isLogin }: { isLogin: boolean }) => {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -91,12 +59,12 @@ const MobileNavBar = () => {
         <SheetHeader className="h-10">
           <SheetTitle className="text-lg font-bold">SKINWISE</SheetTitle>
         </SheetHeader>
-        <nav className="space-y-4 p-4">
+        <nav className="space-y-4 p-4 pt-12">
           {menus.map((navbar) => (
             <Link
               key={navbar.id}
               href={navbar.link}
-              className="block text-gray-800 dark:text-white hover:underline text-base"
+              className="block text-gray-800 dark:text-white hover:underline text-base hover:text-primary duration-50 transition-colors  ease-in"
             >
               {navbar.name}
             </Link>
@@ -106,12 +74,7 @@ const MobileNavBar = () => {
         </nav>
 
         <SheetFooter className="pt-6 pb-12 ">
-          <div className="flex flex-col space-y-2 w-full text-sm text-gray-600  bg-white pb-2">
-            <Button className="bg-gray-50 text-black hover:bg-gray-100 focus:border-0">
-              <User />
-              Login / Create an Account
-            </Button>
-          </div>
+          {!isLogin ? <AuthButtonMobile /> : <MobileLogout />}
 
           <RightOwnerDate />
         </SheetFooter>

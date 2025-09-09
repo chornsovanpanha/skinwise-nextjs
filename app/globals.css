@@ -250,6 +250,9 @@ html {
   .card-border {
     @apply border-gray-2 border-1 px-2 py-2 rounded-xl
   }
+  .wrapper {
+    @apply flex mx-auto container max-w-7xl justify-between px-6 sm:px-12 py-6
+  }
   /* ***************** Sidebar *************** */
 .sidebar {
   background-color: var(--sidebar-primary);

@@ -26,6 +26,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Image {
+  id        Int      @id @default(autoincrement())
+  url       String
+  altText   String?
+  width     Int?
+  height    Int?
+  createdAt DateTime @default(now())
+
+  userId Int?
+  user   User? @relation(fields: [userId], references: [id])
+
+  @@unique([userId, url])
+}
+
 // schema.prisma
 model User {
   id                  Int                  @id @default(autoincrement())
@@ -39,6 +53,7 @@ model User {
   role                UserRole             @default(USER)
   sessions            Session[]
   passwordResetTokens PasswordResetToken[]
+  Image               Image[]
 }
 
 model Session {

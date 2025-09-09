@@ -23,16 +23,15 @@ interface TypographyProps {
   children: React.ReactNode;
   style?: CSSProperties;
 }
-
 const variantStyles: Record<string, string> = {
-  label: "text-[12px] leading-[20px] font-medium text-primary-text",
-  default: "text-[14px] leading-[24px] text-primary-text",
-  caption: "text-[12px] leading-[20px] font-medium text-primary-text",
-  button: "font-semibold text-[14px] leading-[20px]",
-  subtitle1: "text-[16px] leading-[22px] text-primary-text",
-  subtitle2: "text-[14px] leading-[20px] text-primary-text",
-  body1: "text-[16px] leading-[24px] text-primary-text",
-  body2: "text-[14px] leading-[20px] text-primary-text",
+  label: "text-xs leading-5 font-medium text-black",
+  default: "text-sm leading-6 font-normal text-black",
+  caption: "text-xs leading-5 font-medium text-black",
+  button: "text-sm leading-5 font-semibold text-black",
+  subtitle1: "text-base leading-[22px] font-semibold text-black",
+  subtitle2: "text-sm leading-5 font-semibold text-black",
+  body1: "text-base leading-none font-normal text-black",
+  body2: "text-sm leading-5 font-normal text-black",
 };
 
 const responsiveStyles: Partial<
@@ -51,15 +50,16 @@ export const Typography = ({
   variant = "body1",
   className,
   children,
-  style = {},
+  style,
 }: TypographyProps) => {
   return (
     <Tag
       className={clsx(
-        "text-foreground",
-        className,
+        "text-black",
+
         variantStyles[variant],
-        responsiveStyles[variant] ?? ""
+        responsiveStyles[variant],
+        className
       )}
       style={style}
     >

@@ -1,19 +1,19 @@
 import { PrismaClient } from "@prisma/client";
 const prismaclient = new PrismaClient();
-async function seedUsers() {
-  await prismaclient.user.createMany({
-    data: [
-      {
-        name: "vorn",
-        email: "dararith@gmail.com",
-      },
-      {
-        name: "hour",
-        email: "hour@gmail.com",
-      },
-    ],
-  });
-}
+// async function seedUsers() {
+//   await prismaclient.user.createMany({
+//     data: [
+//       {
+//         name: "vorn",
+//         email: "dararith@gmail.com",
+//       },
+//       {
+//         name: "hour",
+//         email: "hour@gmail.com",
+//       },
+//     ],
+//   });
+// }
 
 async function seedProducts() {
   await prismaclient.product.createMany({

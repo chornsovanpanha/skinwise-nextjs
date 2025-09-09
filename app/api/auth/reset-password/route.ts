@@ -3,8 +3,7 @@ import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  const { token, newPassword } = await req.json();
-
+  const { token, password } = await req.json();
   //Validate if the token that user click and server are the same
   const resetToken = await prismaClientTools.passwordResetToken.findUnique({
     where: { token },
@@ -18,7 +17,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  const hashedPassword = await bcrypt.hash(password, 10);
   await prismaClientTools.user.update({
     where: { id: resetToken.userId },
     data: { password: hashedPassword },
@@ -32,5 +31,5 @@ export async function POST(req: Request) {
     where: { userId: resetToken.userId },
   });
 
-  return NextResponse.json({ message: "Password reset successfully" });
+  return NextResponse.json({ data: "Password reset successfully" });
 }

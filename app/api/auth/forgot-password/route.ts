@@ -1,12 +1,16 @@
 import prismaClientTools from "@/lib/prisma";
 import { sendEmail } from "@/utils/node-mailer/send-email";
+import { ApiLoginSchema } from "@/utils/schema";
 import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  const { email } = await req.json();
-  const user = await prismaClientTools.user.findUnique({ where: { email } });
-  if (!user) return NextResponse.json({ message: "Email sent" });
+  const { email } = (await req.json()) as ApiLoginSchema;
+  const user = await prismaClientTools.user.findUnique({
+    where: { email: email?.toLowerCase() },
+  });
+  if (!user) return NextResponse.json({ data: "Email has been sent!" });
+
   //This will generate token reset password only
   const token = randomUUID();
   const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
@@ -18,7 +22,7 @@ export async function POST(req: Request) {
   // Send to email to user
   await sendEmail({
     sender: {
-      address: "Nightpp19@gmail.com",
+      address: "amyjohn922@gmail.com",
       name: "Skin Wise Development",
     },
 
@@ -30,7 +34,7 @@ export async function POST(req: Request) {
       },
     ],
 
-    message: `<p>Click <a href="https://localhost:3000/auth/reset-password?token=${token}">here</a> to reset your password.</p>`,
+    message: `<p>Click <a href="http://localhost:3000/reset-password?token=${token}">here</a> to reset your password.</p>`,
   });
-  return NextResponse.json({ message: "Email sent" });
+  return NextResponse.json({ data: "Email has been sent!" });
 }
