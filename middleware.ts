@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { updateSession } from "./actions/authentication/login.action";
 import { getAppSession } from "./lib/sessions/cookie";
 
-const protectedPaths = ["/dashboard", "/profile"];
+const protectedPaths = ["/dashboard"];
 const loginPath = "/login";
 
 export async function middleware(request: NextRequest) {

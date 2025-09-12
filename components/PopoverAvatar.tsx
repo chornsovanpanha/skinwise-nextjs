@@ -8,7 +8,7 @@ import { clearGoogleLogout } from "@/utils/social/clear-auth";
 import { signOut } from "firebase/auth";
 import { useAtomValue, useSetAtom } from "jotai";
 import { LogOut, User } from "lucide-react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { startTransition, useState } from "react";
 import { Typography } from "./Typography";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
@@ -16,6 +16,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Separator } from "./ui/separator";
 
 const PopoverAvatar = () => {
+  const router = useRouter();
   const currentUser = useAtomValue(userAtom);
   const fallAvatar =
     currentUser?.name?.[0] + currentUser?.name?.[currentUser?.name?.length - 1];
@@ -24,7 +25,10 @@ const PopoverAvatar = () => {
   const [open, setOpen] = useState(false);
   const setUserAtom = useSetAtom(userAtom);
   const handleViewProfile = () => {
-    setOpen(false);
+    startTransition(() => {
+      router.push("/profile/overview");
+      setOpen(false);
+    });
   };
 
   const handleLogout = async () => {

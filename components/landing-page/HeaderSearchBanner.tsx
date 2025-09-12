@@ -3,7 +3,7 @@ import Image from "next/image";
 import AppInput from "../AppInput";
 import { Typography } from "../Typography";
 
-const HeaderBanner = () => {
+const HeaderSearchBanner = () => {
   return (
     <section className="w-full h-[590px] bg-gray-100 relative ">
       <div className="bg-secondary/40 w-full h-full absolute" />
@@ -35,4 +35,4 @@ const HeaderBanner = () => {
   );
 };
 
-export default HeaderBanner;
+export default HeaderSearchBanner;

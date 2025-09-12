@@ -73,15 +73,15 @@ export default function ResetPasswordPreview() {
         <div className="w-full  flex justify-center mb-4">
           <Logo src={PerfumeLogoSvg} size={90} className="p-4" />
         </div>
-        <CardHeader>
+        <CardHeader className="mb-4">
           <CardTitle className="text-2xl">Reset Password</CardTitle>
           <CardDescription>
             Enter your new password to reset your password.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <div className="grid gap-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+            <div className="grid gap-2">
               {/* New Password */}
               <AppInput
                 id="password"

@@ -32,12 +32,16 @@ const AppInput: React.FC<AppInputProps> = ({
         )}
 
         <Input
-          className={clsx(`focus-visible:ring-1 focus:border-1 ${className}`, {
-            "focus-visible:ring-1 focus-visible:ring-error-background focus-visible:border-error-background ":
-              error,
-            "border-error-background border-2 ring-error-main": error,
-            "pl-10": icon,
-          })}
+          className={clsx(
+            "focus-visible:ring-1 focus:border-1 placeholder:text-gray-4",
+            {
+              "focus-visible:ring-1 focus-visible:ring-error-background focus-visible:border-error-background":
+                error,
+              "border-error-background border-2 ring-error-main": error,
+              "pl-10": icon,
+            },
+            className || "placeholder:text-gray-4"
+          )}
           {...props}
           type={togglePassword ? "text" : props.type}
         />

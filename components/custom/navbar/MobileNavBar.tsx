@@ -14,8 +14,11 @@ import AuthButtonMobile from "./AuthButtonMobile";
 import ContactInfo from "./ContactInfo";
 import RightOwnerDate from "./RightOwnerDate";
 import MobileLogout from "./MobileLogout";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const MobileNavBar = ({ isLogin }: { isLogin: boolean }) => {
+  const router = useRouter();
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -56,10 +59,10 @@ const MobileNavBar = ({ isLogin }: { isLogin: boolean }) => {
         </button>
       </SheetTrigger>
       <SheetContent side="left" className="w-[300px]">
-        <SheetHeader className="h-10">
-          <SheetTitle className="text-lg font-bold">SKINWISE</SheetTitle>
-        </SheetHeader>
-        <nav className="space-y-4 p-4 pt-12">
+        <nav className="space-y-4 p-4 ">
+          <SheetHeader>
+            <SheetTitle className="text-lg font-bold">Get Premium</SheetTitle>
+          </SheetHeader>
           {menus.map((navbar) => (
             <Link
               key={navbar.id}
@@ -73,10 +76,20 @@ const MobileNavBar = ({ isLogin }: { isLogin: boolean }) => {
           <ContactInfo />
         </nav>
 
-        <SheetFooter className="pt-6 pb-12 ">
-          {!isLogin ? <AuthButtonMobile /> : <MobileLogout />}
+        <SheetFooter className="pt-6 pb-12">
+          <section>
+            <Button
+              onClick={() => {
+                router.push("/premium");
+              }}
+              className="bg-secondary rounded-full text-primary px-6 hover:text-white w-full"
+            >
+              Get Premium
+            </Button>
+            {!isLogin ? <AuthButtonMobile /> : <MobileLogout />}
 
-          <RightOwnerDate />
+            <RightOwnerDate />
+          </section>
         </SheetFooter>
       </SheetContent>
     </Sheet>

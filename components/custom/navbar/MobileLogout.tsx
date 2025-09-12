@@ -49,7 +49,7 @@ const MobileLogout = () => {
     <main className="my-4">
       {mutateState.loading && <Loading />}
       <Button
-        className="text-error-main w-full bg-error-background hover:bg-error-background/80"
+        className="text-error-main w-full bg-error-background hover:bg-error-background/80 rounded-full"
         onClick={handleLogout}
       >
         Logout

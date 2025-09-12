@@ -1,22 +1,26 @@
 import { Product } from "@/types";
 import { Typography } from "./Typography";
 import Image from "next/image";
+import Link from "next/link";
 
 const ProductItem = ({ data }: { data: Product }) => {
   return (
-    <div className="border border-primary rounded-xl overflow-hidden h-[500px] hover:cursor-pointer">
+    <Link
+      href={`/product/${data.name?.toLowerCase()?.slice(0, 4)}`}
+      className="group border border-primary rounded-xl overflow-hidden h-[480px] hover:cursor-pointer"
+    >
       {/* Image on top */}
-      <div className="relative w-full h-96 group overflow-hidden">
+      <div className="relative w-full h-96 group overflow-hidden bg-white">
         <Image
           src={data?.imageUrl}
           alt={data.name}
           fill
-          className="object-cover group-hover:scale-125 transition-transform ease-in-out duration-500"
+          className="object-contain group-hover:scale-125 transition-transform ease-in-out duration-500"
         />
       </div>
 
       {/* Content below */}
-      <div className="px-4 py-2 h-full ">
+      <div className="px-4 py-2 h-full group-hover:bg-primary/40">
         <Typography
           as="p"
           variant="subtitle1"
@@ -27,12 +31,12 @@ const ProductItem = ({ data }: { data: Product }) => {
         <Typography
           as="p"
           variant="default"
-          className="font-bold text-secondary"
+          className="font-bold text-secondary line-clamp-1"
         >
           Brand : {data.brandName}
         </Typography>
       </div>
-    </div>
+    </Link>
   );
 };
 
