@@ -22,21 +22,18 @@ export const popularProductListings = [
     id: 1,
     name: "Sunforgettable Total Protection Face Shield Matte SPF 50 PA++",
     brandName: "Paula Choice",
-    imageUrl:
-      "https://images.unsplash.com/photo-1556227834-09f1de7a7d14?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageUrl: "https://storage.skinsort.com/vhfn18oeucujg2wmaqz2m4a6xy2a",
   },
   {
     id: 2,
     name: "C-Firma Fresh Day Serum Acid",
     brandName: "Drunk Elephant",
-    imageUrl:
-      "https://images.unsplash.com/photo-1556227834-09f1de7a7d14?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageUrl: "http://storage.skinsort.com/cmjmkvk0fufaysqcr2ryxy2eshq2",
   },
   {
     id: 3,
     name: "Advanced Night Repair Synchronized Multi-Recovery Complex",
     brandName: "Estée Lauder",
-    imageUrl:
-      "https://images.unsplash.com/photo-1556227834-09f1de7a7d14?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageUrl: "https://storage.skinsort.com/cs1sqextfzr4cloldu3oazixuirx",
   },
 ];

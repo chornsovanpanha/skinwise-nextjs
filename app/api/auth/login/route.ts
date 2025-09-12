@@ -18,9 +18,11 @@ export async function POST(request: Request) {
     const { email: bodyEmail, idToken, loginBy, photoUrl } = body;
 
     let user;
-    let oldUser;
     let imageQuery;
 
+    const checkUserExist = await prismaClientTools.user.findUnique({
+      where: { email: data?.email?.toLowerCase() },
+    });
     if (!loginBy || loginBy == "email") {
       user = await prismaClientTools.user.findUnique({
         where: { email: bodyEmail?.toLowerCase() },
@@ -67,9 +69,6 @@ export async function POST(request: Request) {
         decodedToken.email ||
         generateFallbackEmail(decodedToken.uid, loginBy ?? "email");
       const name = decodedToken.name || "";
-      oldUser = await prismaClientTools.user.findUnique({
-        where: { email: bodyEmail },
-      });
 
       // Check if user exists, create if not update the information email and override the name
 
@@ -129,7 +128,8 @@ export async function POST(request: Request) {
     await prismaClientTools.session.create({
       data: { userId: user.id, token, expiresAt },
     });
-    if (!oldUser) {
+
+    if (!checkUserExist?.email) {
       await sendEmail({
         sender: {
           address: "Nightpp19@gmail.com",

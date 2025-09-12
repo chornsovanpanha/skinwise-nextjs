@@ -5,6 +5,7 @@ import { SkinwiseLogoLight } from "@/assets";
 import AppInput from "@/components/AppInput";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { userAtom } from "@/lib/atom";
 import { cn } from "@/lib/utils";
 import {
   loginSchema,
@@ -14,6 +15,7 @@ import {
 } from "@/utils/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
+import { useSetAtom } from "jotai";
 import { Lock, Mail } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,8 +23,6 @@ import { redirect } from "next/navigation";
 import { startTransition, useState } from "react";
 import { FieldErrors, Path, Resolver, useForm } from "react-hook-form";
 import SocialButton from "./SocialButton";
-import { useSetAtom } from "jotai";
-import { userAtom } from "@/lib/atom";
 
 type FormType = "login" | "register";
 
@@ -73,7 +73,6 @@ const Form = <T extends FormType>({ title, desc, type }: FormProps<T>) => {
         redirect("/");
       });
     } else {
-      console.error(error);
       show({ type: "error", message: JSON.stringify(error) });
 
       setMutatestate((pre) => ({
@@ -81,6 +80,7 @@ const Form = <T extends FormType>({ title, desc, type }: FormProps<T>) => {
         error: error as string,
         loading: false,
       }));
+      console.error(error);
     }
   };
 

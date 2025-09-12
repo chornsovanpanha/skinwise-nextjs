@@ -3,6 +3,7 @@ import { Nunito } from "next/font/google";
 import JotaiProvider from "../lib/provider";
 import Monitoring from "./(utils)/_monitoring/page";
 import "./globals.css";
+import { Toaster } from "sonner";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -27,6 +28,7 @@ export default function RootLayout({
     <html lang="en" className={`${nunito.className}`}>
       <body className="max-h-[100vh] overflow-x-hidden">
         <JotaiProvider>{children}</JotaiProvider>
+        <Toaster />
         <Monitoring />
       </body>
     </html>
