@@ -9,7 +9,7 @@ const FeatureMenu = () => {
 
       {toolFeatureMenus?.map((navbar) => (
         <div key={navbar.id} className="my-7">
-          <Link href={`/${navbar.href}`}>
+          <Link href={navbar.href}>
             <Typography
               variant="body1"
               className="hover:text-secondary/60 transition-colors ease-in-out duration-100"

@@ -6,7 +6,7 @@ export const toolFeatureMenus = [
   },
   {
     id: 2,
-    href: "/ingredient-checker",
+    href: "#",
     name: "Ingredient Checker",
   },
   {

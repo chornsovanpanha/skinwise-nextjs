@@ -1,0 +1,78 @@
+import clsx from "clsx";
+import React, { useMemo } from "react";
+import { Typography } from "./Typography";
+
+type RoutineChartSightProps = {
+  percentage: number;
+  desc: string;
+};
+const RoutineChartSight: React.FC<RoutineChartSightProps> = ({
+  percentage,
+  desc,
+}) => {
+  const renderScoreMatcher = useMemo(() => {
+    if (percentage >= 95) return "Perfect Match";
+    if (percentage >= 80) return "Good Match";
+    if (percentage >= 60) return "Found Match";
+    if (percentage >= 50) return "Weak Match";
+    return "Bad Match";
+  }, [percentage]);
+
+  return (
+    <div
+      className={clsx(
+        "rounded-3xl px-10 py-6 flex items-center gap-4 w-fit cursor-pointer",
+        {
+          "bg-error-main/40 hover:bg-error-main/50": percentage <= 50,
+          "bg-secondary hover:bg-secondary/90": percentage > 50,
+        }
+      )}
+    >
+      <header>
+        <Typography
+          as="p"
+          variant="h6"
+          className={clsx({
+            "text-error-text": percentage <= 50,
+            "text-primary": percentage > 50,
+          })}
+        >
+          {renderScoreMatcher}
+        </Typography>
+
+        <Typography
+          as="p"
+          variant="caption"
+          className={clsx({
+            "text-error-text": percentage <= 50,
+            "text-gray-5": percentage > 50,
+          })}
+        >
+          {desc}
+        </Typography>
+      </header>
+      <div
+        className={clsx(
+          "box-container aspect-square w-20 rounded-full border-2 grid place-content-center justify-self-center",
+          {
+            "border-error-text": percentage <= 50,
+            "border-primary": percentage > 50,
+          }
+        )}
+      >
+        <Typography
+          as="p"
+          variant="h6"
+          className={clsx({
+            "text-error-text": percentage <= 50,
+            "text-primary": percentage > 50,
+          })}
+        >
+          {percentage}%
+        </Typography>
+      </div>
+    </div>
+  );
+};
+
+export default RoutineChartSight;

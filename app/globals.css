@@ -129,8 +129,9 @@
 
   /* Error */
   --error-main: oklch(0.627 0.233 29.27); 
-  --error-text: oklch(0.376 0.055 23.31); 
+  --error-text: oklch(0.5035 0.2035 28.9); 
   --error-background: oklch(0.944 0.11 27.71); 
+  
 
   /* Warning */
   --warning-main: oklch(0.755 0.212 78.52);

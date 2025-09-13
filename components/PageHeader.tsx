@@ -1,14 +1,14 @@
 import { BannerLanding } from "@/assets";
-import Image from "next/image";
+import clsx from "clsx";
+import Image, { StaticImageData } from "next/image";
 import React from "react";
 import { Typography } from "./Typography";
-import clsx from "clsx";
 
 type PageHeaderProps = {
   title: string;
   desc?: string;
   showBackgroundImg?: boolean;
-  backgroundImage?: string;
+  backgroundImage?: StaticImageData;
   showPercentage?: boolean;
   subtitle?: string;
 };
@@ -21,8 +21,8 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   subtitle,
 }) => {
   return (
-    <header className=" w-full flex justify-center relative">
-      <div className="bg-secondary/80 w-full h-full absolute z-40" />
+    <header className=" w-full flex justify-center relative z-[10]">
+      <div className="bg-secondary/80 w-full h-full absolute z-[10]" />
       {showBackgroundImg && (
         <Image
           src={backgroundImage}
