@@ -8,6 +8,8 @@ import { Typography } from "@/components/Typography";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import RoutineChartSight from "@/components/RoutineChartSight";
+import Link from "next/link";
 
 const ProductDetail = ({ name }: { name: string }) => {
   return (
@@ -43,10 +45,20 @@ const ProductDetail = ({ name }: { name: string }) => {
               <Button className="rounded-full bg-primary/30 text-secondary px-6">
                 Add to routine
               </Button>
-              <Button className="rounded-full bg-secondary text-primary px-8 hover:bg-secondary/80">
+              <Link
+                href={"/product-comparison"}
+                className="rounded-full bg-secondary text-primary px-8 hover:bg-secondary/80 py-2.5"
+              >
                 Compare
-              </Button>
+              </Link>
             </footer>
+
+            <RoutineChartSight
+              percentage={99}
+              desc={
+                " smoothness and firm on your skin ingredient suit your personal oily type"
+              }
+            />
           </section>
         </header>
 

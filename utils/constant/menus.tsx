@@ -3,7 +3,7 @@ import { MobileMenu } from "@/types";
 export const menus: MobileMenu[] = [
   {
     id: 1,
-    link: "#",
+    link: "/product-comparison",
     name: "Comparison",
     hasHover: false,
   },

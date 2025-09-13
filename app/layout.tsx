@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
+import NextTopLoader from "nextjs-toploader";
+import { Toaster } from "sonner";
 import JotaiProvider from "../lib/provider";
 import Monitoring from "./(utils)/_monitoring/page";
 import "./globals.css";
-import { Toaster } from "sonner";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -27,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${nunito.className}`}>
       <body className="max-h-[100vh] overflow-x-hidden">
+        <NextTopLoader color="oklch(0.891 0.125 246.5)" />
         <JotaiProvider>{children}</JotaiProvider>
         <Toaster />
         <Monitoring />

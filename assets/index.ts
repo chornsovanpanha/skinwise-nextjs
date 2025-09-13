@@ -15,3 +15,4 @@ export { default as AppLogo } from "../public/assets/svg/app-logo.svg";
 export { default as BannerLanding } from "../public/assets/images/banner.png";
 export { default as ProductShowcaseLeft } from "../public/assets/images/product-one.png";
 export { default as ProductShowRight } from "../public/assets/images/product-two.png";
+export { default as ProductCompareBg } from "../public/assets/images/product-compare.png";
