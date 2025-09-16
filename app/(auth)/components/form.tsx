@@ -180,7 +180,7 @@ const Form = <T extends FormType>({ title, desc, type }: FormProps<T>) => {
             </div>
           </form>
 
-          <div className="hidden w-full md:flex bg-secondary place-items-center  justify-center rounded-r-2xl">
+          <div className="hidden w-full md:flex bg-secondary place-items-center justify-center rounded-r-2xl">
             <Image
               src={SkinwiseLogoLight}
               alt="Image-Cover"

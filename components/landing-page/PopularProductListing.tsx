@@ -5,7 +5,7 @@ import ProductItem from "../ProductItem";
 const PopularProductListing = () => {
   return (
     <Wrapper maxHeight={false} className="flex-col">
-      <main className="block sm:grid sm:grid-cols-2 lg:grid-cols-3 w-full gap-12 space-y-6">
+      <main className="h-full block sm:grid sm:grid-cols-2 lg:grid-cols-3 w-full gap-12 space-y-6">
         {popularProductListings?.map((product) => (
           <ProductItem data={product} key={product.id} />
         ))}

@@ -13,7 +13,7 @@ const BestProduct = () => {
       />
 
       {/* Products Section */}
-      <section className="products bg-primary/50  py-12 left-0">
+      <section className="products bg-primary/50  py-12 left-0 ">
         <PopularProductListing />
       </section>
     </main>
