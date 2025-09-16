@@ -11,6 +11,7 @@ type PageHeaderProps = {
   backgroundImage?: StaticImageData;
   showPercentage?: boolean;
   subtitle?: string;
+  customDesc?: React.ReactNode;
 };
 const PageHeader: React.FC<PageHeaderProps> = ({
   title,
@@ -19,6 +20,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   backgroundImage = BannerLanding,
   showPercentage,
   subtitle,
+  customDesc,
 }) => {
   return (
     <header className=" w-full flex justify-center relative z-[10]">
@@ -37,9 +39,12 @@ const PageHeader: React.FC<PageHeaderProps> = ({
           "flex-col items-center": showPercentage,
         })}
       >
-        <Typography as="p" variant="h4" className="text-primary">
-          {title}
-        </Typography>
+        <header>
+          <Typography as="p" variant="h4" className="text-primary">
+            {title}
+          </Typography>
+          {customDesc && customDesc}
+        </header>
 
         <section className="text-center">
           {showPercentage && desc && (

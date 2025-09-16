@@ -8,12 +8,18 @@ import { Plus } from "lucide-react";
 const SmallProductItem = ({
   product,
   onPress,
+  type = "product",
+  className,
 }: {
   product: Product;
   onPress: () => void;
+  className?: string;
+  type?: "routine" | "product";
 }) => {
   return (
-    <div className="flex gap-4 items-start space-y-6  px-4 py-4 cursor-pointer hover:bg-primary/20">
+    <div
+      className={`flex gap-4 items-start space-y-6  px-4 py-4 cursor-pointer hover:bg-primary/20 ${className}`}
+    >
       {/* Image on top */}
       <Card className="relative w-full h-20 group overflow-hidden bg-white flex-1/5">
         <Image
@@ -24,17 +30,21 @@ const SmallProductItem = ({
         />
       </Card>
       <div className="content flex-4/5">
-        <li className="rounded-lg hover:bg-muted cursor-pointer transition text-secondary">
+        <li className="rounded-lg hover:bg-muted cursor-pointer transition text-secondary list-none">
           {product.name}
         </li>
-        <Typography as="p" variant="caption" className="text-secondary">
-          110 ingredients
-        </Typography>
+        {type == "product" && (
+          <Typography as="p" variant="caption" className="text-secondary">
+            110 ingredients
+          </Typography>
+        )}
       </div>
 
-      <Button className="rounded-full" type="button" onClick={onPress}>
-        <Plus />
-      </Button>
+      {type == "product" && (
+        <Button className="rounded-full" type="button" onClick={onPress}>
+          <Plus />
+        </Button>
+      )}
     </div>
   );
 };

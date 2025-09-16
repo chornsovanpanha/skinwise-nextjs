@@ -19,18 +19,20 @@ const BoxOutlineWrapper = ({
         type == "positive" ? "border-primary" : "border-error-main"
       } px-6 py-8 rounded-3xl ${className}`}
     >
-      <header className="mb-7">
-        <Typography
-          as="h6"
-          variant="subtitle1"
-          className={clsx(" !text-md sm:!text-xl", {
-            "text-secondary": type == "positive",
-            "text-error-main": type == "negative",
-          })}
-        >
-          {title}
-        </Typography>
-      </header>
+      {title && (
+        <header className="mb-7">
+          <Typography
+            as="h6"
+            variant="subtitle1"
+            className={clsx(" !text-md sm:!text-xl", {
+              "text-secondary": type == "positive",
+              "text-error-main": type == "negative",
+            })}
+          >
+            {title}
+          </Typography>
+        </header>
+      )}
       {children}
     </section>
   );
