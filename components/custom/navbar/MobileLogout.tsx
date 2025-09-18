@@ -3,7 +3,7 @@ import { defaultState } from "@/app/(auth)/components/SocialButton";
 import Loading from "@/app/loading";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { defaultUserState, userAtom } from "@/lib/atom";
+import { defaultUserState, userAtom } from "@/lib/atom/user.atom";
 import { auth } from "@/lib/firebase/config";
 import { clearGoogleLogout } from "@/utils/social/clear-auth";
 import { signOut } from "firebase/auth";

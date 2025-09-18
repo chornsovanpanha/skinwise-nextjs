@@ -9,7 +9,7 @@ const AuthenticatedButton = () => {
     <main className="space-x-4 flex flex-row items-center  h-full">
       <Button
         onClick={() => {
-          router.push("/premium");
+          router.push("/pricing");
         }}
         className="bg-secondary rounded-full text-primary px-6 hover:text-white"
       >

@@ -4,7 +4,7 @@ import { Typography } from "@/components/Typography";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { userAtom } from "@/lib/atom";
+import { userAtom } from "@/lib/atom/user.atom";
 import { useAtomValue } from "jotai";
 
 const EditProfileForm = () => {

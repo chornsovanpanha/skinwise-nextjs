@@ -1,10 +1,10 @@
-import { skinWisePlans } from "@/app/(features)/(main)/premium/data";
+import { skinWisePlans } from "@/app/(features)/(main)/pricing/data";
 import clsx from "clsx";
 import { Typography } from "../Typography";
 import { Button } from "../ui/button";
 import { CardContent } from "../ui/card";
 
-const PremiumListing = () => {
+const PricingListing = () => {
   return skinWisePlans.map((plan) => (
     <section
       key={plan.name}
@@ -56,4 +56,4 @@ const PremiumListing = () => {
   ));
 };
 
-export default PremiumListing;
+export default PricingListing;

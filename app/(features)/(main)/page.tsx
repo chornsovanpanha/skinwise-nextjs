@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import LandingDefault from "./(landing)/default";
+import LandingDefault from "./default";
 
 export const metadata: Metadata = {
   title: "Home",

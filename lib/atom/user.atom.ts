@@ -1,5 +1,4 @@
 import { AuthResponse } from "@/types/api";
-import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
 export const defaultUserState = {
@@ -11,5 +10,4 @@ export const defaultUserState = {
   email: "",
   photoUrl: { url: "" },
 };
-export const counterAtom = atom(0);
 export const userAtom = atomWithStorage<AuthResponse>("user", defaultUserState);
