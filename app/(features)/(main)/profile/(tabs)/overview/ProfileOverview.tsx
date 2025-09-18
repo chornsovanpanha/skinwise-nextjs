@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { userAtom } from "@/lib/atom";
+import { userAtom } from "@/lib/atom/user.atom";
 import { useAtomValue } from "jotai";
 import { ChevronRight, LeafyGreen, Search, SmilePlus } from "lucide-react";
 

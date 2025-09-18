@@ -80,7 +80,7 @@ const MobileNavBar = ({ isLogin }: { isLogin: boolean }) => {
           <section>
             <Button
               onClick={() => {
-                router.push("/premium");
+                router.push("/pricing");
               }}
               className="bg-secondary rounded-full text-primary px-6 hover:text-white w-full"
             >

@@ -9,7 +9,7 @@ export const menus: MobileMenu[] = [
   },
   {
     id: 2,
-    link: "#",
+    link: "/quiz",
     name: "Skin Quiz",
     hasHover: false,
   },

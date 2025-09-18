@@ -5,7 +5,6 @@ import { SkinwiseLogoLight } from "@/assets";
 import AppInput from "@/components/AppInput";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { userAtom } from "@/lib/atom";
 import { cn } from "@/lib/utils";
 import {
   loginSchema,
@@ -23,6 +22,7 @@ import { redirect } from "next/navigation";
 import { startTransition, useState } from "react";
 import { FieldErrors, Path, Resolver, useForm } from "react-hook-form";
 import SocialButton from "./SocialButton";
+import { userAtom } from "@/lib/atom/user.atom";
 
 type FormType = "login" | "register";
 

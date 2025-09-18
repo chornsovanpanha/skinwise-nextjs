@@ -4,7 +4,7 @@ import Loading from "@/app/loading";
 import { FacebookSvg } from "@/assets";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { userAtom } from "@/lib/atom";
+import { userAtom } from "@/lib/atom/user.atom";
 import { auth } from "@/lib/firebase/config";
 import { clearGoogleLogout } from "@/utils/social/clear-auth";
 import { FirebaseError } from "firebase/app";

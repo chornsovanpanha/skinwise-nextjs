@@ -1,7 +1,7 @@
 import Wrapper from "@/components/custom/layout/Wrapper";
-import PremiumListing from "@/components/premium/PremiumListing";
+import PricingListing from "@/components/pricing/PricingListing";
 import { Typography } from "@/components/Typography";
-const Premium = () => {
+const Pricing = () => {
   return (
     <main>
       <header className="bg-secondary w-full flex justify-center py-10">
@@ -11,11 +11,11 @@ const Premium = () => {
       </header>
       <Wrapper maxHeight={false} className="mb-24 my-20">
         <div className="block sm:grid grid-cols-2 w-full gap-12 space-y-5">
-          <PremiumListing />
+          <PricingListing />
         </div>
       </Wrapper>
     </main>
   );
 };
 
-export default Premium;
+export default Pricing;
