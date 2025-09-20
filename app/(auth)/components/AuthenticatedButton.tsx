@@ -1,6 +1,6 @@
 "use client";
 import PopoverAvatar from "@/components/PopoverAvatar";
-import { UserWithSubscription } from "@/types/prisma";
+import { PlanType, UserWithSubscription } from "@/types/prisma";
 import Link from "next/link";
 
 const AuthenticatedButton = ({
@@ -19,7 +19,7 @@ const AuthenticatedButton = ({
         </Link>
       ) : null}
 
-      <PopoverAvatar plan={profile?.subscription?.plan} />
+      <PopoverAvatar plan={profile?.subscription?.plan as PlanType} />
     </main>
   );
 };
