@@ -79,18 +79,21 @@ model User {
 }
 
 model Subscription {
-  id            Int                @id @default(autoincrement())
-  userId        Int                @unique
-  stripeId      String             @unique // Stripe subscription ID
-  stripePriceId String // Stripe Price ID for the plan
-  plan          PlanType
-  status        SubscriptionStatus @default(ACTIVE)
-  startedAt     DateTime           @default(now())
-  endedAt       DateTime?
-  createdAt     DateTime           @default(now())
-  updatedAt     DateTime           @updatedAt
+  id            Int                 @id @default(autoincrement())
+  userId        Int                 @unique
+  stripeId      String?             @unique // Stripe subscription ID
+  stripePriceId String? // Stripe Price ID for the plan
+  plan          PlanType?
+  status        SubscriptionStatus? @default(NEW)
+
+  startedAt DateTime  @default(now())
+  endedAt   DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, stripeId])
 }
 
 model Session {
@@ -309,6 +312,13 @@ enum PlanType {
 
 enum SubscriptionStatus {
   ACTIVE
+  CANCELLED
+  NEW
   CANCELED
-  EXPIRED
 }
+
+// enum SubscriptionStatus {
+//   ACTIVE
+//   CANCELED
+//   EXPIRED
+// }
