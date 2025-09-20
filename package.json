@@ -13,6 +13,7 @@
     "prisma:prod": "cp .env.production .env && pnpx prisma migrate deploy && pnpx prisma generate",
     "prisma-studio-dev": "cp .env.development .env &&  pnpx prisma studio",
     "prisma-studio-prod": "cp .env.production .env &&  pnpx prisma studio",
+    "postinstall": "prisma generate",
     "prisma-seed-dev": "cp .env.development .env && npx prisma db seed",
     "prisma-seed-prod": "cp .env.production .env && npx prisma db seed",
     "prisma-seed-test": "cp .env.test .env && npx prisma db seed",
