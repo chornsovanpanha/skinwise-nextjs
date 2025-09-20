@@ -5,5 +5,3 @@ export type MobileMenu = {
   hasHover: boolean;
   content?: React.ReactNode;
 };
-
-export type RoutineType = "morning" | "evening";

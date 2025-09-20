@@ -19,7 +19,7 @@ const RoutineHeader = ({
       >
         {children}
       </Typography>
-      {type == "morning" ? (
+      {type == RoutineType.MORNING ? (
         <IconSun className="w-8 h-8" />
       ) : (
         <IconMoon className="w-8 h-8" />

@@ -2,14 +2,15 @@
 import { ProductRoutineBg } from "@/assets";
 import Wrapper from "@/components/custom/layout/Wrapper";
 import PersonalRoutineListing from "@/components/my-routine/PersonalRoutineListing";
+import RoutineBuilderDialog from "@/components/my-routine/RoutineBuilderDialog";
 import RoutineHeader from "@/components/my-routine/RoutineHeader";
 import PageHeader from "@/components/PageHeader";
 import ProductItem from "@/components/ProductItem";
-import { eveningRoutineProducts, morningRoutineProducts } from "./data";
-import RoutineBuilderDialog from "@/components/my-routine/RoutineBuilderDialog";
+import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { eveningRoutineProducts, morningRoutineProducts } from "./data";
+import { RoutineType } from "@/types";
 
 const MyRoutine = () => {
   const [open, setOpen] = useState(false);
@@ -30,7 +31,9 @@ const MyRoutine = () => {
         <Wrapper className="flex-col space-y-12 h-fit w-full">
           {/* Morning routine  */}
           <section className="space-y-6">
-            <RoutineHeader type="morning">Morning Routine</RoutineHeader>
+            <RoutineHeader type={RoutineType.MORNING}>
+              Morning Routine
+            </RoutineHeader>
             <PersonalRoutineListing
               onOpenDialog={() => setOpen(true)}
               items={morningRoutineProducts}
@@ -41,7 +44,9 @@ const MyRoutine = () => {
           </section>
           {/* Evening routine  */}
           <section className="space-y-6">
-            <RoutineHeader type="evening">Evening Routine</RoutineHeader>
+            <RoutineHeader type={RoutineType.EVENING}>
+              Evening Routine
+            </RoutineHeader>
             <PersonalRoutineListing
               onOpenDialog={() => setOpen(true)}
               items={eveningRoutineProducts}
@@ -52,7 +57,7 @@ const MyRoutine = () => {
           </section>
         </Wrapper>
         <RoutineBuilderDialog
-          productId="sd"
+          productId="product-one"
           onAdd={onCloseDialog}
           onClose={onCloseDialog}
           onRemove={onCloseDialog}

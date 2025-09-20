@@ -15,7 +15,7 @@ import { Typography } from "./Typography";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Separator } from "./ui/separator";
-import { PlanType } from "@prisma/client";
+import { PlanType } from "@/types";
 
 const PopoverAvatar = ({ plan }: { plan?: PlanType | null }) => {
   const router = useRouter();

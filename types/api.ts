@@ -16,7 +16,7 @@ export interface AuthResponse {
   email: string;
 }
 
-export type User = Partial<AuthResponse>;
+export type UserResponse = Partial<AuthResponse>;
 
 export type StripeCheckoutBody = {
   priceId: string;
