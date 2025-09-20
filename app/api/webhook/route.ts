@@ -1,7 +1,7 @@
 import prismaClientTools from "@/lib/prisma";
 import { stripe } from "@/lib/stripe/stripe";
+import { SubscriptionStatus } from "@/types";
 import { sendEmail } from "@/utils/node-mailer/send-email";
-import { SubscriptionStatus } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
