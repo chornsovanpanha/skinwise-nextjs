@@ -14,9 +14,20 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-    // Find session in DB
+    // Find session in DB and include user
     const session = await prismaClientTools.session.findUnique({
-      where: { token: token },
+      where: { token },
+      include: {
+        user: {
+          include: {
+            subscription: true,
+            Image: true,
+          },
+          omit: {
+            password: true,
+          },
+        },
+      },
     });
 
     if (!session) {
@@ -30,8 +41,20 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       data: { expiresAt: newExpiresAt },
     });
 
-    // Update cookie with new expiration
-    const response = NextResponse.json({ message: "Session refreshed" });
+    // Return updated user info
+    const response = NextResponse.json({
+      data: {
+        id: session.user.id,
+        platform: session.user.platform,
+        loginBy: session.user.loginBy,
+        name: session.user.name,
+        role: session.user.role,
+        email: session.user.email,
+        photoUrl: session.user.Image,
+      },
+    });
+
+    // Update cookie expiration
     response.cookies.set({
       name: SESSION_NAME,
       value: token,
@@ -49,5 +72,3 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     );
   }
 }
-
-// export const POST = withAuth(handler);

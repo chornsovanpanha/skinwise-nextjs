@@ -1,4 +1,5 @@
 import { LogoutAction } from "@/actions/authentication/logout.action";
+import { portalCustomerAction } from "@/actions/stripe/portal.action";
 import { defaultState } from "@/app/(auth)/components/SocialButton";
 import Loading from "@/app/loading";
 import { useToast } from "@/hooks/use-toast";
@@ -7,15 +8,16 @@ import { auth } from "@/lib/firebase/config";
 import { clearGoogleLogout } from "@/utils/social/clear-auth";
 import { signOut } from "firebase/auth";
 import { useAtomValue, useSetAtom } from "jotai";
-import { LogOut, User } from "lucide-react";
+import { CreditCard, LogOut, User } from "lucide-react";
 import { redirect, useRouter } from "next/navigation";
 import { startTransition, useState } from "react";
 import { Typography } from "./Typography";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Separator } from "./ui/separator";
+import { PlanType } from "@prisma/client";
 
-const PopoverAvatar = () => {
+const PopoverAvatar = ({ plan }: { plan?: PlanType | null }) => {
   const router = useRouter();
   const currentUser = useAtomValue(userAtom);
   const fallAvatar =
@@ -29,6 +31,20 @@ const PopoverAvatar = () => {
       router.push("/profile/overview");
       setOpen(false);
     });
+  };
+
+  const handleManageSubscription = async () => {
+    const { data, error, success } = await portalCustomerAction({
+      userId: currentUser?.id?.toString(),
+    });
+
+    if (data && success) {
+      window.location.href = data;
+    } else {
+      show({ type: "error", message: JSON.stringify(error) });
+      console.error(error);
+    }
+    setOpen(false);
   };
 
   const handleLogout = async () => {
@@ -102,6 +118,18 @@ const PopoverAvatar = () => {
           </Typography>
           <User className="w-5 h-5 text-secondary" />
         </section>
+        {plan == "PRO" && (
+          <section
+            className="flex items-center w-full justify-between p-2 hover:bg-gray-2 hover:cursor-pointer"
+            onClick={handleManageSubscription}
+          >
+            <Typography as="p" variant="button" className="text-secondary">
+              Manage Subscription
+            </Typography>
+            <CreditCard className="w-5 h-5 text-secondary" />
+          </section>
+        )}
+
         <section
           className="flex items-center w-full justify-between p-2 hover:bg-gray-2 hover:cursor-pointer"
           onClick={handleLogout}

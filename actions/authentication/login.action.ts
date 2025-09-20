@@ -1,6 +1,7 @@
 "use server";
 import { requester } from "@/lib/axios/api";
 import { parseSetCookie, setAppSession } from "@/lib/sessions/cookie";
+import { clearUserCookie, setUserSessionCookie } from "@/lib/sessions/session";
 import { AuthResponse } from "@/types/api";
 import { SESSION_NAME } from "@/utils/constant/cookie";
 import { LoginSchemaType } from "@/utils/schema";
@@ -28,7 +29,10 @@ export const LoginAction = async (formData: LoginParams) => {
 
   if (data && success) {
     const parsed = parseSetCookie(setCookieHeader, SESSION_NAME);
-    parsed?.value && (await setAppSession(parsed?.value, parsed.maxAge));
+    if (parsed?.value) {
+      await setAppSession(parsed?.value, parsed.maxAge);
+      await setUserSessionCookie(data.data.id?.toString(), parsed.maxAge);
+    }
     return { ...defaultState, data: data.data, success: true };
   }
 
@@ -50,10 +54,15 @@ export const updateSession = async (cookie: string) => {
 
   if (data && success) {
     const parsed = parseSetCookie(setCookieHeader, SESSION_NAME);
-    parsed?.value && (await setAppSession(parsed?.value, parsed.maxAge));
+
+    if (parsed?.value) {
+      await setAppSession(parsed?.value, parsed.maxAge);
+      await setUserSessionCookie(data.data?.id?.toString(), parsed.maxAge);
+    }
     return { ...defaultState, data: data.data, success: true };
   } else {
     await setAppSession(SESSION_NAME, 0);
+    await clearUserCookie();
   }
 
   return { ...defaultState, error };

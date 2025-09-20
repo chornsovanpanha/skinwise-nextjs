@@ -7,6 +7,7 @@ import axios, {
   AxiosResponseHeaders,
   Method,
 } from "axios";
+import { cookies } from "next/headers";
 
 export interface ApiErrorResponse {
   error: string;
@@ -31,11 +32,19 @@ export class ApiError<T = ApiErrorResponse> extends Error {
 const api: AxiosInstance = axios.create({
   headers: { "Content-Type": "application/json" },
   baseURL: `${AppEnv.apiUrl + "/api"}`,
-  timeout: 30000,
+  timeout: 40000,
   withCredentials: true,
 });
 axios.defaults.withCredentials = true;
-
+api.interceptors.request.use(async (config) => {
+  try {
+    const cookieHeader = await cookies();
+    if (cookieHeader && config.headers) {
+      config.headers.set("cookie", cookieHeader?.toString());
+    }
+  } catch {}
+  return config;
+});
 api.interceptors.response.use(
   (response) => {
     return response;
@@ -95,6 +104,8 @@ export const requester = async <T, D = Record<string, unknown>>(
         Cookie: config?.headers?.Cookie ?? "",
       },
     });
+
+    console.log("Aixios header is ", config?.headers?.Cookie ?? "");
     return {
       success: true,
       data: response.data,

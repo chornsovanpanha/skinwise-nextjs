@@ -17,3 +17,8 @@ export interface AuthResponse {
 }
 
 export type User = Partial<AuthResponse>;
+
+export type StripeCheckoutBody = {
+  priceId: string;
+  userId: string;
+};

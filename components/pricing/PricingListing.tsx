@@ -4,7 +4,7 @@ import { Typography } from "../Typography";
 import { Button } from "../ui/button";
 import { CardContent } from "../ui/card";
 
-const PricingListing = () => {
+const PricingListing = ({ onClick }: { onClick: () => void }) => {
   return skinWisePlans.map((plan) => (
     <section
       key={plan.name}
@@ -46,6 +46,8 @@ const PricingListing = () => {
         <Button
           className="w-fit bg-transparent border-primary border-4 rounded-4xl py-8 mt-4  px-12 hover:bg-primary/50 ease-in-out transition-colors duration-200"
           variant={"outline"}
+          onClick={onClick}
+          disabled={plan.name?.toLowerCase() == "free" ? true : false}
         >
           <Typography as="p" variant="h6" className="text-primary">
             {plan.isCurrentPlan ? "CURRENT PLAN" : "GET THIS PLAN"}

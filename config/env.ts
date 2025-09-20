@@ -45,6 +45,9 @@ export class AppEnv {
   static readonly port = serverEnv?.PORT!;
   static readonly databaseUrl = serverEnv?.DATABASE_URL!;
   static readonly apiUrl = serverEnv?.API_URL!;
+  static readonly stripeSecretKey = serverEnv?.STRIPE_SECRET_APIKEY!;
+  static readonly stripepriceIdMonthly = serverEnv?.STRIPE_PRICEID_MONTHLY!;
+  static readonly stripeWebhookSecret = serverEnv?.STRIPE_WEBHOOK_SECRET!;
 }
 
 export class ClientAppEnv {

@@ -1,21 +1,25 @@
 "use client";
 import PopoverAvatar from "@/components/PopoverAvatar";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { UserWithSubscription } from "@/types/prisma";
+import Link from "next/link";
 
-const AuthenticatedButton = () => {
-  const router = useRouter();
+const AuthenticatedButton = ({
+  profile,
+}: {
+  profile: UserWithSubscription;
+}) => {
   return (
     <main className="space-x-4 flex flex-row items-center  h-full">
-      <Button
-        onClick={() => {
-          router.push("/pricing");
-        }}
-        className="bg-secondary rounded-full text-primary px-6 hover:text-white"
-      >
-        Get Premium
-      </Button>
-      <PopoverAvatar />
+      {profile?.subscription?.plan !== "PRO" ? (
+        <Link
+          href={"/pricing"}
+          className="bg-secondary rounded-full text-primary px-6  hover:bg-secondary/90  py-2"
+        >
+          Get Premium
+        </Link>
+      ) : null}
+
+      <PopoverAvatar plan={profile?.subscription?.plan} />
     </main>
   );
 };

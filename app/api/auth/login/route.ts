@@ -132,7 +132,7 @@ export async function POST(request: Request) {
     if (!checkUserExist?.email) {
       await sendEmail({
         sender: {
-          address: "Nightpp19@gmail.com",
+          address: "amyjohn922@gmail.com",
           name: "Skin Wise",
         },
 
@@ -166,6 +166,7 @@ export async function POST(request: Request) {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       path: "/",
+      sameSite: "lax",
       maxAge: EXPIRED_AT,
       expires: expiresAt,
     });
