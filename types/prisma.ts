@@ -7,3 +7,5 @@ export type UserWithSubscription = Prisma.UserGetPayload<{
 export type Subscription = Prisma.SubscriptionGetPayload<{
   select: { plan: true };
 }>;
+
+export type LoginBy = "email" | "facebook" | "gmail" | "apple";
