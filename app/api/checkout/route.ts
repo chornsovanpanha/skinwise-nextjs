@@ -1,3 +1,4 @@
+import { AppEnv } from "@/config/env";
 import { withAuth } from "@/lib/middleware/with-auth";
 import prismaClientTools from "@/lib/prisma";
 import { stripe } from "@/lib/stripe/stripe";
@@ -53,7 +54,7 @@ const handler = async (request: NextRequest) => {
     }
 
     // Create Stripe Checkout session
-    const origin = request.headers.get("origin") || "http://localhost:3000";
+    const origin = request.headers.get("origin") || AppEnv.apiUrl;
     const stripeSession = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "subscription",

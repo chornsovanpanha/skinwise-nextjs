@@ -37,12 +37,16 @@ const SocialButton = () => {
       googleprovider.addScope("profile");
 
       const result = await signInWithPopup(auth, googleprovider);
+
+      console.log("Google result", result);
       await result.user.reload();
       const idToken = await result.user?.getIdToken();
 
       const userData = result.user?.providerData;
       const photoUrl = userData?.[0]?.photoURL ?? "";
       if (result.user && idToken) {
+        setMutatestate((pre) => ({ ...pre, loading: true }));
+
         const { data, error, success } = await LoginAction({
           email: userData?.[0]?.email ?? "",
           name: result?.user?.displayName ?? "",
@@ -99,6 +103,8 @@ const SocialButton = () => {
           loading: false,
         }));
       }
+    } finally {
+      setMutatestate((pre) => ({ ...pre, loading: false }));
     }
   };
 
@@ -116,6 +122,8 @@ const SocialButton = () => {
       const photoUrl = userData?.[0]?.photoURL ?? "";
 
       if (result.user && idToken) {
+        setMutatestate((pre) => ({ ...pre, loading: true }));
+
         const { data, error, success } = await LoginAction({
           email: userData?.[0]?.email ?? "",
           name: result?.user?.displayName ?? "",

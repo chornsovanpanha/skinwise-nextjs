@@ -8,6 +8,7 @@ const LandingDefault = () => {
     <main className="w-full ">
       {/*  ******* Header Banner Section *******  */}
       <HeaderSearchBanner />
+
       {/* ******* Body Section *******  */}
       <section className="flex flex-col space-y-4">
         <BestProduct />

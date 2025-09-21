@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${nunito.className}`}>
       <body className="max-h-[100vh] overflow-x-hidden">
-        <NextTopLoader color="oklch(0.891 0.125 246.5)" />
+        <NextTopLoader color="oklch(0.891 0.125 246.5)" showSpinner={false} />
         <JotaiProvider>{children}</JotaiProvider>
         <Toaster />
         <Monitoring />
