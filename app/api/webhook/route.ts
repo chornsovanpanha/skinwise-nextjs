@@ -8,13 +8,13 @@ import Stripe from "stripe";
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 const stripeToInternalStatus: Record<string, SubscriptionStatus> = {
   active: SubscriptionStatus.ACTIVE,
-  trialing: SubscriptionStatus.NEW, // Treat trialing as NEW
-  incomplete: SubscriptionStatus.NEW, // New subscription in progress
+  trialing: SubscriptionStatus.NEW,
+  incomplete: SubscriptionStatus.NEW,
   incomplete_expired: SubscriptionStatus.CANCELED,
-  past_due: SubscriptionStatus.ACTIVE, // Could treat as ACTIVE
+  past_due: SubscriptionStatus.ACTIVE,
   canceled: SubscriptionStatus.CANCELED,
-  unpaid: SubscriptionStatus.CANCELED, // Treat unpaid as canceled
-  paused: SubscriptionStatus.ACTIVE, // Optional: treat paused as active
+  unpaid: SubscriptionStatus.CANCELED,
+  paused: SubscriptionStatus.ACTIVE,
 };
 
 export async function POST(request: NextRequest) {

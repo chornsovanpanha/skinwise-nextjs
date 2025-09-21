@@ -15,7 +15,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import { useSetAtom } from "jotai";
-import { Lock, Mail } from "lucide-react";
+import { Loader, Lock, Mail } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -67,9 +67,9 @@ const Form = <T extends FormType>({ title, desc, type }: FormProps<T>) => {
     if (data && success) {
       startTransition(() => {
         setUserAtom({ ...data });
-        setMutatestate(defaultState);
-        show({ type: "success", message: `Welcome back ${data?.name}` });
 
+        show({ type: "success", message: `Welcome back ${data?.name}` });
+        setMutatestate(defaultState);
         redirect("/");
       });
     } else {
@@ -159,12 +159,18 @@ const Form = <T extends FormType>({ title, desc, type }: FormProps<T>) => {
                   </Link>
                 </div>
 
-                <Button type="submit" className="mb-4">
-                  {mutateState.loading
-                    ? "Loading..."
-                    : type == "login"
-                    ? "Login"
-                    : "Register"}
+                <Button
+                  type="submit"
+                  className="mb-4"
+                  disabled={mutateState.loading}
+                >
+                  {mutateState.loading ? (
+                    <Loader className="animate-spin w-5 h-5 text-secondary" />
+                  ) : type == "login" ? (
+                    "Login"
+                  ) : (
+                    "Register"
+                  )}
                 </Button>
               </div>
 

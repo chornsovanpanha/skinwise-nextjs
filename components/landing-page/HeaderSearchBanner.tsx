@@ -5,7 +5,7 @@ import { Typography } from "../Typography";
 
 const HeaderSearchBanner = () => {
   return (
-    <section className="w-full h-[590px] bg-gray-100 relative ">
+    <section className="w-full h-[590px] bg-gray-100 relative z-10">
       <div className="bg-secondary/40 w-full h-full absolute" />
       <Image
         src={BannerLanding}

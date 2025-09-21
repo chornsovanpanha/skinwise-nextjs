@@ -9,11 +9,11 @@ const AuthenticatedButton = ({
   profile: UserWithSubscription;
 }) => {
   return (
-    <main className="space-x-4 flex flex-row items-center  h-full">
+    <main className="flex flex-row items-center h-full">
       {profile?.subscription?.plan !== "PRO" ? (
         <Link
           href={"/pricing"}
-          className="bg-secondary rounded-full text-primary px-6  hover:bg-secondary/90  py-2"
+          className="bg-secondary rounded-full text-primary px-6  hover:bg-secondary/90  py-2 mr-6"
         >
           Get Premium
         </Link>

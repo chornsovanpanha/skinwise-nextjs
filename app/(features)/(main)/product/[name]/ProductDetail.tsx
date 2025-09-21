@@ -3,13 +3,12 @@ import BadgeItem from "@/components/BadgeItem";
 import BoxOutlineWrapper from "@/components/BoxOutlineWrapper";
 import Wrapper from "@/components/custom/layout/Wrapper";
 import PageHeader from "@/components/PageHeader";
-import { AboutProduct, positiveEffects } from "../data";
+import RoutineChartSight from "@/components/RoutineChartSight";
 import { Typography } from "@/components/Typography";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import RoutineChartSight from "@/components/RoutineChartSight";
 import Link from "next/link";
+import { AboutProduct, positiveEffects } from "../data";
 
 const ProductDetail = ({ name }: { name: string }) => {
   return (
@@ -42,9 +41,12 @@ const ProductDetail = ({ name }: { name: string }) => {
             </Typography>
 
             <footer className="w-full flex gap-2 items-center">
-              <Button className="rounded-full bg-primary/30 text-secondary px-6">
+              <Link
+                href={"/my-routine"}
+                className="rounded-full bg-primary text-secondary px-8 hover:bg-primary/80 py-2.5"
+              >
                 Add to routine
-              </Button>
+              </Link>
               <Link
                 href={"/product-comparison"}
                 className="rounded-full bg-secondary text-primary px-8 hover:bg-secondary/80 py-2.5"

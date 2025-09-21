@@ -77,7 +77,7 @@ const MobileNavBar = ({ isLogin }: { isLogin: boolean }) => {
         </nav>
 
         <SheetFooter className="pt-6 pb-12">
-          <section>
+          <section className="space-y-2">
             <Button
               onClick={() => {
                 router.push("/pricing");

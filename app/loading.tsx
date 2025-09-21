@@ -3,7 +3,7 @@ export default function Loading() {
   // Or a custom loading skeleton component
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center z-50"
+      className="fixed inset-0 flex items-center justify-center z-[5000]"
       style={{
         backgroundColor: "rgba(255, 255, 255, 0.7)",
       }}

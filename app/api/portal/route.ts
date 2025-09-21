@@ -1,3 +1,4 @@
+import { AppEnv } from "@/config/env";
 import prismaClientTools from "@/lib/prisma";
 import { getAppSession } from "@/lib/sessions/cookie";
 import { stripe } from "@/lib/stripe/stripe";
@@ -25,7 +26,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const origin = request.headers.get("origin") || "http://localhost:3000";
+    const origin = request.headers.get("origin") || AppEnv.apiUrl;
 
     const portalSession = await stripe.billingPortal.sessions.create({
       customer: user.subscription.stripeId,
