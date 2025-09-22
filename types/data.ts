@@ -50,3 +50,5 @@ export interface QuizQuestion {
 export interface UserAnswerQuiz {
   answer: string;
 }
+
+export type SearchType = "product" | "ingredient";

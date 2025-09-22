@@ -14,15 +14,16 @@ const routineListing = [
   },
 ];
 
-const RoutineListing = () => {
+const RoutineListing = ({ onPress }: { onPress: () => void }) => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
       {/* **** Main Routine listing preview in the box grid ****  */}
 
       {routineListing.map((routine) => (
         <Card
+          onClick={onPress}
           key={routine.id}
-          className="relative w-full aspect-square overflow-hidden hover:opacity-80 hover:scale-110 transition-transform ease-in-out duration-200"
+          className="cursor-pointer relative w-full aspect-square overflow-hidden hover:opacity-80 hover:scale-110 transition-transform ease-in-out duration-200"
         >
           <Image
             src={routine.imageUrl}
