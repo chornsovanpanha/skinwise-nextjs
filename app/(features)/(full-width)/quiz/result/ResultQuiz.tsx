@@ -74,6 +74,9 @@ export default function ResultQuiz() {
             subtitle={subtitle}
           />
         </section>
+
+        {/* Search area section product  */}
+
         <QuizStep
           currIndex={currIndex}
           onContinue={onContinue}
