@@ -75,7 +75,7 @@ const ProductDetail = ({ name }: { name: string }) => {
             <Badge className="rounded-full w-7 p-1 text-secondary">10</Badge>
           </header>
 
-          <main className="block md:grid gap-4 md:grid-cols-3 lg:grid-cols-4 space-y-3 space-x-4">
+          <main className="flex flex-wrap space-y-3 space-x-4 ustify-start">
             {AboutProduct?.map((item, index) => (
               <Badge
                 key={index}

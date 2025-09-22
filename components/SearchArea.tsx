@@ -44,7 +44,7 @@ const SearchArea = ({
         onFocus={() => setIsFocused(true)}
         onChange={handleTextChange}
         type="text"
-        className={`bg-secondary border-0 text-primary py-8 my-4 rounded-2xl z-50 ${className}`}
+        className={`bg-secondary border-0 text-primary py-8 my-4 rounded-2xl z-50  ${className}`}
         placeholder="Type to search for product or ingredient...."
       />
       {isFocused && debounceSearch && (

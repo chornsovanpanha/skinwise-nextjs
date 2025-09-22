@@ -64,7 +64,7 @@ export default function ResultQuiz() {
         showBackgroundImg={true}
         backgroundImage={QuizRoutineBg}
       />
-      <Wrapper className="flex flex-col">
+      <Wrapper className="flex flex-col items-center w-full">
         <section className="flex flex-col items-center my-6 space-y-6 w-full">
           <QuizResultHeader
             currIndex={currIndex}

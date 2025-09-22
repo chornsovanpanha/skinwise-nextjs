@@ -22,7 +22,7 @@ const AppInput: React.FC<AppInputProps> = ({
 }) => {
   const [togglePassword, setTogglePassword] = useState(false);
   return (
-    <div className={`grid w-full items-start gap-1 max-w-full`}>
+    <div className={`grid items-start gap-1 w-full`}>
       <Label htmlFor={props.id}>{label}</Label>
       <div className="relative flex items-center">
         {icon && (
@@ -33,7 +33,7 @@ const AppInput: React.FC<AppInputProps> = ({
 
         <Input
           className={clsx(
-            "focus-visible:ring-1 focus:border-1 placeholder:text-gray-4",
+            "focus-visible:ring-1 focus:border-1 placeholder:text-gray-4 placeholder:text-sm sm:placeholder:text-md",
             {
               "focus-visible:ring-1 focus-visible:ring-error-background focus-visible:border-error-background":
                 error,
