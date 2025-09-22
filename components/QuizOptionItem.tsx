@@ -15,7 +15,7 @@ const QuizOptionItem = ({
   return (
     <div
       onClick={onPress}
-      className={`border-2 border-primary flex gap-4  justify-between space-y-6 items-center   px-4 py-4 cursor-pointer hover:bg-primary/20 rounded-2xl ${className}`}
+      className={`border-2 border-primary flex gap-4  justify-between space-y-6 items-center   px-4 py-1 cursor-pointer hover:bg-primary/20 rounded-2xl ${className}`}
     >
       <section className="left flex flex-row gap-2 items-center pt-5">
         <p className="text-2xl">{item.emoji}</p>

@@ -8,8 +8,10 @@ import { Separator } from "@/components/ui/separator";
 import { userAtom } from "@/lib/atom/user.atom";
 import { useAtomValue } from "jotai";
 import { ChevronRight, LeafyGreen, Search, SmilePlus } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const ProfileOverview = () => {
+  const router = useRouter();
   const currentUser = useAtomValue(userAtom);
   const fallAvatar =
     currentUser?.name?.[0] + currentUser?.name?.[currentUser?.name?.length - 1];
@@ -35,7 +37,10 @@ const ProfileOverview = () => {
             {currentUser.email}
           </Typography>
         </Card>
-        <Button className="bg-secondary w-full">
+        <Button
+          className="bg-secondary w-full"
+          onClick={() => router.push("/quiz")}
+        >
           <Search />
           Idenitfy my skin type
         </Button>
@@ -67,11 +72,12 @@ const ProfileOverview = () => {
         <section className="routine flex-col space-y-4 my-4">
           <header className="flex flex-row justify-between w-full items-center">
             <Typography as="p" variant="subtitle1" className="text-secondary">
-              Vorn Routine
+              {currentUser.name} Routine
             </Typography>
             <Button
               variant={"ghost"}
               size={"lg"}
+              onClick={() => router.push("/my-routine")}
               className="hover:bg-gray-1 rounded-full w-10 h-8"
             >
               <ChevronRight className="text-secondary w-20 h-20 " />
@@ -79,7 +85,7 @@ const ProfileOverview = () => {
           </header>
 
           {/* Routine Listing here  */}
-          <RoutinePreviewListing />
+          <RoutinePreviewListing onPress={() => router.push("/my-routine")} />
         </section>
       </section>
     </div>
