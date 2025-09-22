@@ -1,50 +1,19 @@
 "use client";
 import { BannerLanding } from "@/assets";
+import { SearchType } from "@/types";
 import Image from "next/image";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
-import AppInput from "../AppInput";
+import { useRouter } from "next/navigation";
+import SearchArea from "../SearchArea";
 import { Typography } from "../Typography";
-import SearchPreviewListing from "./SearchPreviewListing";
+import { searchPreviewListing } from "@/utils/mock";
 
 const HeaderSearchBanner = () => {
-  const searchParams = useSearchParams();
-  const q = searchParams.get("q") || "";
-  const [debounceSearch, setDebounceSearch] = useState(q ?? "");
   const router = useRouter();
-  const searchRef = useRef<HTMLDivElement>(null);
-  const [isFocused, setIsFocused] = useState(false);
-  const pathName = usePathname();
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
-        setIsFocused(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  useEffect(() => {
-    if (q) {
-      setIsFocused(true);
-    }
-  }, [pathName, q]);
-
-  function handleTextChange(e: ChangeEvent<HTMLInputElement>): void {
-    setIsFocused(true);
-    setDebounceSearch(e.target.value?.toLowerCase());
-    if (!e.target.value) {
-      router.replace(`/`, {
-        scroll: false,
-      });
-    } else {
-      router.replace(`?q=${encodeURIComponent(e.target.value)}`, {
-        scroll: false,
-      });
-    }
+  function handleTapItem(type: SearchType): void {
+    router.push(
+      type == "ingredient" ? "/ingredient/example" : "/product/example"
+    );
   }
-
   return (
     <section className="w-full h-[590px] bg-gray-100 relative z-10">
       <div className="bg-secondary/40 w-full h-full absolute" />
@@ -63,29 +32,12 @@ const HeaderSearchBanner = () => {
             see what’s inside any product
           </Typography>
           {/* Search area text  */}
-          <div className="search-area relative" ref={searchRef}>
-            <AppInput
-              id="search"
-              label=""
-              value={debounceSearch}
-              onFocus={() => setIsFocused(true)}
-              onChange={handleTextChange}
-              type="text"
-              className=" bg-secondary border-0 text-primary py-8 my-4 rounded-2xl z-50"
-              placeholder="Type to search for product or ingredient...."
-            />
-            {debounceSearch && isFocused && (
-              <SearchPreviewListing
-                onPress={(type) => {
-                  router.push(
-                    type == "ingredient"
-                      ? "/ingredient/example"
-                      : "/product/example"
-                  );
-                }}
-              />
-            )}
-          </div>
+          <SearchArea
+            showRecent
+            handleTapItem={handleTapItem}
+            ingredients={searchPreviewListing.ingredients}
+            products={searchPreviewListing.products}
+          />
         </header>
       </div>
     </section>

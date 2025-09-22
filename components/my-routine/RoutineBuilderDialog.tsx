@@ -30,6 +30,7 @@ const RoutineBuilderDialog = ({
     <DialogContent
       aria-description="dialog-search-product"
       aria-describedby="dialog"
+      onMouseDown={(e) => e.stopPropagation()}
       className="z-[12000] md:max-w-xl w-full p-0 rounded-2xl overflow-hidden border-0 max-w-md [&>button]:hidden"
     >
       {/* Header without extra padding */}

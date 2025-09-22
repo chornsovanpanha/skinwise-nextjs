@@ -316,9 +316,3 @@ enum SubscriptionStatus {
   NEW
   CANCELED
 }
-
-// enum SubscriptionStatus {
-//   ACTIVE
-//   CANCELED
-//   EXPIRED
-// }
