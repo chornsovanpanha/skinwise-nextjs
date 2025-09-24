@@ -55,7 +55,9 @@ const SearchArea = ({
         />
       )}
 
-      {showRecent && isFocused && !debounceSearch && <RecentProductListing />}
+      {showRecent && isFocused && !debounceSearch && (
+        <RecentProductListing onPress={handleTapItem} />
+      )}
     </div>
   );
 };

@@ -1,13 +1,13 @@
 import { Product } from "@/types";
-import { Typography } from "./Typography";
 import Image from "next/image";
 import Link from "next/link";
+import { Typography } from "./Typography";
 
 const ProductItem = ({ data }: { data: Product }) => {
   return (
     <div className="group border border-primary rounded-xl overflow-hidden h-[480px] hover:cursor-pointer ">
       {/* Image on top */}
-      <Link href={`/product/${data.name?.toLowerCase()?.slice(0, 4)}`}>
+      <Link href={`/product/${data.name?.toLowerCase()?.slice(0, 10)}`}>
         <div className="relative w-full h-96 group overflow-hidden bg-white">
           <Image
             src={data?.imageUrl}

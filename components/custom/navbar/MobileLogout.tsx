@@ -8,7 +8,6 @@ import { auth } from "@/lib/firebase/config";
 import { clearGoogleLogout } from "@/utils/social/clear-auth";
 import { signOut } from "firebase/auth";
 import { useSetAtom } from "jotai";
-import { redirect } from "next/navigation";
 import { startTransition, useState } from "react";
 
 const MobileLogout = () => {
@@ -25,11 +24,12 @@ const MobileLogout = () => {
 
     const { error } = await LogoutAction();
     if (!error) {
+      //Case  success
       startTransition(() => {
         setMutatestate(defaultState);
         setUserAtom(defaultUserState);
         show({ type: "success", message: `Logout successfully` });
-        redirect("/login");
+        window.location.href = "/login";
       });
     } else {
       console.error(error);

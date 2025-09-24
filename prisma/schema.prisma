@@ -134,25 +134,25 @@ model Category {
 }
 
 model Product {
-  id     Int     @id @default(autoincrement())
-  name   String
-  code   String  @unique
-  alias  String?
-  desc   String?
-  rating Int     @default(0)
-
-  brandId Int
-  brand   Brand @relation(fields: [brandId], references: [id])
-
+  id         Int      @id @default(autoincrement())
+  name       String
+  code       String   @unique
+  alias      String?
+  desc       String?
+  rating     Int      @default(0)
+  brandId    Int
+  brand      Brand    @relation(fields: [brandId], references: [id])
   categoryId Int
   category   Category @relation(fields: [categoryId], references: [id])
 
   // Relations
-  ingredients  ProductIngredient[]
-  insideGroups InsideGroup[]
-  effects      ProductEffect[]
-  RoutineItem  RoutineItem[]
-  Image        Image[]
+  ingredients      ProductIngredient[]
+  insideGroups     InsideGroup[]
+  effects          ProductEffect[]
+  RoutineItem      RoutineItem[]
+  Image            Image[]
+  searchCount      Int?                @default(0)
+  ProductSkinMatch ProductSkinMatch[]
 
   @@index([name])
   @@index([alias])
@@ -166,12 +166,13 @@ model Ingredient {
   alias String
 
   // Relations
-  products     ProductIngredient[] // Many to many 
-  insideGroups IngredientInsideGroup[] // Many to many 
-  effects      IngredientEffect[]
-  similarFrom  SimilarIngredient[]     @relation("FromIngredient")
-  similarTo    SimilarIngredient[]     @relation("ToIngredient")
-  Image        Image[]
+  products            ProductIngredient[] // Many to many 
+  insideGroups        IngredientInsideGroup[] // Many to many 
+  effects             IngredientEffect[]
+  similarFrom         SimilarIngredient[]     @relation("FromIngredient")
+  similarTo           SimilarIngredient[]     @relation("ToIngredient")
+  Image               Image[]
+  IngredientSkinMatch IngredientSkinMatch[]
 
   @@index([name])
   @@index([alias])
@@ -283,6 +284,28 @@ model RoutineItem {
 
   routine Routine @relation(fields: [routineId], references: [id])
   product Product @relation(fields: [productId], references: [id])
+}
+
+model ProductSkinMatch {
+  id        Int      @id @default(autoincrement())
+  productId Int
+  skinType  SkinType
+  score     Float
+
+  product Product @relation(fields: [productId], references: [id])
+
+  @@unique([productId, skinType])
+}
+
+model IngredientSkinMatch {
+  id           Int      @id @default(autoincrement())
+  ingredientId Int
+  skinType     SkinType
+  score        Float
+
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id])
+
+  @@unique([ingredientId, skinType])
 }
 
 enum RoutineType {

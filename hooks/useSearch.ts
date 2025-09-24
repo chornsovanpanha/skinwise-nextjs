@@ -35,7 +35,9 @@ export const useSearch = ({
   const clearSingleParam = () => {
     const params = new URLSearchParams(searchParams.toString());
     params.delete("q");
-    router.push(`${pathName}?${params.toString()}`);
+    router.push(`${pathName}?${params.toString()}`, {
+      scroll: false,
+    });
   };
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {

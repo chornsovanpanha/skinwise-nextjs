@@ -60,8 +60,12 @@ const MobileNavBar = ({ isLogin }: { isLogin: boolean }) => {
       </SheetTrigger>
       <SheetContent side="left" className="w-[300px]">
         <nav className="space-y-4 p-4 ">
-          <SheetHeader>
-            <SheetTitle className="text-lg font-bold">Get Premium</SheetTitle>
+          <SheetHeader className="p-0">
+            <Link href={"/"}>
+              <SheetTitle className="text-xl text-left font-bold">
+                Skinwise
+              </SheetTitle>
+            </Link>
           </SheetHeader>
           {menus.map((navbar) => (
             <Link
@@ -78,15 +82,21 @@ const MobileNavBar = ({ isLogin }: { isLogin: boolean }) => {
 
         <SheetFooter className="pt-6 pb-12">
           <section className="space-y-2">
-            <Button
-              onClick={() => {
-                router.push("/pricing");
-              }}
-              className="bg-secondary rounded-full text-primary px-6 hover:text-white w-full"
-            >
-              Get Premium
-            </Button>
-            {!isLogin ? <AuthButtonMobile /> : <MobileLogout />}
+            {!isLogin && (
+              <Button
+                onClick={() => {
+                  router.push("/pricing");
+                }}
+                className="bg-secondary rounded-full text-primary px-6 hover:text-white w-full"
+              >
+                Get Premium
+              </Button>
+            )}
+            {!isLogin ? (
+              <AuthButtonMobile key={isLogin + ""} />
+            ) : (
+              <MobileLogout key={isLogin + ""} />
+            )}
 
             <RightOwnerDate />
           </section>

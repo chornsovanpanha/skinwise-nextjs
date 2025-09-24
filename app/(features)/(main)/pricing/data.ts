@@ -1,10 +1,12 @@
+import { PlanType } from "@prisma/client";
+
 export const skinWisePlans = [
   {
     name: "Free",
     price: 0.0,
     billingCycle: "per month",
     isCurrentPlan: true,
-    type: "free",
+    type: PlanType.FREE,
     features: [
       "4 ingredient searches / day",
       "3 product comparisons / day",
@@ -16,7 +18,7 @@ export const skinWisePlans = [
   {
     name: "Premiere",
     price: 9.99,
-    type: "premium",
+    type: PlanType.PRO,
     billingCycle: "per month",
     isCurrentPlan: false,
     features: [

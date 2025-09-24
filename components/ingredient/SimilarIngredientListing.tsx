@@ -5,11 +5,7 @@ const SimilarIngredientListing = () => {
   return (
     <main className="block sm:grid md:grid-cols-2 lg:grid-cols-4 ">
       {similarIngredients?.map((ingredient) => (
-        <IngredientListItem
-          data={ingredient}
-          key={ingredient.id}
-          onPress={() => {}}
-        />
+        <IngredientListItem data={ingredient} key={ingredient.id} />
       ))}
     </main>
   );

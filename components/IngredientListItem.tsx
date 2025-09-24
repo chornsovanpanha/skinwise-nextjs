@@ -1,38 +1,32 @@
 import { Ingredient } from "@/types";
 import { IconFlask } from "@tabler/icons-react";
+import Link from "next/link";
 import { Typography } from "./Typography";
 
-const IngredientListItem = ({
-  data,
-  onPress,
-}: {
-  data: Ingredient;
-  onPress?: () => void;
-}) => {
+const IngredientListItem = ({ data }: { data: Ingredient }) => {
   return (
-    <div
-      onClick={onPress}
-      className="flex flex-row gap-5 items-center hover:cursor-pointer hover:bg-primary/20 px-4  py-4"
-    >
-      <IconFlask className="w-fit h-fit bg-primary  p-4 rounded-full" />
+    <Link href={`/ingredient/${data.name}`}>
+      <div className="flex flex-row gap-5 items-center hover:cursor-pointer hover:bg-primary/20 px-4  py-4">
+        <IconFlask className="w-fit h-fit bg-primary  p-4 rounded-full" />
 
-      <section>
-        <Typography
-          as="p"
-          variant="subtitle1"
-          className="font-bold text-secondary"
-        >
-          {data.name}
-        </Typography>
-        <Typography
-          as="p"
-          variant="default"
-          className="font-bold text-secondary"
-        >
-          Ingredient
-        </Typography>
-      </section>
-    </div>
+        <section>
+          <Typography
+            as="p"
+            variant="subtitle1"
+            className="font-bold text-secondary"
+          >
+            {data.name}
+          </Typography>
+          <Typography
+            as="p"
+            variant="default"
+            className="font-bold text-secondary"
+          >
+            Ingredient
+          </Typography>
+        </section>
+      </div>
+    </Link>
   );
 };
 

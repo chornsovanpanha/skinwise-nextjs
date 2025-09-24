@@ -2,6 +2,12 @@ import { MobileMenu } from "@/types";
 
 export const menus: MobileMenu[] = [
   {
+    id: 0,
+    link: "/profile/overview",
+    name: "Profile",
+    hasHover: false,
+  },
+  {
     id: 1,
     link: "/product-comparison",
     name: "Comparison",
