@@ -15,10 +15,14 @@ import ContactInfo from "./ContactInfo";
 import RightOwnerDate from "./RightOwnerDate";
 import MobileLogout from "./MobileLogout";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import clsx from "clsx";
 
 const MobileNavBar = ({ isLogin }: { isLogin: boolean }) => {
   const router = useRouter();
+  const currentPathName = usePathname();
+
+  const mobileMenus = isLogin ? menus : menus?.filter((item) => item.id != 0);
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -67,11 +71,17 @@ const MobileNavBar = ({ isLogin }: { isLogin: boolean }) => {
               </SheetTitle>
             </Link>
           </SheetHeader>
-          {menus.map((navbar) => (
+
+          {mobileMenus?.map((navbar) => (
             <Link
               key={navbar.id}
               href={navbar.link}
-              className="block text-gray-800 dark:text-white hover:underline text-base hover:text-primary duration-50 transition-colors  ease-in"
+              className={clsx(
+                "block text-gray-800 dark:text-white hover:underline text-base hover:text-primary duration-50 transition-colors  ease-in",
+                {
+                  "text-primary": navbar.link == `${currentPathName}`,
+                }
+              )}
             >
               {navbar.name}
             </Link>
