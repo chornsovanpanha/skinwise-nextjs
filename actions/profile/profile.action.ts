@@ -1,10 +1,10 @@
-import prismaClientTools from "@/lib/prisma";
+import prismaClient from "@/lib/prisma";
 
 export async function getMyProfileAction(id: string) {
   if (!id) {
     return;
   }
-  return prismaClientTools.user?.findUnique({
+  return prismaClient.user?.findUnique({
     where: {
       id: parseInt(id),
     },

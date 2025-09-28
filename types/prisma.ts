@@ -1,5 +1,6 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, Product } from "@prisma/client";
 import { UserRole } from "./api";
+import { Brand } from "./data";
 
 export type UserWithSubscription = Prisma.UserGetPayload<{
   include: { subscription: true };
@@ -73,3 +74,9 @@ export interface User {
   subscription?: Subscription | null;
   Image?: Image[];
 }
+export type ProductWithBrandAndImages = Prisma.ProductGetPayload<{
+  include: {
+    Image: true;
+    brand: true;
+  };
+}>;

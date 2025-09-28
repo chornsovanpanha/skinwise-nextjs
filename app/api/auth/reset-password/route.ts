@@ -1,11 +1,11 @@
-import prismaClientTools from "@/lib/prisma";
+import prismaClient from "@/lib/prisma";
 import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   const { token, password } = await req.json();
   //Validate if the token that user click and server are the same
-  const resetToken = await prismaClientTools.passwordResetToken.findUnique({
+  const resetToken = await prismaClient.passwordResetToken.findUnique({
     where: { token },
     include: { user: true },
   });
@@ -18,16 +18,16 @@ export async function POST(req: Request) {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  await prismaClientTools.user.update({
+  await prismaClient.user.update({
     where: { id: resetToken.userId },
     data: { password: hashedPassword },
   });
 
   // Delete token after use
-  await prismaClientTools.passwordResetToken.delete({ where: { token } });
+  await prismaClient.passwordResetToken.delete({ where: { token } });
 
   //  invalidate all sessions
-  await prismaClientTools.session.deleteMany({
+  await prismaClient.session.deleteMany({
     where: { userId: resetToken.userId },
   });
 

@@ -1,4 +1,4 @@
-import prismaClientTools from "@/lib/prisma";
+import prismaClient from "@/lib/prisma";
 import { SESSION_NAME } from "@/utils/constant/cookie";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
   const sessionToken = request.cookies.get(SESSION_NAME)?.value;
 
   if (sessionToken) {
-    await prismaClientTools.session.deleteMany({
+    await prismaClient.session.deleteMany({
       where: { token: sessionToken },
     });
   }

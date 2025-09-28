@@ -1,22 +1,19 @@
-import { Product } from "@/types";
-import Image from "next/image";
+import { ProductWithBrandAndImages } from "@/types";
 import Link from "next/link";
 import { Typography } from "./Typography";
+import ProductImage from "./product/ProductImage";
 
-const ProductItem = ({ data }: { data: Product }) => {
+const ProductItem = ({ data }: { data: ProductWithBrandAndImages }) => {
+  const imageUrl = data.Image?.[0]?.url;
+  const brandName = data.brand?.title ?? "Unknown Brand";
+
   return (
     <div className="group border border-primary rounded-xl overflow-hidden h-[480px] hover:cursor-pointer ">
-      {/* Image on top */}
       <Link href={`/product/${data.name?.toLowerCase()?.slice(0, 10)}`}>
+        {/* Image on top */}
         <div className="relative w-full h-96 group overflow-hidden bg-white">
-          <Image
-            src={data?.imageUrl}
-            alt={data.name}
-            fill
-            className="object-contain group-hover:scale-110 transition-transform ease-in-out duration-500"
-          />
+          <ProductImage src={imageUrl} alt={data.alias ?? "product-image"} />
         </div>
-
         {/* Content below */}
         <div className="px-4 py-2 h-full group-hover:bg-primary/40">
           <Typography
@@ -24,14 +21,14 @@ const ProductItem = ({ data }: { data: Product }) => {
             variant="subtitle1"
             className="font-bold text-secondary line-clamp-2"
           >
-            {data.name}
+            {data.name ?? "Unnamed Product"}
           </Typography>
           <Typography
             as="p"
             variant="default"
             className="font-bold text-secondary line-clamp-1"
           >
-            Brand : {data.brandName}
+            Brand: {brandName}
           </Typography>
         </div>
       </Link>

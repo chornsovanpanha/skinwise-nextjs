@@ -1,6 +1,6 @@
 import Wrapper from "@/components/custom/layout/Wrapper";
+import TabWrapper from "@/components/TabWrapper";
 import React from "react";
-import TabWrapper from "../../../../components/TabWrapper";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (

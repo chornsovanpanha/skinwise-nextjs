@@ -1,4 +1,4 @@
-import prismaClientTools from "@/lib/prisma";
+import prismaClient from "@/lib/prisma";
 import { stripe } from "@/lib/stripe/stripe";
 import { SubscriptionStatus } from "@/types";
 import { sendEmail } from "@/utils/node-mailer/send-email";
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
             session.subscription as string
           );
 
-          await prismaClientTools.subscription.upsert({
+          await prismaClient.subscription.upsert({
             where: { userId: parseInt(userId) },
             create: {
               stripeId: subscription.id,
@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
       case "customer.subscription.updated": {
         const subscription = event.data.object as Stripe.Subscription;
         const stripeId = subscription.id;
-        const user = await prismaClientTools.subscription.findFirst({
+        const user = await prismaClient.subscription.findFirst({
           where: { stripeId },
         });
 
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
           const status: SubscriptionStatus =
             stripeToInternalStatus[stripeStatus];
 
-          await prismaClientTools.subscription.update({
+          await prismaClient.subscription.update({
             where: { id: user.id },
             data: {
               status: status,
@@ -104,12 +104,12 @@ export async function POST(request: NextRequest) {
       case "customer.subscription.deleted": {
         const subscription = event.data.object as Stripe.Subscription;
         const stripeId = subscription.id;
-        const user = await prismaClientTools.subscription.findFirst({
+        const user = await prismaClient.subscription.findFirst({
           where: { stripeId },
         });
 
         if (user) {
-          await prismaClientTools.subscription.update({
+          await prismaClient.subscription.update({
             where: { id: user.id },
             data: {
               status: "CANCELED",

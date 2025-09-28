@@ -1,5 +1,11 @@
+import { Metadata } from "next";
+import Dashboard from "./Dashboard";
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description: "Overview of admin dashboard",
+};
 const Page = () => {
-  return <div>Welcome to dashboard</div>;
+  return <Dashboard />;
 };
 
 export default Page;

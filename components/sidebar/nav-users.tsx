@@ -11,6 +11,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import clsx from "clsx";
 import Link from "next/link";
@@ -36,6 +37,8 @@ export function NavUsers({
   }[];
 }) {
   const pathName = usePathname();
+  const { setOpen } = useSidebar();
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Users Overviews</SidebarGroupLabel>
@@ -54,7 +57,7 @@ export function NavUsers({
               })}
             >
               {item.items?.length ? (
-                <CollapsibleTrigger asChild>
+                <CollapsibleTrigger asChild onClick={() => setOpen(true)}>
                   <SidebarMenuButton tooltip={item.title}>
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>

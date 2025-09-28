@@ -1,7 +1,7 @@
 import { adminAuth } from "@/lib/firebase/admin";
 import { validateUserPassword } from "@/lib/middleware/validate-password";
 import { validateBody } from "@/lib/middleware/zod-validation";
-import prismaClientTools from "@/lib/prisma";
+import prismaClient from "@/lib/prisma";
 import { LoginBy } from "@/types/prisma";
 import { EXPIRED_AT, SESSION_NAME } from "@/utils/constant/cookie";
 import { generateFallbackEmail } from "@/utils/generate/email-generate";
@@ -20,11 +20,11 @@ export async function POST(request: Request) {
     let user;
     let imageQuery;
 
-    const checkUserExist = await prismaClientTools.user.findUnique({
+    const checkUserExist = await prismaClient.user.findUnique({
       where: { email: data?.email?.toLowerCase() },
     });
     if (!loginBy || loginBy == "email") {
-      user = await prismaClientTools.user.findUnique({
+      user = await prismaClient.user.findUnique({
         where: { email: bodyEmail?.toLowerCase() },
         select: {
           email: true,
@@ -72,7 +72,7 @@ export async function POST(request: Request) {
 
       // Check if user exists, create if not update the information email and override the name
 
-      user = await prismaClientTools.user.upsert({
+      user = await prismaClient.user.upsert({
         where: { email: userEmail },
         update: {
           name,
@@ -103,7 +103,7 @@ export async function POST(request: Request) {
       });
 
       // Upsert image separately
-      imageQuery = await prismaClientTools.image.upsert({
+      imageQuery = await prismaClient.image.upsert({
         where: {
           userId_url: {
             userId: user.id,
@@ -125,7 +125,7 @@ export async function POST(request: Request) {
 
     const token = randomUUID();
     const expiresAt = new Date(Date.now() + EXPIRED_AT * 1000);
-    await prismaClientTools.session.create({
+    await prismaClient.session.create({
       data: { userId: user.id, token, expiresAt },
     });
 

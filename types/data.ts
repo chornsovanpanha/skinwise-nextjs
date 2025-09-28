@@ -21,6 +21,13 @@ export type Product = {
   imageUrl: string;
 };
 
+export type Brand = {
+  id: number;
+  alias: string;
+  title: string;
+  country?: string;
+};
+
 export type Ingredient = {
   id: number;
   name: string;

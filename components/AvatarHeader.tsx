@@ -16,14 +16,14 @@ type AvatarHeaderProps = {
   className?: string;
 };
 const AvatarHeader: React.FC<AvatarHeaderProps> = ({ className }) => {
-  const { isMobile } = useSidebar();
+  const { isMobile, open } = useSidebar();
 
   return (
     <DropdownMenuTrigger asChild>
       <div
         className={`flex items-center flex-row gap-2 ${className} justify-between`}
       >
-        <UserAvatar showIcon />
+        <UserAvatar showIcon open={open} />
         <DropdownMenuContent
           className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg my-4"
           side={isMobile ? "bottom" : "right"}

@@ -19,7 +19,7 @@ import { TeamSwitcher } from "./team-switcher";
 type AppSidebarProps = React.ComponentProps<typeof Sidebar>;
 export function AppSidebar({ ...props }: AppSidebarProps) {
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon" {...props} className="overflow-x-hidden">
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>

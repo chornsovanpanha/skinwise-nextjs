@@ -11,7 +11,7 @@ export const serverEnvSchema = z.object({
     .refine((n) => !Number.isNaN(n), { message: "PORT must be a number" }),
   DATABASE_URL: z.string().url("DATABASE_URL must be a valid URL"),
   API_URL: z.string().url("API must be a valid URL"),
-
+  API_KEY: z.string().min(1, "API key is required"),
   STRIPE_SECRET_APIKEY: z
     .string()
     .min(1, "STRIPE_SECRET_APIKEY must be a valid URL"),

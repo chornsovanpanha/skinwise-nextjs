@@ -22,3 +22,12 @@ export type StripeCheckoutBody = {
   priceId: string;
   userId: string;
 };
+
+export type Params = { params: { id: string } };
+
+export type PaginationMeta = {
+  totalRecords: number;
+  totalPages: number;
+  page: number;
+  perPage: number;
+};

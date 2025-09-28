@@ -2,7 +2,7 @@
 import { tabData } from "@/app/(features)/(main)/profile/data";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePathname, useRouter } from "next/navigation";
-import React, { startTransition, useState } from "react";
+import React, { startTransition, useEffect, useState } from "react";
 import { Typography } from "./Typography";
 
 const TabWrapper = ({ children }: { children: React.ReactNode }) => {
@@ -14,14 +14,18 @@ const TabWrapper = ({ children }: { children: React.ReactNode }) => {
 
   const handleTabChange = (value: string) => {
     startTransition(() => {
-      setCurrentTab(value);
       router.push(`/profile/${value}`, { scroll: false });
     });
   };
 
+  useEffect(() => {
+    setCurrentTab(initialTab);
+  }, [path, initialTab]);
+
   return (
     <Tabs
       value={currentTab}
+      defaultValue={initialTab}
       onValueChange={handleTabChange}
       className=" my-2 justify-center max-w-4xl container mx-auto "
     >

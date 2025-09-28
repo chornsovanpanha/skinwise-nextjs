@@ -89,7 +89,7 @@ const Form = <T extends FormType>({ title, desc, type }: FormProps<T>) => {
       <div className="overflow-hidden p-0 m-0">
         <div className="grid md:grid-cols-2 m-0 bg-white rounded-2xl">
           <form className="p-6 md:p-8" onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 space-y-4">
               <header className="flex flex-col items-center text-center mb-4">
                 <h1 className="text-lg md:text-2xl font-bold">{title}</h1>
                 <p

@@ -235,3 +235,9 @@ export const afterSkinTypeQuestions: QuizQuestion[] = [
     ],
   },
 ];
+export const countryOptions = [
+  { label: "United States", value: "us" },
+  { label: "South Korea", value: "kr" },
+  { label: "Cambodia", value: "kh" },
+  { label: "Vietnam", value: "vn" },
+];

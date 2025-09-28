@@ -1,7 +1,7 @@
-import { Ingredient } from "@/types";
 import { IconFlask } from "@tabler/icons-react";
 import Link from "next/link";
 import { Typography } from "./Typography";
+import { Ingredient } from "@prisma/client";
 
 const IngredientListItem = ({ data }: { data: Ingredient }) => {
   return (
