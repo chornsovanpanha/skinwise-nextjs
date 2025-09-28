@@ -5,3 +5,19 @@ export async function getPartialIngredients() {
     take: 4,
   });
 }
+
+export async function getIngredientDetail({ alias }: { alias: string }) {
+  return prismaClient.ingredient.findFirst({
+    where: {
+      alias: alias,
+    },
+    include: {
+      effects: true,
+      IngredientSkinMatch: true,
+      insideGroups: true,
+      products: true,
+      similarFrom: true,
+      similarTo: true,
+    },
+  });
+}

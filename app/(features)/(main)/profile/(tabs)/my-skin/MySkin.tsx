@@ -12,12 +12,14 @@ const MySkin = () => {
         <Typography as="p" variant="body1" className="text-secondary">
           Skin type
         </Typography>
-        <AppSelect
-          placeholder="Your Skin Type"
-          value={skinTypeDummy?.at(0)?.value}
-          options={skinTypeDummy}
-          onValueChange={(val) => console.log("Selected:", val)}
-        />
+        <div>
+          <AppSelect
+            placeholder="Your Skin Type"
+            value={skinTypeDummy?.at(0)?.value}
+            options={skinTypeDummy}
+            onValueChange={(val) => console.log("Selected:", val)}
+          />
+        </div>
       </section>
       <Separator className="my-6 bg-primary" />
 

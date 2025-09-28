@@ -13,7 +13,6 @@ const LandingDefault = async () => {
       <section className="flex flex-col space-y-4">
         <BestProduct />
         <ExploreIngredient />
-
         <AboutUs />
       </section>
     </main>

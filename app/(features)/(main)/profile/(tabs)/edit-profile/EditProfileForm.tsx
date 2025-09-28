@@ -13,51 +13,49 @@ const EditProfileForm = () => {
     currentUser?.name?.[0] + currentUser?.name?.[currentUser?.name?.length - 1];
   return (
     <form>
-      <header className="flex flex-row gap-5 items-center">
-        <Avatar className="h-30 w-30 mb-4">
-          <AvatarImage
-            src={currentUser.photoUrl?.url ?? ""}
-            referrerPolicy="no-referrer"
-          />
-          <AvatarFallback className="text-lg border">
-            {" "}
-            {fallAvatar}
-          </AvatarFallback>
-        </Avatar>
-        <Button className="text-secondary">Select Photo</Button>
+      <header className="block sm:flex flex-row gap-5 items-center space-y-6 sm:space-y-0">
+        <div className="flex items-center gap-5">
+          <Avatar className="h-30 w-30 mb-4">
+            <AvatarImage
+              src={currentUser.photoUrl?.url ?? ""}
+              referrerPolicy="no-referrer"
+            />
+            <AvatarFallback className="text-lg border">
+              {" "}
+              {fallAvatar}
+            </AvatarFallback>
+          </Avatar>
+          <Button type="button" className="text-secondary">
+            Select Photo
+          </Button>
+        </div>
 
         <Typography as="p" variant="default" className="text-secondary">
           {currentUser.email}
         </Typography>
       </header>
 
-      <section className="my-4">
-        <div>
-          <AppInput
-            id="firstName"
-            label=""
-            type="text"
-            className="bg-gray-1 py-6 placeholder:text-gray-4"
-            placeholder="First Name"
-          />
-        </div>
-        <div>
-          <AppInput
-            id="lastName"
-            label=""
-            type="text"
-            className="bg-gray-1 py-6 placeholder:text-gray-4"
-            placeholder="Last Name"
-          />
-        </div>
-        <div>
-          <Textarea
-            placeholder="Type your bio here..."
-            id="bio"
-            rows={7}
-            className="resize-none h-40 bg-gray-1 placeholder:text-gray-4"
-          />
-        </div>
+      <section className="my-4 space-y-4">
+        <AppInput
+          id="firstName"
+          label=""
+          type="text"
+          className="bg-gray-1 py-6 placeholder:text-gray-4"
+          placeholder="First Name"
+        />
+        <AppInput
+          id="lastName"
+          label=""
+          type="text"
+          className="bg-gray-1 py-6 placeholder:text-gray-4"
+          placeholder="Last Name"
+        />
+        <Textarea
+          placeholder="Type your bio here..."
+          id="bio"
+          rows={7}
+          className="resize-none h-40 bg-gray-1 placeholder:text-gray-4"
+        />
       </section>
     </form>
   );
