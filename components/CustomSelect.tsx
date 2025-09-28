@@ -26,6 +26,7 @@ type AppSelectProps = {
   className?: string;
   error?: string;
   label?: string;
+  type?: "country-code";
 };
 
 export const AppSelect: React.FC<AppSelectProps> = ({
@@ -33,6 +34,7 @@ export const AppSelect: React.FC<AppSelectProps> = ({
   placeholder = "Select...",
   value,
   error,
+  type,
   onValueChange,
   label,
   className,
@@ -49,7 +51,7 @@ export const AppSelect: React.FC<AppSelectProps> = ({
           <SelectItem key={option.value} value={option.value}>
             <span className="space-x-2">
               {option.label}{" "}
-              {option.value ? (
+              {option.value && type == "country-code" ? (
                 <span className="text-lg mt-2">
                   {getFlagEmoji(option.value)}
                 </span>

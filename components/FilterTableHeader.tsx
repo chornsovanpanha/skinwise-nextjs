@@ -5,7 +5,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import { Plus, Search, SlidersHorizontal } from "lucide-react";
 import React from "react";
 import AppInput from "./AppInput";

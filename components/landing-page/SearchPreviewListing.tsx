@@ -1,7 +1,8 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Ingredient, Product, SearchType } from "@/types";
+import { Product, SearchType } from "@/types";
 import IngredientListItem from "../IngredientListItem";
 import SmallProductItem from "../SmallProductItem";
+import { Ingredient } from "@prisma/client";
 
 const SearchPreviewListing = ({
   onPress,

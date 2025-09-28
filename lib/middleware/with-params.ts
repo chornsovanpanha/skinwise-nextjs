@@ -7,7 +7,10 @@ export type ParamsRouteHandler = (
 ) => Promise<NextResponse>;
 
 export function withParams(handler: ParamsRouteHandler) {
-  return async function (req: NextRequest, context: Params) {
+  return async function (
+    req: NextRequest,
+    context: { params: Promise<{ id: string }> }
+  ) {
     const { id } = await context.params;
 
     if (!id || isNaN(Number(id)) || Number(id) <= 0) {

@@ -1,9 +1,10 @@
 import { useSearch } from "@/hooks/useSearch";
-import { Ingredient, Product, SearchType } from "@/types";
+import { Product, SearchType } from "@/types";
 import { useEffect, useRef, useState } from "react";
 import AppInput from "./AppInput";
 import RecentProductListing from "./landing-page/RecentProductListing";
 import SearchPreviewListing from "./landing-page/SearchPreviewListing";
+import { Ingredient } from "@prisma/client";
 
 const SearchArea = ({
   className,

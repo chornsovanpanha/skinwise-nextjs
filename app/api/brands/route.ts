@@ -6,7 +6,7 @@ import { BrandFormValues, brandSchema } from "@/utils/schema";
 import { NextRequest, NextResponse } from "next/server";
 import z from "zod";
 
-export async function postHandler(req: NextRequest) {
+async function postHandler(req: NextRequest) {
   try {
     const body: BrandFormValues = await req.json();
     const parsed = brandSchema.parse(body);
@@ -43,7 +43,7 @@ export async function postHandler(req: NextRequest) {
   }
 }
 
-export async function getHandler(req: NextRequest) {
+async function getHandler(req: NextRequest) {
   try {
     const searchParams = req.nextUrl.searchParams;
 

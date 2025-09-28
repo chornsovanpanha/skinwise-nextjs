@@ -1,13 +1,15 @@
 import { AppResponse } from "@/lib/axios/response";
 import { withParams } from "@/lib/middleware/with-params";
 import prismaClient from "@/lib/prisma";
-import { Params } from "@/types";
 import { getPrismaErrorMessage, mapZodError } from "@/utils/formatter";
 import { updateBrandSchema } from "@/utils/schema";
 import { NextRequest, NextResponse } from "next/server";
 import z from "zod";
 
-export async function getHandlerById(_: NextRequest, context: Params) {
+async function getHandlerById(
+  req: NextRequest,
+  context: { params: { id: string } }
+) {
   try {
     const { id } = context.params;
     const brands = await prismaClient.brand.findUnique({
@@ -15,6 +17,7 @@ export async function getHandlerById(_: NextRequest, context: Params) {
         id: parseInt(id),
       },
     });
+    console.log("Method: ", req.method);
     const response = new AppResponse({ data: brands, status: 200 });
 
     return NextResponse.json(response);
@@ -29,7 +32,10 @@ export async function getHandlerById(_: NextRequest, context: Params) {
     return NextResponse.json(response, { status: 422 });
   }
 }
-export async function deleteHandlerById(_: NextRequest, context: Params) {
+async function deleteHandlerById(
+  _: NextRequest,
+  context: { params: { id: string } }
+) {
   try {
     const { id } = context.params;
     const deleted = await prismaClient.brand.delete({
@@ -50,7 +56,10 @@ export async function deleteHandlerById(_: NextRequest, context: Params) {
     );
   }
 }
-export async function updateHandlerById(req: NextRequest, context: Params) {
+async function updateHandlerById(
+  req: NextRequest,
+  context: { params: { id: string } }
+) {
   try {
     const { id } = context.params;
     const body = await req.json();

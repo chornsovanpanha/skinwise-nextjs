@@ -2,11 +2,6 @@
 
 import {
   DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
@@ -17,7 +12,6 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { ChevronsUpDown, Plus } from "lucide-react";
 import * as React from "react";
 
 export function TeamSwitcher({
@@ -29,7 +23,8 @@ export function TeamSwitcher({
     plan: string;
   }[];
 }) {
-  const { isMobile, state } = useSidebar();
+  const { state } = useSidebar();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [activeTeam, setActiveTeam] = React.useState(teams[0]);
 
   if (!activeTeam) {

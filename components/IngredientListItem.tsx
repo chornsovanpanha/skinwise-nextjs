@@ -3,9 +3,9 @@ import Link from "next/link";
 import { Typography } from "./Typography";
 import { Ingredient } from "@prisma/client";
 
-const IngredientListItem = ({ data }: { data: Ingredient }) => {
+const IngredientListItem = ({ data }: { data?: Ingredient }) => {
   return (
-    <Link href={`/ingredient/${data.name}`}>
+    <Link href={`/ingredient/${data?.name}`}>
       <div className="flex flex-row gap-5 items-center hover:cursor-pointer hover:bg-primary/20 px-4  py-4">
         <IconFlask className="w-fit h-fit bg-primary  p-4 rounded-full" />
 
@@ -15,7 +15,7 @@ const IngredientListItem = ({ data }: { data: Ingredient }) => {
             variant="subtitle1"
             className="font-bold text-secondary"
           >
-            {data.name}
+            {data?.name}
           </Typography>
           <Typography
             as="p"

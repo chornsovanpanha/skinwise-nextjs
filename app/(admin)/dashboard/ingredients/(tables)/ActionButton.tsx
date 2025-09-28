@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { Edit, EllipsisVertical, Eye, Trash, Trash2 } from "lucide-react";
+import { Edit, EllipsisVertical, Eye, Trash2 } from "lucide-react";
+import React, { useState } from "react";
 
 type PermissionActions = {
   id: number;

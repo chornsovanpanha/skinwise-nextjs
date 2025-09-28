@@ -68,21 +68,6 @@ export const recentProductsListing = [
   },
 ];
 
-export const recentProductsListing = [
-  {
-    id: 3,
-    name: "Advanced Night Repair Synchronized Multi-Recovery Complex",
-    brandName: "Estée Lauder",
-    imageUrl: "https://storage.skinsort.com/cs1sqextfzr4cloldu3oazixuirx",
-  },
-  {
-    id: 2,
-    name: "C-Firma Fresh Day Serum Acid",
-    brandName: "Drunk Elephant",
-    imageUrl: "http://storage.skinsort.com/cmjmkvk0fufaysqcr2ryxy2eshq2",
-  },
-];
-
 export const searchPreviewListing = {
   products: [
     {
@@ -108,7 +93,11 @@ export const searchPreviewListing = {
     {
       id: 221,
       name: "Vitamin",
+      alias: "vintamin",
+      desc: "",
+      about: "",
       brandName: "Drunk Elephant",
+
       imageUrl: "http://storage.skinsort.com/cmjmkvk0fufaysqcr2ryxy2eshq2",
     },
   ],

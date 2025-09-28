@@ -27,21 +27,16 @@ type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
   showPaging?: boolean;
   searchQuery?: string;
-  page?: number;
-  perPage?: number;
   handleSearch?: (value: string) => void;
-  onPageChange?: (page: number, perPage: number) => void;
 };
 
 export function BrandDataTable<TData, TValue>({
   data,
   showPaging,
-  page = 1,
-  perPage = 10,
+
   columns,
   searchQuery,
   handleSearch,
-  onPageChange,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const table = useReactTable({

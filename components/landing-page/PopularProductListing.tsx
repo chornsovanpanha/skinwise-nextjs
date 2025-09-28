@@ -1,6 +1,6 @@
 import { ProductWithBrandAndImages } from "@/types";
 import Wrapper from "../custom/layout/Wrapper";
-import ProductItem from "../ProductItem";
+import MainProductItem from "../MainProductItem";
 
 const PopularProductListing = ({
   products,
@@ -11,7 +11,7 @@ const PopularProductListing = ({
     <Wrapper maxHeight={false} className="flex-col">
       <main className="h-full block sm:grid sm:grid-cols-2 lg:grid-cols-3 w-full gap-12 space-y-6">
         {products?.map((product) => (
-          <ProductItem data={product} key={product.id} />
+          <MainProductItem data={product} key={product.id} />
         ))}
       </main>
     </Wrapper>

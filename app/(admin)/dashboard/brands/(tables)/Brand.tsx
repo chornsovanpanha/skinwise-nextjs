@@ -13,10 +13,10 @@ import { FilterOptions } from "./type";
 const Brand = () => {
   const { getUrlParams, updateUrl } = useUrlPage();
   const { search } = getUrlParams();
-  const [paging, setPaging] = useState({
-    page: 1,
-    perPage: 10,
-  });
+  // const [paging, setPaging] = useState({
+  //   page: 1,
+  //   perPage: 10,
+  // });
 
   const { data, isLoading, error } = useBrandListing(TANSTACKQUERY.BRAND, {
     limit: "30",
@@ -30,10 +30,10 @@ const Brand = () => {
     console.log("Searching for:", query);
   };
 
-  const onChangePage = (page: number, perPage: number) => {
-    // updateUrl({ limit: perPage, page: page });
-    setPaging({ page: page, perPage: perPage });
-  };
+  // const onChangePage = (page: number, perPage: number) => {
+  //   // updateUrl({ limit: perPage, page: page });
+  //   setPaging({ page: page, perPage: perPage });
+  // };
   const handleFilterSelection = (filter: FilterOptions) => {
     console.log("Selected filter:", filter.label);
   };
@@ -60,9 +60,9 @@ const Brand = () => {
         handleSearch={handleSearch}
         columns={brandColumns}
         showPaging
-        page={paging?.page ?? 1}
-        perPage={paging?.perPage ?? 10}
-        onPageChange={onChangePage}
+        // page={paging?.page ?? 1}
+        // perPage={paging?.perPage ?? 10}
+        // onPageChange={onChangePage}
         // totalRecords={totalRecords ?? 0}
         data={data || []}
       />

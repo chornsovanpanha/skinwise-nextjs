@@ -77,18 +77,30 @@ export const similarIngredients = [
   {
     id: 1,
     name: "Vitamin",
+    alias: "vitamin",
+    desc: "",
+    about: "",
   },
   {
     id: 2,
     name: "Resin ",
+    alias: "resin",
+    desc: "",
+    about: "",
   },
   {
     id: 3,
     name: "Retonin ",
+    alias: "retonin",
+    desc: "",
+    about: "",
   },
   {
     id: 4,
     name: "Aqau",
+    alias: "aqau",
+    desc: "",
+    about: "",
   },
 ];
 

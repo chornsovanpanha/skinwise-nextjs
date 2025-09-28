@@ -11,7 +11,7 @@ const ProductImage = ({ src, alt }: { src: string; alt: string }) => {
       alt={alt}
       fill
       className="object-contain scale-100 group-hover:scale-110 transition-transform ease-in-out duration-500"
-      onError={() => setImgSrc("/assets/images/no-image.jpg")}
+      onError={() => setImgSrc("/assets/images/no-img-card.png")}
     />
   );
 };

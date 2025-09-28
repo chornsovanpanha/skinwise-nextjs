@@ -9,7 +9,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { queryClient } from "@/lib/tanstack/queryClient";
 import { TANSTACKQUERY } from "@/utils/constant/queryclient";
-import { Edit, EllipsisVertical, Eye, Trash2 } from "lucide-react";
+import { Edit, EllipsisVertical, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { startTransition, useState } from "react";
 

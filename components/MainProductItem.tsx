@@ -1,18 +1,18 @@
-import { Product } from "@/types";
+import { ProductWithBrandAndImages } from "@/types";
 import Link from "next/link";
 import { Typography } from "./Typography";
 import ProductImage from "./product/ProductImage";
 
-const ProductItem = ({ data }: { data: Product }) => {
-  const imageUrl = data.imageUrl;
-  const brandName = data.brandName;
+const MainProductItem = ({ data }: { data: ProductWithBrandAndImages }) => {
+  const imageUrl = data.Image?.[0]?.url;
+  const brandName = data.brand?.title ?? "Unknown Brand";
 
   return (
     <div className="group border border-primary rounded-xl overflow-hidden h-[480px] hover:cursor-pointer ">
       <Link href={`/product/${data.name?.toLowerCase()?.slice(0, 10)}`}>
         {/* Image on top */}
         <div className="relative w-full h-96 group overflow-hidden bg-white">
-          <ProductImage src={imageUrl} alt={data.name ?? "product-image"} />
+          <ProductImage src={imageUrl} alt={data.alias ?? "product-image"} />
         </div>
         {/* Content below */}
         <div className="px-4 py-2 h-full group-hover:bg-primary/40">
@@ -36,4 +36,4 @@ const ProductItem = ({ data }: { data: Product }) => {
   );
 };
 
-export default ProductItem;
+export default MainProductItem;

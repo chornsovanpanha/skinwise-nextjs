@@ -80,7 +80,7 @@ export default function BrandForm() {
         shouldValidate: true,
       });
     }
-  }, [form.watch("title")]);
+  }, [form]);
 
   useEffect(() => {
     if (brandId && data) {
@@ -90,7 +90,7 @@ export default function BrandForm() {
         country: data?.country,
       });
     }
-  }, [data, brandId]);
+  }, [data, brandId, form]);
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -133,6 +133,7 @@ export default function BrandForm() {
           render={({ field, fieldState }) => (
             <div className="mb-2">
               <AppSelect
+                type="country-code"
                 label="Select Country"
                 placeholder="Choose a country"
                 className="w-full"
