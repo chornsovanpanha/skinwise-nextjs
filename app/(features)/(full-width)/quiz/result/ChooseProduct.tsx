@@ -35,7 +35,11 @@ const ChooseProduct = ({
     setOpen(true);
   }
   return (
+<<<<<<< HEAD
     <section className="result flex flex-col  space-y-4 w-full  sm:w-xl">
+=======
+    <section className="result flex flex-col  space-y-4">
+>>>>>>> origin/main
       <Dialog onOpenChange={setOpen} open={open}>
         <SearchArea
           key={searchAreaKey}
