@@ -17,9 +17,11 @@ export default async function Page() {
     queryFn: () => globalSearchAction({ search: "" }),
   });
 
+  const totalConcerns = userSkinType?.profile?.routines?.length;
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <ResultQuiz
+        totalConcerns={totalConcerns ?? 0}
         userSkinType={userSkinType?.profile as ProfileWithConcerns}
         profileId={userSkinType?.profile?.id}
         userId={userSkinType?.profile?.userId}

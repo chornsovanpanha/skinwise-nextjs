@@ -29,9 +29,11 @@ import { useState } from "react";
 const MyRoutine = ({
   profile,
   userId,
+  allowEdit,
 }: {
   profile?: ProfileRoutine | null;
   userId: number;
+  allowEdit?: boolean;
 }) => {
   const [isLoading, setLoading] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
@@ -232,7 +234,11 @@ const MyRoutine = ({
         {isLoading && <Loading />}
         <PageHeader
           title="My Routine"
-          customDesc={<ShareableLinkDialog />}
+          customDesc={
+            <ShareableLinkDialog
+              link={`${process.env.NEXT_PUBLIC_API_URL}/my-routine?id=${userId}`}
+            />
+          }
           showBackgroundImg={true}
           backgroundImage={ProductRoutineBg}
         />
@@ -242,16 +248,23 @@ const MyRoutine = ({
             <RoutineHeader type={RoutineType.MORNING}>
               Morning Routine
             </RoutineHeader>
+
             <PersonalRoutineListing
               onOpenDialog={() => {
                 setOpenSearch(true);
               }}
+              allowEdit={allowEdit}
               items={morningRoutines}
               renderItem={(item, index) => (
-                <div onClick={() => handleSelectRoutineEdit(item)} key={index}>
+                <div
+                  onClick={() =>
+                    allowEdit ? handleSelectRoutineEdit(item) : null
+                  }
+                  key={index}
+                >
                   <MainProductItem
                     data={item?.product as ProductWithBrandAndImages}
-                    allowLink={false}
+                    allowLink={!allowEdit}
                   />
                 </div>
               )}
@@ -263,6 +276,7 @@ const MyRoutine = ({
               Evening Routine
             </RoutineHeader>
             <PersonalRoutineListing
+              allowEdit={allowEdit}
               onOpenDialog={() => {
                 setOpenSearch(true);
                 setSelectProduct((pre) => ({
@@ -275,7 +289,7 @@ const MyRoutine = ({
                 <div onClick={() => handleSelectRoutineEdit(item)} key={index}>
                   <MainProductItem
                     data={item?.product as ProductWithBrandAndImages}
-                    allowLink={false}
+                    allowLink={!allowEdit}
                   />
                 </div>
               )}

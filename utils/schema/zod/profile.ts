@@ -6,4 +6,11 @@ export const editProfileSchema = z.object({
   bio: z.string().max(300, "Bio must be at most 300 characters").optional(),
 });
 
+export const skinFormSchema = z.object({
+  skinType: z.string().nonempty("Please select your skin type"),
+  concerns: z.array(z.string()).min(1, "Please select at least one concern"),
+});
+
+export type SkinFormValues = z.infer<typeof skinFormSchema>;
+
 export type EditProfileFormValues = z.infer<typeof editProfileSchema>;

@@ -2,7 +2,8 @@
 import { uploadFileStream } from "@/lib/firebase/storage";
 import prismaClient from "@/lib/prisma";
 import { getUserIdFromSession } from "@/lib/sessions/session";
-import { Prisma } from "@prisma/client";
+import { SkinFormValues } from "@/utils/schema/zod/profile";
+import { Prisma, SkinConcern, SkinType } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 export type EditProfileFormValues = {
   firstName?: string;
@@ -41,6 +42,7 @@ export async function getUserSkinTypeAndConcern() {
         profile: {
           include: {
             concerns: true,
+            routines: true,
           },
         },
       },
@@ -91,4 +93,56 @@ export async function updateProfileAction(
   revalidatePath("/profile/overview");
 
   return result;
+}
+
+export async function UpdateSkinTypeOrConcernAction(
+  userId: number,
+  updateData: SkinFormValues
+) {
+  let user = await prismaClient.user.findUnique({
+    where: { id: userId },
+    include: {
+      profile: {
+        include: { concerns: true },
+      },
+    },
+  });
+
+  if (!user?.profile) {
+    user = await prismaClient.user.update({
+      where: { id: userId },
+      data: {
+        profile: {
+          create: {},
+        },
+      },
+      include: {
+        profile: { include: { concerns: true } },
+      },
+    });
+  }
+
+  // Update profile with new skinType and replace skinConcerns
+  // Remove old concerns and create new ones based on names
+  const updatedProfile = await prismaClient.profile.update({
+    where: { id: user.profile!.id },
+    data: {
+      skinType: updateData.skinType as SkinType,
+      concerns: {
+        // 'deleteMany' removes all existing relations first
+        deleteMany: {},
+        // 'create' adds new concerns
+        create: updateData.concerns.map((name) => ({
+          name,
+        })),
+      },
+    },
+  });
+
+  // Revalidate paths
+  revalidatePath("/profile/edit-profile");
+  revalidatePath("/profile/overview");
+  revalidatePath("/profile/my-skin");
+
+  return updatedProfile;
 }

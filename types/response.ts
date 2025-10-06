@@ -24,3 +24,9 @@ export type ProductSummaryType = {
   title: string;
   desc: string;
 };
+
+export type UserTrackResponse = {
+  success: boolean;
+  remaining?: number;
+  message: string;
+};

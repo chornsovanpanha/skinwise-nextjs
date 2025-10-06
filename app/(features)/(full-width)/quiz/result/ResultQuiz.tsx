@@ -36,10 +36,12 @@ export default function ResultQuiz({
   userSkinType,
   profileId,
   userId,
+  totalConcerns,
 }: {
   userSkinType?: ProfileWithConcerns;
   profileId?: number;
   userId?: number;
+  totalConcerns: number;
 }) {
   const router = useRouter();
   const [previousAnswers, setPrevAnswers] = useAtom(quizAnswerOptionAtom);
@@ -63,7 +65,7 @@ export default function ResultQuiz({
     });
   };
   const onContinue = () => {
-    if (currIndex >= 2) {
+    if (currIndex >= 2 || totalConcerns > 0) {
       //This case user has finish thier setup with routine builder profile
       return clearSingleParam();
     }

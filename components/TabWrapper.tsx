@@ -32,6 +32,8 @@ const TabWrapper = ({
     if (profile) {
       const skinType = profile?.profile?.skinType;
       const skinConcerns = profile?.profile?.concerns?.map((item) => item.name);
+
+      console.log("User skin type is", skinType);
       setUserAtom((pre) => ({
         ...pre,
         email: profile?.email,

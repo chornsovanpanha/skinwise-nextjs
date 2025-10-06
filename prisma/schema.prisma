@@ -77,6 +77,8 @@ model User {
   subscription        Subscription?
   profile             Profile?
   userUsage           UserUsage?
+  lastSearch          DateTime?            @default(now())
+  searchCount         Int                  @default(0)
 }
 
 model Subscription {
@@ -250,7 +252,7 @@ model Profile {
 
 model SkinConcern {
   id   Int    @id @default(autoincrement())
-  name String @unique // e.g. "Acne", "Wrinkles", "Dark spots"
+  name String
 
   profiles Profile[] @relation("ProfileConcerns") // many-to-many
 }

@@ -16,14 +16,29 @@ export const metadata: Metadata = {
     "skin wise",
   ],
 };
-const Page = async () => {
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+
+const Page = async ({ searchParams }: { searchParams: SearchParams }) => {
+  const search = await searchParams;
+  const paramsUserId = search?.id ?? "";
   const userId = await getUserIdFromSession();
-  const userRoutine = await getRoutineByUser({ userId: userId ?? "" });
-  if (!userId) {
+  if (!userId && !paramsUserId) {
     return notFound();
   }
-
-  return <MyRoutine profile={userRoutine} userId={parseInt(userId)} />;
+  const userRoutine = await getRoutineByUser({
+    userId: userId ?? paramsUserId?.toString() ?? "",
+  });
+  if (!userRoutine) {
+    return notFound();
+  }
+  const allowEdit = paramsUserId ? paramsUserId == userId : !!userId;
+  return (
+    <MyRoutine
+      allowEdit={allowEdit}
+      profile={userRoutine}
+      userId={parseInt(userId ?? paramsUserId?.toString() ?? "")}
+    />
+  );
 };
 
 export default Page;

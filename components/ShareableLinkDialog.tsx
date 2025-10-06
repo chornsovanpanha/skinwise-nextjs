@@ -11,18 +11,28 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { handleCopyLink } from "@/utils/helpers/Keyboard";
+import { useEffect, useState } from "react";
 
-export function ShareableLinkDialog() {
+export function ShareableLinkDialog({ link }: { link?: string }) {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (link && open) {
+      handleCopyLink(link);
+    }
+  }, [link, open]);
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="w-full mt-2 rounded-2xl">Share</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Share link</DialogTitle>
+          <DialogTitle>Share Routine link</DialogTitle>
           <DialogDescription>
-            Anyone who has this link will be able to view this.
+            Anyone who has this link will be able to view the routine bellow.
           </DialogDescription>
         </DialogHeader>
         <div className="flex items-center gap-2">
@@ -30,11 +40,7 @@ export function ShareableLinkDialog() {
             <Label htmlFor="link" className="sr-only">
               Link
             </Label>
-            <Input
-              id="link"
-              defaultValue="http://localhost:3000/my-routine"
-              readOnly
-            />
+            <Input id="link" defaultValue={link ?? ""} readOnly />
           </div>
         </div>
         <DialogFooter className="sm:justify-start">

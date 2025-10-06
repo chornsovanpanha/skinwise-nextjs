@@ -1,9 +1,10 @@
+import { trackUserSearch } from "@/actions/track/track-action";
 import { getProductComparison } from "@/data/comparison";
 import { analysisProductComparison } from "@/data/gemini";
 import { ProductSummaryType, ResponseAnalyse } from "@/types/response";
 import { splitComparisonSlug } from "@/utils/formatter";
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import ComparisonResult from "./ComparisonResult";
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
@@ -45,8 +46,14 @@ const Page = async ({ searchParams }: { searchParams: SearchParams }) => {
     return notFound();
   }
 
+  const result = await trackUserSearch();
+  //User has reach their limit view product ,ingredients and comparison ...
+  if (!result?.data?.success) {
+    return redirect("/pricing");
+  }
   const primaryProduct = productComparisons?.at(0);
   const secondaryProduct = productComparisons?.at(1);
+
   const analysis = await analysisProductComparison({
     keyPrimary: primaryProduct?.ingredients?.toString(),
     keySecondary: secondaryProduct?.ingredients?.toString(),

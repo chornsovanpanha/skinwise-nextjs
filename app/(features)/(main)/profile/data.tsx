@@ -15,20 +15,21 @@ export const tabData = [
 ];
 
 export const skinTypeDummy = [
-  { value: "normal", label: "Normal" },
-  { value: "oily", label: "Oily" },
-  { value: "dry", label: "Dry" },
-  { value: "combination", label: "Combination" },
-  { value: "sensitive", label: "Sensitive" },
+  { value: "NORMAL", label: "Normal" },
+  { value: "OILY", label: "Oily" },
+  { value: "DRY", label: "Dry" },
+  { value: "COMBINATION", label: "Combination" },
+  { value: "SENSITIVE", label: "Sensitive" },
 ];
+
 export const skinConcernDummy = [
-  { id: 1, emoji: "💧", label: "Oily", value: "oiliness" },
-  { id: 2, emoji: "🔥", label: "Redness", value: "redness" },
-  { id: 3, emoji: "😖", label: "Breakouts", value: "acne" },
-  { id: 4, emoji: "🧴", label: "Dryness", value: "dryness" },
-  { id: 5, emoji: "⚪", label: "Large Pores", value: "pores" },
-  { id: 6, emoji: "⏳", label: "Fine Lines", value: "wrinkles" },
-  { id: 7, emoji: "🌑", label: "Dark Spots", value: "dark-spots" },
-  { id: 8, emoji: "✨", label: "Dullness", value: "dullness" },
-  { id: 9, emoji: "⚡", label: "Sensitivity", value: "sensitivity" },
+  { id: 1, label: "Acne", value: "acne", emoji: "😖" },
+  { id: 2, label: "Redness", value: "redness", emoji: "🔥" },
+  { id: 3, label: "Texture", value: "texture", emoji: "🌀" },
+  { id: 4, label: "Dryness", value: "dryness", emoji: "🧴" },
+  { id: 5, label: "Large Pores", value: "large-pores", emoji: "⚪" },
+  { id: 6, label: "Fine Lines", value: "fine-lines", emoji: "⏳" },
+  { id: 7, label: "Dark Spots", value: "dark-spots", emoji: "🌑" },
+  { id: 8, label: "Dullness", value: "dullness", emoji: "✨" },
+  { id: 9, label: "Sensitivity", value: "sensitivity", emoji: "⚡" },
 ];

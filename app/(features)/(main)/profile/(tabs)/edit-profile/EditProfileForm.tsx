@@ -42,8 +42,8 @@ const EditProfileForm = ({ initProfile }: { initProfile?: UserPrisma }) => {
   } = useForm<EditProfileFormValues>({
     resolver: zodResolver(editProfileSchema),
     defaultValues: {
-      firstName: currentUser?.name?.split(" ")[0] ?? "",
-      lastName: currentUser?.name?.split(" ").slice(1).join(" ") ?? "",
+      firstName: currentUser?.name?.split(" ")?.[0] ?? "",
+      lastName: currentUser?.name?.split(" ")?.slice(1).join(" ") ?? "",
       bio: currentUser?.bio ?? "",
     },
   });

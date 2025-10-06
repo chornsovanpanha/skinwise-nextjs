@@ -1,4 +1,5 @@
 "use server";
+import { skinConcernDummy } from "@/app/(features)/(main)/profile/data";
 import geminiAi from "@/lib/gemini/google-gemini";
 import { ResponseAnalyse } from "@/types/response";
 import { fromGeminiToJson } from "@/utils/formatter";
@@ -101,6 +102,7 @@ example response: remove word json as well:
 };
 
 export const analysisUserQuiz = async ({ answers }: { answers: string[] }) => {
+  const skinConcerns = skinConcernDummy?.map((data) => data.value)?.toString();
   const response = await geminiAi.models.generateContent({
     model: "gemini-2.0-flash-001",
     contents: `
@@ -172,6 +174,7 @@ enum SkinType {
 also dont answer back i only need a code
 example response: remove word json as well
 
+for  SkinConcerns ( only 2 data max ): please use from ${skinConcerns?.toString()}
 pls response in this pattern 1 json format only
 response the same pattern example:
 {   

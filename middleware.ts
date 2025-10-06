@@ -4,7 +4,6 @@ import { getAppSession } from "./lib/sessions/cookie";
 
 const protectedPaths = [
   "/dashboard",
-  "/my-routine",
   "/quiz",
   "/profile/overview",
   "/profile/edit-profile",

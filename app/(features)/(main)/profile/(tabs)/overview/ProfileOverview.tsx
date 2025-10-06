@@ -32,6 +32,14 @@ const ProfileOverview = ({
         seen.add(item.productId);
         return true;
       }) ?? [];
+  const renderSkinConcerns = (concerns?: string[]) => {
+    if (!concerns || concerns.length === 0) return "N/A";
+
+    if (concerns.length <= 2) return concerns.join(" & ");
+
+    // More than 2 concerns
+    return `${concerns.slice(0, 2).join(", ")} and more`;
+  };
 
   return (
     <div className="block sm:flex flex-row gap-6 items-start  flex-nowrap ">
@@ -80,10 +88,7 @@ const ProfileOverview = ({
             <div className="convern-skin flex gap-2 items-center">
               <LeafyGreen className="w-4 h-4" />
               <Typography as="p" variant="caption" className="text-secondary">
-                Skin Concern:{" "}
-                {currentUser?.skinConcerns?.length ?? 0 > 0
-                  ? currentUser?.skinConcerns?.toString()
-                  : "N/A"}
+                Skin Concern: {renderSkinConcerns(currentUser?.skinConcerns)}{" "}
               </Typography>
             </div>
           </header>
