@@ -24,13 +24,15 @@ export async function updateOrInsertQuizAction(payload: {
 
   // Ensure all concerns exist in the SkinConcern table
   const concernRecords = await Promise.all(
-    payload.concerns.map(async (name) =>
-      prismaClient.skinConcern.upsert({
+    payload.concerns.map(async (name) => {
+      let concern = await prismaClient.skinConcern.findFirst({
         where: { name },
-        update: {},
-        create: { name },
-      })
-    )
+      });
+      if (!concern) {
+        concern = await prismaClient.skinConcern.create({ data: { name } });
+      }
+      return concern;
+    })
   );
 
   const concernIds = concernRecords.map((c) => ({ id: c.id }));

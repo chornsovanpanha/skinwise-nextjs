@@ -11,15 +11,21 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
 import { handleCopyLink } from "@/utils/helpers/Keyboard";
 import { useEffect, useState } from "react";
 
 export function ShareableLinkDialog({ link }: { link?: string }) {
   const [open, setOpen] = useState(false);
+  const show = useToast();
 
   useEffect(() => {
     if (link && open) {
       handleCopyLink(link);
+      show.show({
+        type: "success",
+        message: "Link has been copied to clipboard",
+      });
     }
   }, [link, open]);
 

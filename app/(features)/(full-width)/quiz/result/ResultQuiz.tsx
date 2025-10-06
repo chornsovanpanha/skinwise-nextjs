@@ -37,11 +37,13 @@ export default function ResultQuiz({
   profileId,
   userId,
   totalConcerns,
+  desc,
 }: {
   userSkinType?: ProfileWithConcerns;
   profileId?: number;
   userId?: number;
   totalConcerns: number;
+  desc?: string;
 }) {
   const router = useRouter();
   const [previousAnswers, setPrevAnswers] = useAtom(quizAnswerOptionAtom);
@@ -112,6 +114,7 @@ export default function ResultQuiz({
           currIndex={currIndex}
           profileId={profileId}
           userId={userId}
+          desc={desc}
           userSkinType={userSkinType}
           onContinue={onContinue}
           key={"quiz-step"}
@@ -122,6 +125,7 @@ export default function ResultQuiz({
 }
 type StepProps = {
   currIndex: number;
+  desc?: string;
   onContinue: () => void;
   userSkinType?: ProfileWithConcerns;
   profileId?: number;
@@ -129,6 +133,7 @@ type StepProps = {
 };
 function QuizStep({
   currIndex,
+  desc,
   onContinue,
   userSkinType,
   profileId,
@@ -137,7 +142,11 @@ function QuizStep({
   switch (currIndex) {
     case 0:
       return (
-        <ResultSkinType onContinue={onContinue} userSkinType={userSkinType} />
+        <ResultSkinType
+          onContinue={onContinue}
+          userSkinType={userSkinType}
+          desc={desc ?? "N/A"}
+        />
       );
     case 1:
       return (

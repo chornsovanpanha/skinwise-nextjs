@@ -22,7 +22,7 @@ const PublicMenus = () => {
           className={clsx(
             "hover:text-primary duration-50 transition-colors  ease-in",
             {
-              "text-primary": navbar.link == `${currentPathName}`,
+              "text-secondary !font-bold": navbar.link == `${currentPathName}`,
             }
           )}
         >

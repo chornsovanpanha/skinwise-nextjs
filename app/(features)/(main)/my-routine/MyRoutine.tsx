@@ -17,6 +17,7 @@ import { ShareableLinkDialog } from "@/components/ShareableLinkDialog";
 import { Dialog } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import {
+  PlanType,
   ProductWithBrandAndImages,
   ProfileRoutine,
   RoutineItem,
@@ -25,15 +26,20 @@ import {
 } from "@/types";
 import { FormValueRoutine } from "@/utils/schema/zod/routine";
 import { useState } from "react";
+import NotFound from "../not-found";
 
 const MyRoutine = ({
   profile,
   userId,
+  planType,
+  name,
   allowEdit,
 }: {
   profile?: ProfileRoutine | null;
   userId: number;
   allowEdit?: boolean;
+  planType?: PlanType;
+  name?: string;
 }) => {
   const [isLoading, setLoading] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
@@ -157,6 +163,21 @@ const MyRoutine = ({
     }
   };
 
+  const handleOpenSearchDialog = (slot: "evening" | "morning") => {
+    const total =
+      slot == "evening" ? eveningRoutine?.length : morningRoutines?.length;
+
+    if (total >= 3 && (planType == PlanType.FREE || !planType)) {
+      show({
+        type: "error",
+        message:
+          "Free tier onlyallow 3 items per slot Please upgrade to pro account.",
+      });
+      return;
+    }
+    setOpenSearch(true);
+  };
+
   const handleDeleteRoutineItem = async () => {
     onCloseDialog();
     try {
@@ -185,7 +206,6 @@ const MyRoutine = ({
     }
   };
   const handleSelectRoutineEdit = (item: RoutineItem) => {
-    console.log("Edit item is", item);
     setOpen(true);
     setIsUpdated(true);
     setSelectProduct((pre) => ({
@@ -233,7 +253,7 @@ const MyRoutine = ({
       >
         {isLoading && <Loading />}
         <PageHeader
-          title="My Routine"
+          title={allowEdit ? `My Routine` : `${name} Routine`}
           customDesc={
             <ShareableLinkDialog
               link={`${process.env.NEXT_PUBLIC_API_URL}/my-routine?id=${userId}`}
@@ -245,56 +265,80 @@ const MyRoutine = ({
         <Wrapper className="flex-col space-y-12 h-fit w-full">
           {/* Morning routine  */}
           <section className="space-y-6">
-            <RoutineHeader type={RoutineType.MORNING}>
-              Morning Routine
-            </RoutineHeader>
-
+            {!allowEdit && morningRoutines?.length <= 0 ? null : (
+              <RoutineHeader type={RoutineType.MORNING}>
+                {" "}
+                Morning Routine
+              </RoutineHeader>
+            )}
             <PersonalRoutineListing
-              onOpenDialog={() => {
-                setOpenSearch(true);
-              }}
+              onOpenDialog={() => handleOpenSearchDialog("morning")}
               allowEdit={allowEdit}
               items={morningRoutines}
-              renderItem={(item, index) => (
-                <div
-                  onClick={() =>
-                    allowEdit ? handleSelectRoutineEdit(item) : null
-                  }
-                  key={index}
-                >
-                  <MainProductItem
-                    data={item?.product as ProductWithBrandAndImages}
-                    allowLink={!allowEdit}
-                  />
-                </div>
-              )}
+              renderItem={(item, index) => {
+                const usages = item.usage?.split(",");
+                return (
+                  <div
+                    onClick={() =>
+                      allowEdit ? handleSelectRoutineEdit(item) : null
+                    }
+                    key={index}
+                  >
+                    <MainProductItem
+                      data={item?.product as ProductWithBrandAndImages}
+                      allowLink={!allowEdit}
+                      showCalendar={true}
+                      usages={usages}
+                    />
+                  </div>
+                );
+              }}
             />
           </section>
           {/* Evening routine  */}
           <section className="space-y-6">
-            <RoutineHeader type={RoutineType.EVENING}>
-              Evening Routine
-            </RoutineHeader>
+            {!allowEdit && eveningRoutine?.length <= 0 ? null : (
+              <RoutineHeader type={RoutineType.EVENING}>
+                {" "}
+                Evening Routine
+              </RoutineHeader>
+            )}
             <PersonalRoutineListing
               allowEdit={allowEdit}
               onOpenDialog={() => {
-                setOpenSearch(true);
+                handleOpenSearchDialog("evening");
                 setSelectProduct((pre) => ({
                   ...pre,
                   type: RoutineType.EVENING,
                 }));
               }}
               items={eveningRoutine}
-              renderItem={(item, index) => (
-                <div onClick={() => handleSelectRoutineEdit(item)} key={index}>
-                  <MainProductItem
-                    data={item?.product as ProductWithBrandAndImages}
-                    allowLink={!allowEdit}
-                  />
-                </div>
-              )}
+              renderItem={(item, index) => {
+                const usages = item.usage?.split(",");
+                return (
+                  <div
+                    onClick={() =>
+                      allowEdit ? handleSelectRoutineEdit(item) : null
+                    }
+                    key={index}
+                  >
+                    <MainProductItem
+                      data={item?.product as ProductWithBrandAndImages}
+                      allowLink={!allowEdit}
+                      showCalendar={true}
+                      usages={usages}
+                    />
+                  </div>
+                );
+              }}
             />
           </section>
+
+          {/* Fall back case user preview and no product  */}
+
+          {!allowEdit &&
+            morningRoutines.length <= 0 &&
+            eveningRoutine.length <= 0 && <NotFound />}
         </Wrapper>
 
         <RoutineBuilderDialog

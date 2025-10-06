@@ -79,7 +79,8 @@ const MobileNavBar = ({ isLogin }: { isLogin: boolean }) => {
               className={clsx(
                 "block text-gray-800 dark:text-white hover:underline text-base hover:text-primary duration-50 transition-colors  ease-in",
                 {
-                  "text-primary": navbar.link == `${currentPathName}`,
+                  "text-secondary !font-bold":
+                    navbar.link == `${currentPathName}`,
                 }
               )}
             >

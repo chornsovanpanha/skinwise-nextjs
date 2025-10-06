@@ -6,7 +6,7 @@ export const RULES = [
   "Do the same for the second product and see the results",
 ] as const;
 
-export const routines = ["MORNING", "EVENING", "BOTH"] as const;
+export const routines = ["MORNING", "EVENING"] as const;
 export const calendars = ["S", "M", "T", "W", "TH", "FRI", "SAT"] as const;
 export const quizQuestions: QuizQuestion[] = [
   {

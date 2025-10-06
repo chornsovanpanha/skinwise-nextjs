@@ -24,6 +24,7 @@ export default async function Page() {
         totalConcerns={totalConcerns ?? 0}
         userSkinType={userSkinType?.profile as ProfileWithConcerns}
         profileId={userSkinType?.profile?.id}
+        desc={userSkinType?.profile?.skinTypeDesc ?? ""}
         userId={userSkinType?.profile?.userId}
       />
     </HydrationBoundary>

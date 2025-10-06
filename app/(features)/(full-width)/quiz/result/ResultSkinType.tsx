@@ -6,9 +6,11 @@ import { Flower } from "lucide-react";
 const ResultSkinType = ({
   onContinue,
   userSkinType,
+  desc,
 }: {
   onContinue: () => void;
   userSkinType?: ProfileWithConcerns;
+  desc?: string;
 }) => {
   return (
     <section className="result flex flex-col items-center space-y-4">
@@ -17,7 +19,7 @@ const ResultSkinType = ({
           {userSkinType?.skinType ?? "N/A"}
         </Typography>
         <Typography as="p" variant="default" className="text-secondary">
-          You skin products an above average amoun tof oil
+          You skin products an above average amount
           {/* {userSkinType?.concerns?.toString() ?? "N/A"} */}
         </Typography>
       </div>
