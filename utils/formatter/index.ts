@@ -1,5 +1,8 @@
 import { Prisma } from "@prisma/client";
 import z from "zod";
+import { countryMap } from "../constant/data";
+import { KeyCountries } from "@/types";
+
 export const getFlagEmoji = (countryCode: string): string => {
   if (!/^[A-Z]{2}$/i.test(countryCode)) {
     throw new Error("Invalid country code. Must be a 2-letter ISO code.");
@@ -71,3 +74,60 @@ export const getPrismaErrorMessage = (error: unknown): string => {
 
   return "Unknown Prisma error";
 };
+export const fromGeminiToJson = <T = any>(text: string): T | null => {
+  try {
+    // Try to extract the first valid JSON block from the text
+    const match = text.match(/\{[\s\S]*\}/);
+    if (!match) {
+      throw new Error("No JSON found in the text");
+    }
+    // Parse into object
+    const data = JSON.parse(match[0]);
+    // Return the object as-is (fully dynamic)
+    return data as T;
+  } catch (error) {
+    console.error("Failed to parse Gemini response:", error, text);
+    return null;
+  }
+};
+
+// export const fromGeminiToJson = (text: string) => {
+//   try {
+//     const match = text.match(/\{[\s\S]*\}/);
+//     if (!match) {
+//       throw new Error("No JSON found in the text");
+//     }
+
+//     const data = JSON.parse(match[0]);
+
+//     return {
+//       score: data.score?.toString() as string,
+//       shortDesc: data?.shortDesc as string,
+//       scoreDesc: data?.scoreDesc as string,
+//     };
+//   } catch (error) {
+//     console.error("Failed to parse Gemini response:", error, text);
+//     return null;
+//   }
+// };
+
+export function splitComparisonSlug(slug: string): {
+  primary: string;
+  secondary: string;
+} {
+  const separator = "-vs-";
+  const index = slug.indexOf(separator);
+
+  if (index === -1) {
+    return { primary: slug, secondary: "" };
+  }
+
+  const primary = slug.slice(0, index);
+  const secondary = slug.slice(index + separator.length);
+
+  return { primary, secondary };
+}
+
+export function getCountryFullName(code: KeyCountries) {
+  return countryMap[code] || "us";
+}

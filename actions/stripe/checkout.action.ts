@@ -11,6 +11,9 @@ type CheckoutResponse = {
   url: string;
 };
 export const checkoutStripeAction = async ({ userId }: { userId: string }) => {
+  if (!userId) {
+    return { ...defaultState, error: "User is not found", success: false };
+  }
   const { data, error, success } = await requester<CheckoutResponse>(
     "/checkout",
     "POST",

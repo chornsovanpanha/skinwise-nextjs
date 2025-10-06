@@ -1,3 +1,4 @@
+import { AppResponse } from "@/lib/axios/response";
 import prismaClient from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
@@ -5,7 +6,7 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
 
   const page = Number(searchParams.get("page") ?? 1);
-  const pageSize = Number(searchParams.get("pageSize") ?? 10);
+  const pageSize = Number(searchParams.get("pageSize") ?? 30);
   const search = searchParams.get("search") ?? "";
   const sortField = searchParams.get("sortField") ?? "id";
   const sortOrder = searchParams.get("sortOrder") ?? "asc";
@@ -22,6 +23,7 @@ export async function GET(req: Request) {
       Image: true,
       ProductSkinMatch: true,
       ingredients: true,
+      brand: true,
       insideGroups: true,
       effects: true,
       RoutineItem: true,
@@ -35,5 +37,13 @@ export async function GET(req: Request) {
     },
   });
 
-  return NextResponse.json({ products, total });
+  return NextResponse.json(
+    new AppResponse({
+      data: products,
+      status: 200,
+      totalPages: total,
+      page: page,
+      perPage: pageSize,
+    })
+  );
 }

@@ -22,6 +22,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
           include: {
             subscription: true,
             Image: true,
+            profile: true,
           },
           omit: {
             password: true,

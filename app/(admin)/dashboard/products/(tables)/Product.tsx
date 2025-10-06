@@ -1,11 +1,11 @@
 "use client";
 import FilterTableHeader from "@/components/FilterTableHeader";
-import { popularProductListings } from "@/utils/mock";
+import { recentProductsListing } from "@/utils/mock";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ProductDataTable } from "./ProductTable";
 import { productColumns } from "./column";
 import { FilterOptions } from "./type";
-import { useRouter } from "next/navigation";
 
 const Product = () => {
   const router = useRouter();
@@ -45,7 +45,7 @@ const Product = () => {
       <ProductDataTable
         columns={productColumns}
         showPaging
-        data={popularProductListings ?? []}
+        data={recentProductsListing ?? []}
       />
     </main>
   );

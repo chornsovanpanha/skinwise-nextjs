@@ -34,6 +34,15 @@ export async function POST(request: Request) {
           loginBy: true,
           name: true,
           role: true,
+          profile: {
+            include: {
+              concerns: true,
+              routines: true,
+            },
+          },
+          subscription: true,
+          bio: true,
+
           Image: {
             select: {
               url: true,
@@ -90,15 +99,21 @@ export async function POST(request: Request) {
         select: {
           email: true,
           id: true,
+          password: true,
           platform: true,
           loginBy: true,
           name: true,
           role: true,
-          Image: {
-            select: {
-              url: true,
+          profile: {
+            include: {
+              concerns: true,
+              routines: true,
             },
           },
+          subscription: true,
+          bio: true,
+
+          Image: true,
         },
       });
 
@@ -156,7 +171,7 @@ export async function POST(request: Request) {
         name: user.name,
         role: user.role,
         email: user.email,
-        photoUrl: imageQuery,
+        Image: user?.Image ?? imageQuery,
       },
     });
 

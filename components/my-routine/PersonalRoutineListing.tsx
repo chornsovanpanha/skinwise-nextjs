@@ -1,11 +1,11 @@
-import { Product } from "@/types";
 import React from "react";
 import ProductPlaceholder from "./ProductPlaceholder";
+import { RoutineItem } from "@/types";
 
 type PersonalRoutineListingProps = {
-  items: Product[];
+  items?: RoutineItem[] | undefined;
   onOpenDialog: () => void;
-  renderItem: (items: Product, index: number) => React.ReactNode;
+  renderItem: (items: RoutineItem, index: number) => React.ReactNode;
 };
 const PersonalRoutineListing: React.FC<PersonalRoutineListingProps> = ({
   items,

@@ -1,6 +1,5 @@
-import { Prisma, Product } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { UserRole } from "./api";
-import { Brand } from "./data";
 
 export type UserWithSubscription = Prisma.UserGetPayload<{
   include: { subscription: true };
@@ -78,5 +77,152 @@ export type ProductWithBrandAndImages = Prisma.ProductGetPayload<{
   include: {
     Image: true;
     brand: true;
+    ingredients: true;
+  };
+}>;
+
+export type IngredientWithSimilar = Prisma.IngredientGetPayload<{
+  include: {
+    effects: true;
+    IngredientSkinMatch: true;
+    insideGroups: true;
+    products: {
+      include: {
+        product: {
+          include: {
+            Image: true;
+            brand: true;
+          };
+        };
+      };
+    };
+    similarTo: {
+      include: {
+        from: true;
+      };
+    };
+  };
+}>;
+
+export type IngredientSimilarToWithFrom = Prisma.SimilarIngredientGetPayload<{
+  include: {
+    from: true;
+  };
+}>;
+
+export type IngredientProductWithDetails = Prisma.ProductIngredientGetPayload<{
+  include: {
+    product: {
+      include: {
+        Image: true;
+        brand: true;
+      };
+    };
+  };
+}>;
+
+export type ProductWithDetail = Prisma.ProductGetPayload<{
+  include: {
+    effects: true;
+    insideGroups: true;
+    brand: true;
+    Image: {
+      select: {
+        url: true;
+        altText: true;
+      };
+    };
+    ingredients: {
+      include: {
+        ingredient: true;
+      };
+    };
+  };
+}>;
+
+export type ProductComparison = Prisma.ProductGetPayload<{
+  include: {
+    effects: true;
+    insideGroups: true;
+    brand: true;
+    Image: {
+      select: {
+        url: true;
+        altText: true;
+      };
+    };
+    ingredients: {
+      include: {
+        ingredient: true;
+      };
+    };
+  };
+}>;
+
+export type ProfileRoutine = Prisma.ProfileGetPayload<{
+  include: {
+    routines: {
+      include: {
+        items: {
+          include: {
+            product: {
+              include: {
+                brand: true;
+                Image: true;
+              };
+            };
+          };
+        };
+      };
+    };
+  };
+}>;
+
+export type UserPrisma = Prisma.UserGetPayload<{
+  include: {
+    subscription: true;
+    Image: true;
+
+    profile: {
+      include: {
+        concerns: true;
+      };
+    };
+  };
+}>;
+
+export type UserSkinTypeAndConcern = Prisma.UserGetPayload<{
+  include: {
+    profile: {
+      include: {
+        concerns: true;
+      };
+    };
+  };
+}>;
+
+export type CurrentUserRoutine = Prisma.RoutineGetPayload<{
+  include: {
+    items: {
+      include: {
+        product: {
+          include: {
+            Image: true;
+          };
+        };
+        routine: true;
+      };
+    };
+  };
+}>;
+
+export type RoutineSubItem = Prisma.RoutineItemGetPayload<{
+  include: {
+    product: {
+      include: {
+        Image: true;
+      };
+    };
+    routine: true;
   };
 }>;

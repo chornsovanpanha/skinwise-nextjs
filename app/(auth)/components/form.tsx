@@ -5,7 +5,9 @@ import { SkinwiseLogoLight } from "@/assets";
 import AppInput from "@/components/AppInput";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { userAtom } from "@/lib/atom/user.atom";
 import { cn } from "@/lib/utils";
+import { UserPrisma } from "@/types";
 import {
   loginSchema,
   LoginSchemaType,
@@ -22,7 +24,6 @@ import { redirect } from "next/navigation";
 import { startTransition, useState } from "react";
 import { FieldErrors, Path, Resolver, useForm } from "react-hook-form";
 import SocialButton from "./SocialButton";
-import { userAtom } from "@/lib/atom/user.atom";
 
 type FormType = "login" | "register";
 
@@ -65,8 +66,23 @@ const Form = <T extends FormType>({ title, desc, type }: FormProps<T>) => {
         : await RegisterAction(formData as RegisterSchemaType);
 
     if (data && success) {
+      const mutateData: UserPrisma = data as UserPrisma;
+      // alert(JSON.stringify(data));
+
+      console.log("MUtate data is", mutateData);
       startTransition(() => {
-        setUserAtom({ ...data });
+        setUserAtom({
+          bio: mutateData?.bio,
+          email: mutateData.email,
+          loginBy: mutateData.loginBy,
+          name: mutateData.name,
+          platform: mutateData.platform ?? undefined,
+          role: mutateData.role,
+          photoUrl: {
+            url: mutateData.Image?.at(0)?.url ?? "",
+          },
+          id: mutateData.id?.toString(),
+        });
 
         show({ type: "success", message: `Welcome back ${data?.name}` });
         setMutatestate(defaultState);

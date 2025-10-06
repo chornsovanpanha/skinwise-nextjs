@@ -33,7 +33,7 @@ const Pricing = ({ profile }: { profile: UserWithSubscription }) => {
   const handleUpgradePremiere = async () => {
     setLoading(true);
     const { data, error, success } = await checkoutStripeAction({
-      userId: user.id?.toString(),
+      userId: user.id?.toString() ?? "",
     });
 
     if (data && success) {

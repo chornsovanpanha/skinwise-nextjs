@@ -15,9 +15,22 @@ export async function getIngredientDetail({ alias }: { alias: string }) {
       effects: true,
       IngredientSkinMatch: true,
       insideGroups: true,
-      products: true,
-      similarFrom: true,
-      similarTo: true,
+      products: {
+        include: {
+          product: {
+            include: {
+              Image: true,
+              brand: true,
+            },
+          },
+        },
+      },
+
+      similarTo: {
+        include: {
+          from: true,
+        },
+      },
     },
   });
 }

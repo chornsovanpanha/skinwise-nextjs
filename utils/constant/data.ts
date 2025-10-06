@@ -6,7 +6,7 @@ export const RULES = [
   "Do the same for the second product and see the results",
 ] as const;
 
-export const routines = ["Morning", "Evening", "Both"] as const;
+export const routines = ["MORNING", "EVENING", "BOTH"] as const;
 export const calendars = ["S", "M", "T", "W", "TH", "FRI", "SAT"] as const;
 export const quizQuestions: QuizQuestion[] = [
   {
@@ -241,3 +241,56 @@ export const countryOptions = [
   { label: "Cambodia", value: "kh" },
   { label: "Vietnam", value: "vn" },
 ];
+
+export const countryMap = {
+  us: "USA",
+  kr: "Korea",
+  ca: "Canada",
+  jp: "Japan",
+  gb: "United Kingdom",
+  de: "Germany",
+  fr: "France",
+  it: "Italy",
+  es: "Spain",
+  au: "Australia",
+  nz: "New Zealand",
+  cn: "China",
+  in: "India",
+  ru: "Russia",
+  br: "Brazil",
+  mx: "Mexico",
+  ar: "Argentina",
+  za: "South Africa",
+  ng: "Nigeria",
+  eg: "Egypt",
+  tr: "Turkey",
+  se: "Sweden",
+  no: "Norway",
+  fi: "Finland",
+  dk: "Denmark",
+  nl: "Netherlands",
+  be: "Belgium",
+  ch: "Switzerland",
+  at: "Austria",
+  pt: "Portugal",
+  gr: "Greece",
+  th: "Thailand",
+  sg: "Singapore",
+  my: "Malaysia",
+  ph: "Philippines",
+  vn: "Vietnam",
+  id: "Indonesia",
+  pk: "Pakistan",
+  bd: "Bangladesh",
+  lk: "Sri Lanka",
+  ir: "Iran",
+  iq: "Iraq",
+  sa: "Saudi Arabia",
+  ae: "United Arab Emirates",
+  il: "Israel",
+  cl: "Chile",
+  co: "Colombia",
+  pe: "Peru",
+  ke: "Kenya",
+  tz: "Tanzania",
+} as const;

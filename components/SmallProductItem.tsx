@@ -1,9 +1,9 @@
-import { Product } from "@/types";
+import { ProductWithBrandAndImages } from "@/types";
+import { Plus } from "lucide-react";
 import Image from "next/image";
 import { Typography } from "./Typography";
-import { Card } from "./ui/card";
 import { Button } from "./ui/button";
-import { Plus } from "lucide-react";
+import { Card } from "./ui/card";
 
 const SmallProductItem = ({
   product,
@@ -12,7 +12,7 @@ const SmallProductItem = ({
   type = "product",
   className,
 }: {
-  product: Product;
+  product: ProductWithBrandAndImages;
   showBrand?: boolean;
   onPress: () => void;
   className?: string;
@@ -26,7 +26,7 @@ const SmallProductItem = ({
       {/* Image on top */}
       <Card className="relative w-full h-20 group overflow-hidden bg-white flex-1/5">
         <Image
-          src={product?.imageUrl}
+          src={product?.Image?.at(0)?.url ?? ""}
           alt={product.name}
           fill
           className="object-contain group-hover:scale-110 transition-transform ease-in-out duration-500"
@@ -42,7 +42,8 @@ const SmallProductItem = ({
             variant="caption"
             className="text-secondary text-left"
           >
-            110 ingredients
+            {product?.ingredients?.length}{" "}
+            {product?.ingredients?.length > 1 ? "ingredients" : "ingredient"}
           </Typography>
         )}
         {showBrand && (
@@ -51,7 +52,7 @@ const SmallProductItem = ({
             variant="caption"
             className="text-secondary text-left"
           >
-            {product.brandName}
+            {product.brand?.title}
           </Typography>
         )}
       </div>

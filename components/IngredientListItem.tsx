@@ -20,7 +20,7 @@ const IngredientListItem = ({ data }: { data?: Ingredient }) => {
           <Typography
             as="p"
             variant="default"
-            className="font-bold text-secondary"
+            className="font-bold text-secondary text-left"
           >
             Ingredient
           </Typography>

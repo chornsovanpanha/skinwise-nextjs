@@ -259,6 +259,9 @@ html {
   background-color: var(--sidebar-primary);
 }
 
+.hover-box {
+  @apply hover:scale-102 transform transition-transform duration-300 ease-in-out
+}
 .sidebar:hover {
   background-color: var(--brand-primary-hover);
 }
@@ -282,6 +285,7 @@ div[data-nextjs-dev-overlay] {
 [data-slot="table-cell"] {
   padding: 10px !important;
 }
+
 
 /* **************** Customize Global Date Picker Selected Style **************** */
 .aria-selected\:text-accent-foreground[aria-selected="true"] {
@@ -388,6 +392,8 @@ div[data-nextjs-dev-overlay] {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+
 
 .scrollbar-hide {
   -ms-overflow-style: none;

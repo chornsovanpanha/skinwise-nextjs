@@ -12,3 +12,27 @@ export async function getPopularProducts() {
 
   return result;
 }
+
+export async function getProductDetail({ alias }: { alias: string }) {
+  return prismaClient.product.findFirst({
+    where: {
+      alias: alias,
+    },
+    include: {
+      effects: true,
+      insideGroups: true,
+      brand: true,
+      Image: {
+        select: {
+          url: true,
+          altText: true,
+        },
+      },
+      ingredients: {
+        include: {
+          ingredient: true,
+        },
+      },
+    },
+  });
+}

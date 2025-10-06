@@ -13,7 +13,7 @@ const RoutineChartSight: React.FC<RoutineChartSightProps> = ({
   const renderScoreMatcher = useMemo(() => {
     if (percentage >= 95) return "Perfect Match";
     if (percentage >= 80) return "Good Match";
-    if (percentage >= 60) return "Found Match";
+    if (percentage >= 60) return "Normal Match";
     if (percentage >= 50) return "Weak Match";
     return "Bad Match";
   }, [percentage]);
@@ -21,10 +21,10 @@ const RoutineChartSight: React.FC<RoutineChartSightProps> = ({
   return (
     <div
       className={clsx(
-        "rounded-3xl px-10 py-6 flex items-center gap-4 w-fit cursor-pointer",
+        "rounded-3xl px-10 py-6 flex items-center gap-4 w-fit cursor-text",
         {
-          "bg-error-main/40 hover:bg-error-main/50": percentage <= 50,
-          "bg-secondary hover:bg-secondary/90": percentage > 50,
+          "bg-error-main/40": percentage <= 50,
+          "bg-secondary": percentage > 50,
         }
       )}
     >

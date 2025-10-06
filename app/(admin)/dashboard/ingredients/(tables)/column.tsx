@@ -1,7 +1,7 @@
 import { SortableHeader } from "@/components/SortableHeader";
-import { Ingredient } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import ActionButton from "./ActionButton";
+import { Ingredient } from "@prisma/client";
 
 export const ingredientColumns: ColumnDef<Ingredient>[] = [
   {

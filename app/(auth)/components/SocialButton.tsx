@@ -59,7 +59,7 @@ const SocialButton = () => {
         if (data && success) {
           console.log("Response from server", data);
           startTransition(() => {
-            setUserAtom({ ...data });
+            setUserAtom({ ...data, id: data?.id?.toString() });
             setMutatestate(defaultState);
             show({
               type: "success",
@@ -135,8 +135,7 @@ const SocialButton = () => {
 
         if (data && success) {
           startTransition(() => {
-            setUserAtom({ ...data });
-
+            setUserAtom({ ...data, id: data?.id?.toString() });
             setMutatestate(defaultState);
             show({
               type: "success",

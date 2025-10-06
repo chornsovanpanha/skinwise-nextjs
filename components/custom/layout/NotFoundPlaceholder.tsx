@@ -20,7 +20,7 @@ const NotFoundPlaceholder = ({
 
       <Link
         href={defaultLink}
-        className="px-6 py-3 bg-sky-400 text-white rounded-md hover:bg-sky-500 transition"
+        className="px-6 py-3 bg-secondary rounded-md hover:bg-secondary/90 transition text-primary"
       >
         Go Back Home
       </Link>

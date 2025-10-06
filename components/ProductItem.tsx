@@ -2,14 +2,26 @@ import { Product } from "@/types";
 import Link from "next/link";
 import { Typography } from "./Typography";
 import ProductImage from "./product/ProductImage";
+import clsx from "clsx";
 
-const ProductItem = ({ data }: { data: Product }) => {
+const ProductItem = ({
+  data,
+  allowLink = true,
+}: {
+  data: Product;
+  allowLink?: boolean;
+}) => {
   const imageUrl = data.imageUrl;
   const brandName = data.brandName;
 
   return (
     <div className="group border border-primary rounded-xl overflow-hidden h-[480px] hover:cursor-pointer ">
-      <Link href={`/product/${data.name?.toLowerCase()?.slice(0, 10)}`}>
+      <Link
+        className={clsx({
+          "pointer-events-none": !allowLink,
+        })}
+        href={`/product/${data.name?.toLowerCase()?.slice(0, 10)}`}
+      >
         {/* Image on top */}
         <div className="relative w-full h-96 group overflow-hidden bg-white">
           <ProductImage src={imageUrl} alt={data.name ?? "product-image"} />

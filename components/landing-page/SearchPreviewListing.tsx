@@ -1,16 +1,21 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Product, SearchType } from "@/types";
+import { ProductWithBrandAndImages, SearchType } from "@/types";
+import { Ingredient } from "@prisma/client";
 import IngredientListItem from "../IngredientListItem";
 import SmallProductItem from "../SmallProductItem";
-import { Ingredient } from "@prisma/client";
+import { Typography } from "../Typography";
 
 const SearchPreviewListing = ({
   onPress,
   products,
   ingredients,
 }: {
-  onPress: (type: SearchType) => void;
-  products?: Product[];
+  onPress: (
+    type: SearchType,
+    alias: string,
+    product?: ProductWithBrandAndImages
+  ) => void;
+  products?: ProductWithBrandAndImages[];
   ingredients?: Ingredient[];
 }) => {
   return (
@@ -19,12 +24,22 @@ const SearchPreviewListing = ({
         {ingredients?.map((ingred) => (
           <IngredientListItem data={ingred} key={ingred.id} />
         ))}
+        {!products?.length && (
+          <div className="space-y-2 flex flex-col justify-center items-center">
+            <Typography variant="h6" className="text-secondary">
+              Not Found
+            </Typography>
+            <Typography variant="body1" className="text-secondary/80">
+              We could not find any related product matching your search.
+            </Typography>
+          </div>
+        )}
         {products?.map((product) => (
           <SmallProductItem
             showBrand={true}
             product={product}
             type="routine"
-            onPress={() => onPress("product")}
+            onPress={() => onPress("product", product?.alias ?? "", product)}
             key={product.id}
           />
         ))}

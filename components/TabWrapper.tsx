@@ -1,14 +1,23 @@
 "use client";
 import { tabData } from "@/app/(features)/(main)/profile/data";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { userAtom } from "@/lib/atom/user.atom";
+import { UserPrisma } from "@/types";
+import { useSetAtom } from "jotai";
 import { usePathname, useRouter } from "next/navigation";
 import React, { startTransition, useEffect, useState } from "react";
 import { Typography } from "./Typography";
 
-const TabWrapper = ({ children }: { children: React.ReactNode }) => {
+const TabWrapper = ({
+  children,
+  profile,
+}: {
+  children: React.ReactNode;
+  profile?: UserPrisma | null;
+}) => {
   const path = usePathname();
   const router = useRouter();
-
+  const setUserAtom = useSetAtom(userAtom);
   const initialTab = path.split("/")?.[2] || tabData[0].value;
   const [currentTab, setCurrentTab] = useState(initialTab);
 
@@ -20,7 +29,24 @@ const TabWrapper = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     setCurrentTab(initialTab);
-  }, [path, initialTab]);
+    if (profile) {
+      const skinType = profile?.profile?.skinType;
+      const skinConcerns = profile?.profile?.concerns?.map((item) => item.name);
+      setUserAtom((pre) => ({
+        ...pre,
+        email: profile?.email,
+        name: profile?.name,
+        bio: profile?.bio,
+        skinType: skinType,
+        skinConcerns: skinConcerns,
+        photoUrl: {
+          url: profile?.Image?.at(profile?.Image?.length - 1)?.url
+            ? profile?.Image?.at(profile?.Image?.length - 1)?.url
+            : pre.photoUrl?.url,
+        },
+      }));
+    }
+  }, [path, initialTab, profile, setUserAtom]);
 
   return (
     <Tabs
