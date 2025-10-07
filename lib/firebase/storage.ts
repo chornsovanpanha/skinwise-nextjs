@@ -5,17 +5,17 @@ import { bucket } from "./admin";
 export const createFileUpload = async (file: File, originalName: string) => {
   const fileName = `images/${uuidv4()}-${originalName}`;
   const buffer = Buffer.from(await file.arrayBuffer());
-  const fileRef = bucket.file(fileName);
+  const fileRef = bucket!.file(fileName);
   await fileRef.save(buffer, {
     contentType: getContentType(fileName),
     public: true,
   });
-  const url = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
+  const url = `https://storage.googleapis.com/${bucket!.name}/${fileName}`;
   return url;
 };
 
 export const deleteFile = async (filePath: string) => {
-  const fileRef = bucket.file(filePath);
+  const fileRef = bucket!.file(filePath);
   return await fileRef.delete();
 };
 
@@ -27,7 +27,7 @@ export const uploadFileStream = async (
 ) => {
   const fileName = `${folder}/${uuidv4()}-${originalName}`;
   const buffer = Buffer.from(await file.arrayBuffer());
-  const fileRef = bucket.file(fileName);
+  const fileRef = bucket!.file(fileName);
   // Create a stream for uploading
   await new Promise<void>((resolve, reject) => {
     const writeStream = fileRef.createWriteStream({
@@ -39,5 +39,5 @@ export const uploadFileStream = async (
     writeStream.on("error", (err) => reject(err));
     writeStream.end(buffer);
   });
-  return `https://storage.googleapis.com/${bucket.name}/${fileName}`;
+  return `https://storage.googleapis.com/${bucket!.name}/${fileName}`;
 };

@@ -11,5 +11,5 @@ if (!admin.apps.length) {
   });
 }
 
-export const bucket = admin.storage().bucket();
+export const bucket = admin.apps.length ? admin.storage().bucket() : null;
 export const adminAuth = admin.auth();
