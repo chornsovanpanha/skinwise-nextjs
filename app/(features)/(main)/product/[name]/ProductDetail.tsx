@@ -7,16 +7,18 @@ import ProductImageDetail from "@/components/product/DetailProductImage";
 import RoutineChartSight from "@/components/RoutineChartSight";
 import { Typography } from "@/components/Typography";
 import { Badge } from "@/components/ui/badge";
-import { AnalyseData, ProductWithDetail } from "@/types";
+import { AnalyseData, PlanType, ProductWithDetail } from "@/types";
 import Link from "next/link";
 import CompareBtn from "./CompareBtn";
 
 const ProductDetail = ({
   product,
   analysis,
+  planType,
 }: {
   product: ProductWithDetail;
   analysis?: AnalyseData | null;
+  planType?: PlanType;
 }) => {
   const positiveEffects = product.effects.filter(
     (effect) => effect.type == "POSITIVE"
@@ -60,7 +62,7 @@ const ProductDetail = ({
               <CompareBtn product={product} />
             </footer>
 
-            {analysis?.score && (
+            {analysis?.score && planType == PlanType.PRO && (
               <RoutineChartSight
                 percentage={parseInt(analysis?.score)}
                 desc={analysis?.shortDesc}

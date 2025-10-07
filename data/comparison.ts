@@ -8,8 +8,6 @@ export async function getProductComparison({
   primaryAlias,
   secondaryAlias,
 }: ProductComparisonType) {
-  console.log("Primary alias", primaryAlias);
-  console.log("Second alias", secondaryAlias);
   const products = await prismaClient.product.findMany({
     where: {
       OR: [

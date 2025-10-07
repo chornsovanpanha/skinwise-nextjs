@@ -467,3 +467,8 @@ div[data-nextjs-dev-overlay] {
   }
   
 }
+
+ .sonner-cancel-button { /* Replace with the actual class name */
+      background-color: red !important; /* Example: set to red */
+      color: white !important; /* Example: set text color to white */
+   }

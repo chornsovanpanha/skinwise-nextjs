@@ -69,7 +69,6 @@ const Form = <T extends FormType>({ title, desc, type }: FormProps<T>) => {
       const mutateData: UserPrisma = data as UserPrisma;
       // alert(JSON.stringify(data));
 
-      console.log("MUtate data is", mutateData);
       startTransition(() => {
         setUserAtom({
           bio: mutateData?.bio,

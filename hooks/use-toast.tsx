@@ -1,4 +1,5 @@
 "use client";
+import { Typography } from "@/components/Typography";
 import { toast } from "sonner";
 
 type ToastType = "success" | "error" | "info";
@@ -20,7 +21,7 @@ export const useToast = () => {
   const show = ({
     type,
     message,
-    duration = 3000,
+    duration = 5000,
     position = "top-right",
   }: ShowToastProps) => {
     switch (type) {
@@ -28,8 +29,18 @@ export const useToast = () => {
         toast.success(message, {
           duration,
           position,
+          style: {
+            backgroundColor: "#AFD7E3",
+            color: "#142F4D",
+          },
+
           action: {
             label: "Dismiss",
+            actionButtonStyle: {
+              backgroundColor: "#AFD7E3",
+              color: "#142F4D",
+            },
+
             onClick: (e) => {
               e.preventDefault();
               toast.dismiss();
@@ -37,19 +48,29 @@ export const useToast = () => {
           },
         });
         break;
+
       case "error":
-        toast.error(message, {
-          duration,
-          position,
-          action: {
-            label: "Dismiss",
-            onClick: (e) => {
-              e.preventDefault();
-              toast.dismiss();
-            },
-          },
-        });
+        toast.custom(
+          (id) => (
+            <div
+              onClick={(e) => {
+                e.preventDefault();
+                toast.dismiss(id);
+              }}
+              className="px-4 text-white bg-error-background shadow-md flex justify-between items-center py-4 hover:cursor-pointer"
+            >
+              <Typography variant="caption" className="text-error-text">
+                {message}
+              </Typography>
+            </div>
+          ),
+          {
+            duration: duration ?? 5000,
+            position,
+          }
+        );
         break;
+
       case "info":
         toast(message, {
           duration,
@@ -63,6 +84,7 @@ export const useToast = () => {
           },
         });
         break;
+
       default:
         toast(message, {
           duration,

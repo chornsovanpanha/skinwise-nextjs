@@ -8,7 +8,6 @@ export function withAuth(handler: AppRouteHandler) {
   return async function (req: NextRequest): Promise<NextResponse> {
     const token = req.cookies.get(SESSION_NAME)?.value;
 
-    console.log("Token is", token);
     if (!token) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

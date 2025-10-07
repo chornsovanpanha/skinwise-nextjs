@@ -19,8 +19,7 @@ const ResultSkinType = ({
           {userSkinType?.skinType ?? "N/A"}
         </Typography>
         <Typography as="p" variant="default" className="text-secondary">
-          You skin products an above average amount
-          {/* {userSkinType?.concerns?.toString() ?? "N/A"} */}
+          {desc}
         </Typography>
       </div>
       <Flower className="w-25 h-25" />

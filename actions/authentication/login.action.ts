@@ -28,7 +28,6 @@ export const LoginAction = async (
     LoginSchemaType
   >("/auth/login", "POST", formData, { withCredentials: true });
   const setCookieHeader = headers?.["set-cookie"];
-  console.log("server", data);
   if (data && success) {
     const parsed = parseSetCookie(setCookieHeader, SESSION_NAME);
     if (parsed?.value) {

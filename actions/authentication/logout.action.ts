@@ -5,6 +5,7 @@ import { getAppSession, setAppSession } from "@/lib/sessions/cookie";
 import { clearUserCookie, setUserSessionCookie } from "@/lib/sessions/session";
 import { AuthResponse } from "@/types/api";
 import { SESSION_NAME } from "@/utils/constant/cookie";
+import { revalidatePath } from "next/cache";
 export interface LogoutResponse {
   data: AuthResponse;
 }
@@ -29,6 +30,7 @@ export const LogoutAction = async () => {
 
     return { ...defaultState, data: data.data, success: true };
   }
+  revalidatePath("/");
 
   return { ...defaultState, error };
 };

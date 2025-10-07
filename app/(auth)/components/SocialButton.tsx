@@ -38,7 +38,6 @@ const SocialButton = () => {
 
       const result = await signInWithPopup(auth, googleprovider);
 
-      console.log("Google result", result);
       await result.user.reload();
       const idToken = await result.user?.getIdToken();
 
@@ -59,7 +58,13 @@ const SocialButton = () => {
         if (data && success) {
           console.log("Response from server", data);
           startTransition(() => {
-            setUserAtom({ ...data, id: data?.id?.toString() });
+            setUserAtom({
+              ...data,
+              id: data?.id?.toString(),
+              photoUrl: {
+                url: data?.Image?.at(0)?.url ?? "",
+              },
+            });
             setMutatestate(defaultState);
             show({
               type: "success",
@@ -135,7 +140,13 @@ const SocialButton = () => {
 
         if (data && success) {
           startTransition(() => {
-            setUserAtom({ ...data, id: data?.id?.toString() });
+            setUserAtom({
+              ...data,
+              id: data?.id?.toString(),
+              photoUrl: {
+                url: data?.Image?.at(0)?.url ?? "",
+              },
+            });
             setMutatestate(defaultState);
             show({
               type: "success",

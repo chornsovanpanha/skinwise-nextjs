@@ -55,7 +55,6 @@ const PopoverAvatar = ({ plan }: { plan?: PlanType | null }) => {
       startTransition(() => {
         setMutatestate(defaultState);
         setUserAtom(defaultUserState);
-
         window.location.href = "/login";
       });
     } else {

@@ -28,14 +28,13 @@ const MobileLogout = () => {
       startTransition(() => {
         setMutatestate(defaultState);
         setUserAtom(defaultUserState);
-        show({ type: "success", message: `Logout successfully` });
         window.location.href = "/login";
       });
     } else {
       console.error(error);
       show({
         type: "error",
-        message: JSON.stringify(error),
+        message: error,
       });
 
       setMutatestate((pre) => ({

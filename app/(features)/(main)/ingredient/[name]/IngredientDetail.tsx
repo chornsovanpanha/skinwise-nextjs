@@ -8,16 +8,18 @@ import ProductFoundListing from "@/components/ingredient/ProductFoundListing";
 import SimilarIngredientListing from "@/components/ingredient/SimilarIngredientListing";
 import PageHeader from "@/components/PageHeader";
 import { Typography } from "@/components/Typography";
-import { AnalyseData, IngredientWithSimilar } from "@/types";
+import { AnalyseData, IngredientWithSimilar, PlanType } from "@/types";
 import clsx from "clsx";
 
 type IngredientDetailProps = {
   ingredient: IngredientWithSimilar;
   analysis?: AnalyseData | null;
+  planType?: PlanType;
 };
 const IngredientDetail: React.FC<IngredientDetailProps> = ({
   ingredient,
   analysis,
+  planType,
 }) => {
   const positiveEffects = ingredient.effects.filter(
     (effect) => effect.type == "POSITIVE"
@@ -30,11 +32,19 @@ const IngredientDetail: React.FC<IngredientDetailProps> = ({
     <main className="mb-12">
       {/* <PageHeader title="Overview" showBackgroundImg /> */}
       <PageHeader
-        title={analysis?.score ? analysis?.scoreDesc : "Overview"}
+        title={
+          analysis?.score && planType == PlanType.PRO
+            ? analysis?.scoreDesc
+            : "Overview"
+        }
         showBackgroundImg
         showPercentage
-        desc={analysis?.shortDesc ?? "N/A"}
-        subtitle={analysis ? `${analysis?.score}%` : "0%"}
+        desc={
+          planType == PlanType.PRO ? analysis?.shortDesc ?? "N/A" : undefined
+        }
+        subtitle={
+          analysis && planType == PlanType.PRO ? `${analysis?.score}%` : ""
+        }
       />
 
       <Wrapper className="flex-col sm:space-y-0 gap-4">

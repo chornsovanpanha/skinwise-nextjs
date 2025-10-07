@@ -1,10 +1,11 @@
+import { trackUserSearch } from "@/actions/track/track-action";
 import { getUserAnalyse } from "@/data/gemini";
 import { getIngredientDetail } from "@/data/ingredient";
+import { PlanType } from "@/types";
 import { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import React from "react";
 import IngredientDetail from "./IngredientDetail";
-import { trackUserSearch } from "@/actions/track/track-action";
 type Params = {
   params: Promise<{ name: string }>;
 };
@@ -45,17 +46,26 @@ const Page: React.FC<Params> = async ({ params }) => {
     return notFound();
   }
 
+  let data;
   const result = await trackUserSearch();
   //User has reach their limit view product ,ingredients and comparison ...
   if (!result?.data?.success) {
     return redirect("/pricing");
   }
-  const data = await getUserAnalyse({
-    insideGroup: JSON.stringify(ingredient?.insideGroups ?? ""),
-    userSkinType: "Oily",
-  });
+  if (result?.data?.planType === PlanType.PRO && result.data?.skinType) {
+    data = await getUserAnalyse({
+      insideGroup: JSON.stringify(ingredient?.insideGroups ?? ""),
+      userSkinType: result.data.skinType ?? "Unknown",
+    });
+  }
 
-  return <IngredientDetail analysis={data} ingredient={ingredient} />;
+  return (
+    <IngredientDetail
+      analysis={data}
+      ingredient={ingredient}
+      planType={result?.data?.planType}
+    />
+  );
 };
 
 export default Page;

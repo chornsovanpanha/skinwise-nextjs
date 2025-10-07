@@ -27,7 +27,7 @@ export function ShareableLinkDialog({ link }: { link?: string }) {
         message: "Link has been copied to clipboard",
       });
     }
-  }, [link, open]);
+  }, [link, open, show]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

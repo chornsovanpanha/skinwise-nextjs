@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import redis from "@/lib/redis";
 import { getUserIdFromSession } from "@/lib/sessions/session";
+import { PlanType } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
 const FREE_USER_LIMIT = 5;
@@ -12,14 +13,15 @@ export async function GET(req: NextRequest) {
 
     let key: string;
     let limit: number;
+    let user;
 
     // -----------------------------
     // Logged-in user
     // -----------------------------
     if (userId) {
-      const user = await prisma.user.findUnique({
+      user = await prisma.user.findUnique({
         where: { id: parseInt(userId) },
-        include: { subscription: true },
+        include: { subscription: true, profile: true },
       });
 
       if (!user) {
@@ -34,6 +36,8 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({
           success: true,
           message: "Subscribed user: unlimited searches",
+          planType: user?.subscription?.plan,
+          skinType: user?.profile?.skinType,
         });
       }
 
@@ -60,6 +64,8 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({
         success: false,
         message: "Search limit reached. Please subscribe or wait 30 days.",
+        planType: PlanType.FREE,
+        skinType: user?.profile?.skinType,
       });
     }
 
@@ -75,12 +81,16 @@ export async function GET(req: NextRequest) {
       message: `Search recorded. You have ${
         limit - (count + 1)
       } searches left.`,
+      planType: PlanType.FREE,
+      skinType: user?.profile?.skinType,
     });
   } catch (err) {
     console.error(err);
     return NextResponse.json({
       success: false,
       message: "Something went wrong.",
+      planType: PlanType.FREE,
+      skinType: "",
     });
   }
 }

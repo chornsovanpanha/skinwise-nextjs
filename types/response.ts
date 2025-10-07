@@ -1,3 +1,5 @@
+import { PlanType } from "./prisma";
+
 export interface State<T> {
   loading: boolean;
   error: string;
@@ -29,4 +31,6 @@ export type UserTrackResponse = {
   success: boolean;
   remaining?: number;
   message: string;
+  planType: PlanType;
+  skinType?: string;
 };

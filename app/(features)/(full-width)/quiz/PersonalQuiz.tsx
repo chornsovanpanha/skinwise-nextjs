@@ -32,7 +32,6 @@ export default function PersonalQuiz() {
       setLoading(true);
       const geminiResponse = await analysisUserQuiz({ answers: answers });
 
-      console.log("Gemini analaye", geminiResponse);
       if (geminiResponse) {
         const result = await updateOrInsertQuizAction({
           concerns: geminiResponse?.SkinConcerns ?? [],
