@@ -11,5 +11,7 @@ if (!admin.apps.length) {
   });
 }
 
-export const bucket = admin.apps.length ? admin.storage().bucket() : null;
+export const bucket = admin.apps.length
+  ? admin.storage().bucket(process.env.FIREBASE_STORAGE_BUCKET)
+  : null;
 export const adminAuth = admin.auth();
