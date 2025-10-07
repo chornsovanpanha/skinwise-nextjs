@@ -12,7 +12,10 @@ type Params = {
 };
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const paramsResult = await params;
-  const product = await getProductDetail({ alias: paramsResult.name });
+  const product = await getProductDetail({
+    alias: paramsResult.name,
+    updateCount: false,
+  });
   if (!product) {
     return {
       title: "Product Not Found",
@@ -39,16 +42,16 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 const Page: React.FC<Params> = async ({ params }) => {
   const paramsResult = await params;
-  const product = await getProductDetail({ alias: paramsResult.name });
-  if (!product) {
-    return notFound();
-  }
-  let data;
   const result = await trackUserSearch();
   //User has reach their limit view product ,ingredients and comparison ...
   if (!result?.data?.success) {
     return redirect("/pricing");
   }
+  const product = await getProductDetail({ alias: paramsResult.name });
+  if (!product) {
+    return notFound();
+  }
+  let data;
 
   if (result?.data?.planType === PlanType.PRO && result.data?.skinType) {
     data = await getUserAnalyse({

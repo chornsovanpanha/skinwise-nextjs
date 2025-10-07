@@ -20,7 +20,7 @@ const ComparisonItem: React.FC<ComparisonItemProps> = ({
   ingredientsCount,
 }) => {
   return (
-    <section className="w-full flex flex-col justify-center items-center">
+    <section className="w-full flex flex-col justify-center items-center h-[480px]">
       <ProductCompareImage
         imgUrl={imgUrl}
         showFlag={showFlag}

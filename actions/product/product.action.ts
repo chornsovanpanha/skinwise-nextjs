@@ -24,3 +24,5 @@ export const productSearchAction = async (params: { search: string }) => {
 
   return { data: data?.data };
 };
+
+

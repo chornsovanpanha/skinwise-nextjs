@@ -22,7 +22,7 @@ const ComparisonSearchDialog = ({
   onSelect: (value: ProductWithBrandAndImages) => void;
 }) => {
   const [search, setSearch] = useState("");
-  const debouncedSearch = useDebounce(search, 400);
+  const debouncedSearch = useDebounce(search, 200);
   const { data } = useProductSearch(TANSTACKQUERY.PRODUCTS, {
     search: debouncedSearch,
   });

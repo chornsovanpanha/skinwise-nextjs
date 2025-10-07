@@ -42,15 +42,16 @@ const Page = async ({ searchParams }: { searchParams: SearchParams }) => {
     secondaryAlias: secondary,
   });
 
-  if (productComparisons?.length <= 1 || primary === secondary) {
-    return notFound();
-  }
-
   const result = await trackUserSearch();
   //User has reach their limit view product ,ingredients and comparison ...
   if (!result?.data?.success) {
     return redirect("/pricing");
   }
+
+  if (productComparisons?.length <= 1 || primary === secondary) {
+    return notFound();
+  }
+
   const primaryProduct = productComparisons?.at(0);
   const secondaryProduct = productComparisons?.at(1);
 

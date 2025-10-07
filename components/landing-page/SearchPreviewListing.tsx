@@ -29,7 +29,7 @@ const SearchPreviewListing = ({
             <Typography variant="h6" className="text-secondary">
               Not Found
             </Typography>
-            <Typography variant="body1" className="text-secondary/80">
+            <Typography variant="default" className="text-secondary/80">
               We could not find any related product matching your search.
             </Typography>
           </div>

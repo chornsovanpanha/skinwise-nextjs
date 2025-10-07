@@ -13,8 +13,14 @@ export async function getPopularProducts() {
   return result;
 }
 
-export async function getProductDetail({ alias }: { alias: string }) {
-  return prismaClient.product.findFirst({
+export async function getProductDetail({
+  alias,
+  updateCount = true,
+}: {
+  alias: string;
+  updateCount?: boolean;
+}) {
+  const product = await prismaClient.product.findFirst({
     where: {
       alias: alias,
     },
@@ -35,4 +41,17 @@ export async function getProductDetail({ alias }: { alias: string }) {
       },
     },
   });
+  if (!product) return null;
+  // Increment search count atomically
+
+  if (updateCount) {
+    await prismaClient.product.update({
+      where: { id: product.id },
+      data: {
+        searchCount: { increment: 1 },
+      },
+    });
+  }
+
+  return product;
 }

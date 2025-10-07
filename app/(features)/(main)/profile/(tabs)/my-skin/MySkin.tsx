@@ -29,11 +29,13 @@ const MySkin = () => {
     handleSubmit,
     control,
     reset,
+
     formState: { errors },
+    watch,
   } = useForm<SkinFormValues>({
     resolver: zodResolver(skinFormSchema),
     defaultValues: {
-      skinType: currentUser.skinType || "",
+      skinType: currentUser?.skinType || "",
       concerns: currentUser.skinConcerns || [],
     },
   });
@@ -73,11 +75,13 @@ const MySkin = () => {
   };
 
   useEffect(() => {
-    reset({
-      skinType: currentUser?.skinType || "",
-      concerns: currentUser?.skinConcerns || [],
-    });
-  }, [reset, currentUser]);
+    if (currentUser?.id) {
+      reset({
+        skinType: currentUser.skinType ?? "",
+        concerns: currentUser.skinConcerns ?? [],
+      });
+    }
+  }, [currentUser, reset]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -87,20 +91,25 @@ const MySkin = () => {
           Skin type
         </Typography>
         <div>
-          <Controller
-            name="skinType"
-            control={control}
-            render={({ field, formState }) => (
-              <AppSelect
-                error={formState.errors?.skinType?.message ?? ""}
-                placeholder="Your Skin Type"
-                className="w-full"
-                value={field.value}
-                options={skinTypeDummy}
-                onValueChange={(val) => field.onChange(val)}
-              />
-            )}
-          />
+          {currentUser && (
+            <Controller
+              name="skinType"
+              control={control}
+              render={({ field, formState }) => {
+                console.log("field is", field.value);
+                return (
+                  <AppSelect
+                    error={formState.errors?.skinType?.message ?? ""}
+                    placeholder="Your Skin Type"
+                    className="w-full"
+                    value={watch("skinType") ?? ""}
+                    options={skinTypeDummy}
+                    onValueChange={(val) => field.onChange(val)}
+                  />
+                );
+              }}
+            />
+          )}
         </div>
       </section>
 

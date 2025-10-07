@@ -29,7 +29,7 @@ const MainProductItem = ({
         })}
       >
         {/* Image on top */}
-        <div className="relative w-full h-[370px] group overflow-hidden bg-white">
+        <div className="relative w-full h-[350px] group overflow-hidden bg-white">
           <ProductImage src={imageUrl} alt={data.alias ?? "product-image"} />
         </div>
         {/* Content below */}

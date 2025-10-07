@@ -8,11 +8,11 @@ export const skinWisePlans = [
     isCurrentPlan: true,
     type: PlanType.FREE,
     features: [
-      "4 ingredient searches / day",
-      "3 product comparisons / day",
-      "Build up to 4 routines",
+      "Up to 5 actions daily per 24h ",
+      "Feature ( Product Overview, Ingredient, and Comparisons ).",
+      "Product and ingredient basic skin care information ",
+      "Build up to 3 skin care products per routine",
       "Basic quiz results (skin type + concerns)",
-      "Basic product info",
     ],
   },
   {
@@ -22,11 +22,11 @@ export const skinWisePlans = [
     billingCycle: "per month",
     isCurrentPlan: false,
     features: [
-      "Unlimited ingredient searches",
+      "Unlimited ingredient and product searches",
       "Save up to 10+ routines",
       "Personalized Recommendations (with quiz)",
-      "Full product details & analysis",
-      "Ad-free + priority updates",
+      "Full product details and analysis",
+      "Full ingredient informatio and analysis",
     ],
   },
 ];

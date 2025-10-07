@@ -18,7 +18,7 @@ import {
   BookOpen,
   Command,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 
 const ComparisonResult = ({
   data,

@@ -3,11 +3,20 @@ import prismaClient from "@/lib/prisma";
 export async function getPartialIngredients() {
   return prismaClient.ingredient.findMany({
     take: 4,
+    orderBy: {
+      searchCount: "desc",
+    },
   });
 }
 
-export async function getIngredientDetail({ alias }: { alias: string }) {
-  return prismaClient.ingredient.findFirst({
+export async function getIngredientDetail({
+  alias,
+  updateCount = true,
+}: {
+  alias: string;
+  updateCount?: boolean;
+}) {
+  const ingredient = await prismaClient.ingredient.findFirst({
     where: {
       alias: alias,
     },
@@ -33,4 +42,17 @@ export async function getIngredientDetail({ alias }: { alias: string }) {
       },
     },
   });
+
+  if (!ingredient) return null;
+  // Increment search count atomically
+  if (updateCount) {
+    await prismaClient.ingredient.update({
+      where: { id: ingredient.id },
+      data: {
+        searchCount: { increment: 1 },
+      },
+    });
+  }
+
+  return ingredient;
 }

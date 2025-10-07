@@ -76,7 +76,7 @@ const ComparisonSection = () => {
             setTempIndex(0);
           }}
         />
-        <div className="grid justify-self-center">
+        <div className="flex items-center justify-center w-full md:w-fit">
           <ArrowRightLeft className="w-8 h-8 md:w-10 md:h-10 text-primary" />
         </div>
         <BlockCompareCard
