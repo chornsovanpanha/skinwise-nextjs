@@ -159,7 +159,7 @@ export async function POST(request: Request) {
           },
         ],
 
-        message: `<p>This is a welcoming message thanks you for trusting us.Enjoy ur member as skinwise.</p>`,
+        message: `<p>This is a welcoming message thanks you for trusting us. Enjoy ur member as skinwise.</p>`,
       });
     }
 
@@ -171,7 +171,8 @@ export async function POST(request: Request) {
         name: user.name,
         role: user.role,
         email: user.email,
-        Image: user?.Image ?? imageQuery,
+        Image:
+          user?.Image?.length > 0 ? user?.Image : [{ url: imageQuery?.url }],
       },
     });
 

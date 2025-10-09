@@ -1,5 +1,5 @@
 import { IngredientSimilarToWithFrom } from "@/types";
-import IngredientListItem from "../IngredientListItem";
+import IngredientListItem from "../IngredientSearchItem";
 
 const SimilarIngredientListing = ({
   data,

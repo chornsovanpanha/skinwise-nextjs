@@ -6,23 +6,25 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useProductSearch } from "@/hooks/api/product/useProductSearch";
-import { useDebounce } from "@/hooks/useDebouce";
 import { ProductWithBrandAndImages } from "@/types";
 import { TANSTACKQUERY } from "@/utils/constant/queryclient";
 import { Search } from "lucide-react";
 import { useState } from "react";
 import AppInput from "../AppInput";
 import SmallProductItem from "../SmallProductItem";
+import { useDebounce } from "use-debounce";
 
 const ComparisonSearchDialog = ({
   onClose,
   onSelect,
+  initSearch,
 }: {
   onClose: () => void;
+  initSearch?: string;
   onSelect: (value: ProductWithBrandAndImages) => void;
 }) => {
-  const [search, setSearch] = useState("");
-  const debouncedSearch = useDebounce(search, 200);
+  const [search, setSearch] = useState(initSearch ?? "");
+  const [debouncedSearch] = useDebounce(search, 300);
   const { data } = useProductSearch(TANSTACKQUERY.PRODUCTS, {
     search: debouncedSearch,
   });
@@ -55,6 +57,7 @@ const ComparisonSearchDialog = ({
               <ul className="space-y-2">
                 {data?.map((product) => (
                   <SmallProductItem
+                    highlight={search}
                     product={product}
                     key={product.id}
                     onPress={() => {

@@ -1,9 +1,10 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ProductWithBrandAndImages, SearchType } from "@/types";
 import { Ingredient } from "@prisma/client";
-import IngredientListItem from "../IngredientListItem";
+import IngredientSearchItem from "../IngredientSearchItem";
 import SmallProductItem from "../SmallProductItem";
 import { Typography } from "../Typography";
+import { useSearchParams } from "next/navigation";
 
 const SearchPreviewListing = ({
   onPress,
@@ -18,13 +19,19 @@ const SearchPreviewListing = ({
   products?: ProductWithBrandAndImages[];
   ingredients?: Ingredient[];
 }) => {
+  const searchParams = useSearchParams();
+  const highLightText = searchParams.get("q");
   return (
     <div className="box-area absolute top-18 left-0 right-0 bg-white rounded-none rounded-b-2xl z-10 shadow pt-6">
       <ScrollArea className="h-[400px]">
         {ingredients?.map((ingred) => (
-          <IngredientListItem data={ingred} key={ingred.id} />
+          <IngredientSearchItem
+            highlight={highLightText ?? ""}
+            data={ingred}
+            key={ingred.id}
+          />
         ))}
-        {!products?.length && (
+        {!products?.length && !ingredients?.length && (
           <div className="space-y-2 flex flex-col justify-center items-center">
             <Typography variant="h6" className="text-secondary">
               Not Found
@@ -39,6 +46,7 @@ const SearchPreviewListing = ({
             showBrand={true}
             product={product}
             type="routine"
+            highlight={highLightText ?? ""}
             onPress={() => onPress("product", product?.alias ?? "", product)}
             key={product.id}
           />

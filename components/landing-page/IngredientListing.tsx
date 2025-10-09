@@ -1,6 +1,6 @@
 "use client";
 import { Ingredient } from "@prisma/client";
-import IngredientListItem from "../IngredientListItem";
+import IngredientListItem from "../IngredientSearchItem";
 import Wrapper from "../custom/layout/Wrapper";
 type IngredientListingProps = {
   data: Ingredient[];

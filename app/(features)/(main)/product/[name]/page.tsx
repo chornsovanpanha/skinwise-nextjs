@@ -6,6 +6,7 @@ import ProductDetail from "./ProductDetail";
 import { getUserAnalyse } from "@/data/gemini";
 import { trackUserSearch } from "@/actions/track/track-action";
 import { PlanType } from "@/types";
+import { getUserIdFromSession } from "@/lib/sessions/session";
 
 type Params = {
   params: Promise<{ name: string }>;
@@ -43,6 +44,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 const Page: React.FC<Params> = async ({ params }) => {
   const paramsResult = await params;
   const result = await trackUserSearch();
+  const userId = await getUserIdFromSession();
   //User has reach their limit view product ,ingredients and comparison ...
   if (!result?.data?.success) {
     return redirect("/pricing");
@@ -60,8 +62,11 @@ const Page: React.FC<Params> = async ({ params }) => {
     });
   }
 
+  // console.log("Respons e is", product);
+
   return (
     <ProductDetail
+      userId={userId ?? ""}
       product={product}
       analysis={data}
       planType={result?.data?.planType}

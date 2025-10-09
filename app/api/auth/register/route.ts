@@ -73,7 +73,7 @@ export async function POST(request: Request) {
         },
       ],
 
-      message: `<p>This is a welcoming message thanks you for trusting us.Enjoy ur member as skinwise.</p>`,
+      message: `<p>This is a welcoming message thanks you for trusting us. Enjoy ur member as skinwise.</p>`,
     });
 
     return response;

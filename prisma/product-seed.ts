@@ -1,84 +1,8 @@
-import { EffectType, PrismaClient } from "@prisma/client";
+import { PrismaClient, EffectType } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-async function main() {
-  console.log("🪄Dev Starting full seed...");
-
-  // Seed brands first
-  // Seed brands first
-  const brands = [
-    { name: "The Ordinary", country: "ca" },
-    { name: "COSRX", country: "kr" },
-    { name: "La Roche-Posay", country: "fr" },
-    { name: "Neutrogena", country: "us" },
-    { name: "e.l.f. Cosmetics", country: "us" },
-    { name: "NYX Cosmetics", country: "us" },
-    { name: "Fenty Beauty", country: "us" },
-    { name: "L’Oréal", country: "fr" },
-    { name: "Sephora Collection", country: "fr" },
-    { name: "Bioderma", country: "fr" },
-  ];
-
-  for (const brand of brands) {
-    await prisma.brand.create({
-      data: {
-        title: brand.name,
-        alias: brand.name.toLowerCase().replace(/\s+/g, "-"),
-        country: brand.country,
-      },
-    });
-    console.log(`Brand ${brand.name} seeded successfully.`);
-  }
-
-  // Seed ingredients
-  console.log("Starting ingredient seed...");
-
-  const ingredients = [
-    { name: "Retinol", alias: "retinol" },
-    { name: "Vitamin C", alias: "vitamin-c" },
-    { name: "Niacinamide", alias: "niacinamide" },
-    { name: "Hyaluronic Acid", alias: "hyaluronic-acid" },
-    { name: "Salicylic Acid", alias: "salicylic-acid" },
-    { name: "Glycolic Acid", alias: "glycolic-acid" },
-    { name: "Lactic Acid", alias: "lactic-acid" },
-    { name: "Peptides", alias: "peptides" },
-    { name: "Ceramides", alias: "ceramides" },
-    { name: "Zinc Oxide", alias: "zinc-oxide" },
-  ];
-
-  for (const ing of ingredients) {
-    const ingredient = await prisma.ingredient.create({
-      data: {
-        name: ing.name,
-        alias: ing.alias,
-        desc: "",
-        about: "",
-        effects: {
-          create: [
-            {
-              type: EffectType.POSITIVE,
-              title: "",
-              shortDesc: "",
-              desc: "",
-            },
-            {
-              type: EffectType.NEGATIVE,
-              title: "",
-              shortDesc: "",
-              desc: "",
-            },
-          ],
-        },
-      },
-    });
-
-    console.log(`Created ingredient: ${ingredient.name}`);
-  }
-
-  console.log("Ingredient seed completed.");
-
-  // Seed products (after brands & ingredients)
+async function productSeeds() {
   console.log("🚀 Starting product seed...");
 
   const products = [
@@ -210,16 +134,6 @@ async function main() {
   }
 
   console.log("🎉 Product seed completed.");
-
-  console.log("🎉 All seeding completed!");
 }
 
-main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+export { productSeeds };

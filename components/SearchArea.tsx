@@ -36,8 +36,8 @@ const SearchArea = ({
     if (q) {
       setIsFocused(true);
     }
-    //  else  setIsFocused(false);
   }, [pathName, q]);
+
   return (
     <div className="search-area relative" ref={searchRef}>
       <AppInput

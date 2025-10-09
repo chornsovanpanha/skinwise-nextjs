@@ -17,7 +17,7 @@ export const skinWisePlans = [
   },
   {
     name: "Premiere",
-    price: 9.99,
+    price: 5.99,
     type: PlanType.PRO,
     billingCycle: "per month",
     isCurrentPlan: false,

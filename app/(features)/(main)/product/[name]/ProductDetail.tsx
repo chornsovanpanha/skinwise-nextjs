@@ -14,11 +14,13 @@ import CompareBtn from "./CompareBtn";
 const ProductDetail = ({
   product,
   analysis,
+  userId,
   planType,
 }: {
   product: ProductWithDetail;
   analysis?: AnalyseData | null;
   planType?: PlanType;
+  userId?: string;
 }) => {
   const positiveEffects = product.effects.filter(
     (effect) => effect.type == "POSITIVE"
@@ -54,11 +56,16 @@ const ProductDetail = ({
 
             <footer className="w-full flex gap-2 items-center">
               <Link
-                href={"/my-routine"}
+                href={
+                  userId
+                    ? `/my-routine?search=${product?.brand?.title}`
+                    : "/login"
+                }
                 className="rounded-full bg-primary text-secondary px-8 hover:bg-primary/80 py-2.5"
               >
                 Add to routine
               </Link>
+
               <CompareBtn product={product} />
             </footer>
 
@@ -113,6 +120,7 @@ const ProductDetail = ({
         )}
 
         {/* **** Positive effects ****  */}
+
         {!!positiveEffects?.length && (
           <BoxOutlineWrapper
             title={"Positive effects"}

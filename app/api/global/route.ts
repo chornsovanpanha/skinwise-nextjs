@@ -34,20 +34,20 @@ export async function GET(req: NextRequest) {
         },
       },
     },
-    take: 10,
+    take: 20,
   });
 
   const ingredients = await prismaClient.ingredient.findMany({
     where: {
       name: {
-        contains: query,
+        startsWith: query,
         mode: "insensitive",
       },
     },
     orderBy: {
       searchCount: "desc",
     },
-    take: 10,
+    take: 20,
   });
   return NextResponse.json(
     new AppResponse({

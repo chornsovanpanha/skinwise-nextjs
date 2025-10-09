@@ -145,7 +145,7 @@ export async function POST(request: NextRequest) {
 <p>You can download your invoice here:</p>
 <p><a href="${invoiceUrl}">Download Invoice (PDF)</a></p>
 <p>We appreciate your support and hope you enjoy the premium experience!</p>
-<p>— The Skinwise Team</p>
+<p>— The Skinwise Team </p>
 `,
           });
         }

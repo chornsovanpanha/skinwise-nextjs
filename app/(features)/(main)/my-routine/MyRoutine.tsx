@@ -25,8 +25,9 @@ import {
   SelectProduct,
 } from "@/types";
 import { FormValueRoutine } from "@/utils/schema/zod/routine";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NotFound from "../not-found";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const MyRoutine = ({
   profile,
@@ -41,15 +42,18 @@ const MyRoutine = ({
   planType?: PlanType;
   name?: string;
 }) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const query = searchParams.get("search");
   const [isLoading, setLoading] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
+
   const [open, setOpen] = useState(false);
   const [selectedProduct, setSelectProduct] = useState<
     SelectProduct | undefined
   >(undefined);
   const { show } = useToast();
-
   const routines = profile?.routines;
   const profileId = profile?.id;
   const onCloseDialog = () => {
@@ -171,7 +175,7 @@ const MyRoutine = ({
       show({
         type: "error",
         message:
-          "Free tier onlyallow 3 items per slot Please upgrade to pro account.",
+          "Free tier only allow 3 items per slot Please upgrade to pro account.",
       });
       return;
     }
@@ -240,6 +244,17 @@ const MyRoutine = ({
           type: routine.type as RoutineType,
         }))
       ) ?? [];
+
+  useEffect(() => {
+    if (query) {
+      setOpenSearch(true);
+      // Clear the query param after setting open state
+      const newParams = new URLSearchParams(searchParams.toString());
+      newParams.delete("search");
+      router.replace(`?${newParams.toString()}`, { scroll: false });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router]);
 
   return (
     <main>
@@ -354,6 +369,7 @@ const MyRoutine = ({
 
         <Dialog open={openSearch} onOpenChange={setOpenSearch}>
           <ComparisonSearchDialog
+            initSearch={query ?? ""}
             key={openSearch + ""}
             onClose={() => setOpenSearch(false)}
             onSelect={(value) => handleSelectProduct(value)}

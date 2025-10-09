@@ -8,6 +8,9 @@ const productQueryOption = (key: string, params?: ProductQueryParams) => {
     queryKey: [key, params?.search],
     enabled: true,
     staleTime: Infinity,
+    // refetchOnMount: true,
+    // refetchOnWindowFocus: false,
+    // refetchOnReconnect: false,
     queryFn: () => productSearchAction({ search: params?.search ?? "" }),
     placeholderData: keepPreviousData,
   };

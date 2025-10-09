@@ -47,10 +47,10 @@ const BadgeItem: React.FC<BadgeItemProps> = ({
 
       <div className="right gap-2 items-center">
         <Typography as="p" variant="subtitle1" className="text-secondary">
-          {title ?? "Unnamed Title"}
+          {title || "Unnamed Title"}
         </Typography>
         <Typography as="p" variant="caption" className="text-secondary">
-          {subtitle ?? "Unnamed Desc"}
+          {subtitle || "Unnamed Desc"}
         </Typography>
       </div>
     </div>

@@ -3,22 +3,26 @@ import NavBar from "@/components/custom/navbar/NavBar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Metadata } from "next";
 import React from "react";
+
 export const metadata: Metadata = {
   title: {
     template: "Skinwise | %s",
-    default: "Home",
+    default: "Skinwise landing page",
   },
 };
+
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <SidebarProvider>
-      <main className="w-full">
+      <div className="flex flex-col min-h-screen w-full">
         <NavBar />
-        {children}
-        <div className="bg-primary">
+
+        <main className="flex-1 w-full">{children}</main>
+
+        <div className="bg-primary mt-10">
           <Footer />
         </div>
-      </main>
+      </div>
     </SidebarProvider>
   );
 };

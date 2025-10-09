@@ -16,10 +16,15 @@ const globalQueryOptions = (
 }> => {
   return {
     queryKey: [key, params?.search],
-    enabled: !!params?.search,
-    staleTime: Infinity,
+    // enabled: !!params?.search,
+    // staleTime: Infinity,
     queryFn: () => globalSearchAction({ search: params?.search ?? "" }),
     placeholderData: keepPreviousData,
+    enabled: !!params?.search,
+    staleTime: Infinity,
+    // refetchOnMount: true,
+    // refetchOnWindowFocus: false,
+    // refetchOnReconnect: false,
   };
 };
 

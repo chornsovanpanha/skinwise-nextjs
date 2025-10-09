@@ -11,13 +11,16 @@ import { useRouter } from "nextjs-toploader/app";
 import { startTransition } from "react";
 import SearchArea from "../SearchArea";
 import { Typography } from "../Typography";
+import { useDebounce } from "use-debounce";
 
 const HeaderSearchBanner = () => {
   const router = useRouter();
   const [recentSearch, setRecentSearch] = useAtom(recentSearchProductAtom);
   const searchParams = useSearchParams();
+  const q = searchParams?.get("q") ?? "";
+  const [debouceSearch] = useDebounce(q, 100);
   const { data } = useGlobalSearch(TANSTACKQUERY.GLOBAL_SEARCH, {
-    search: searchParams?.get("q") ?? "",
+    search: debouceSearch ?? "",
   });
   function handleTapItem(
     type: SearchType,

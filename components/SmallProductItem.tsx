@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Typography } from "./Typography";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
+import HighlightText from "./HighLightText";
 
 const SmallProductItem = ({
   product,
@@ -11,12 +12,14 @@ const SmallProductItem = ({
   showBrand,
   type = "product",
   className,
+  highlight,
 }: {
   product: ProductWithBrandAndImages;
   showBrand?: boolean;
   onPress: () => void;
   className?: string;
   type?: "routine" | "product";
+  highlight?: string;
 }) => {
   return (
     <div
@@ -34,7 +37,7 @@ const SmallProductItem = ({
       </Card>
       <div className="content flex-4/5">
         <li className="rounded-lg hover:bg-muted cursor-pointer transition text-secondary list-none text-left">
-          {product.name}
+          <HighlightText text={product.name} highlight={highlight} />
         </li>
         {type == "product" && (
           <Typography

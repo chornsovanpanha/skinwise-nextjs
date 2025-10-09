@@ -2,8 +2,15 @@ import { Ingredient } from "@prisma/client";
 import { IconFlask } from "@tabler/icons-react";
 import Link from "next/link";
 import { Typography } from "./Typography";
+import HighlightText from "./HighLightText";
 
-const IngredientListItem = ({ data }: { data?: Ingredient }) => {
+const IngredientSearchItem = ({
+  data,
+  highlight,
+}: {
+  data?: Ingredient;
+  highlight?: string;
+}) => {
   return (
     <Link href={`/ingredient/${data?.alias}`}>
       <div className="flex flex-row gap-5 items-center hover:cursor-pointer hover:bg-primary/20 px-4  py-4">
@@ -15,7 +22,7 @@ const IngredientListItem = ({ data }: { data?: Ingredient }) => {
             variant="subtitle1"
             className="font-bold text-secondary"
           >
-            {data?.name}
+            <HighlightText highlight={highlight} text={data?.name ?? ""} />
           </Typography>
           <Typography
             as="p"
@@ -30,4 +37,4 @@ const IngredientListItem = ({ data }: { data?: Ingredient }) => {
   );
 };
 
-export default IngredientListItem;
+export default IngredientSearchItem;

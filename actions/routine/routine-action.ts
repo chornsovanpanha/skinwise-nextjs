@@ -20,69 +20,63 @@ export async function createRoutine({
   profileId,
   userId,
 }: Params): Promise<{ error: string; success: boolean }> {
-  const typesToCreate =
-    payload.type === RoutineType.BOTH
-      ? [RoutineType.MORNING, RoutineType.EVENING]
-      : [payload.type];
-
-  // Case: user profile not yet created
   if (!profileId) {
     await prismaClient.profile.create({
       data: {
         user: { connect: { id: userId } },
         routines: {
-          create: typesToCreate.map((type) => ({
-            type,
-            items: {
-              create: [
-                {
-                  productId: payload.productId,
-                  usage: payload.usage,
-                },
-              ],
-            },
-          })),
-        },
-      },
-      include: { routines: true },
-    });
-
-    return { error: "", success: true };
-  }
-
-  for (const type of typesToCreate) {
-    // Check if product already exists in this shift type
-    const existingRoutine = await prismaClient.routine.findFirst({
-      where: {
-        type,
-        profileId,
-        items: { some: { productId: payload.productId } },
-      },
-    });
-
-    if (existingRoutine) {
-      return {
-        error: `Product already exists in ${type} routine`,
-        success: false,
-      };
-    }
-
-    // Safe to create routine
-    await prismaClient.routine.create({
-      data: {
-        type,
-        profile: { connect: { id: profileId } },
-        items: {
           create: [
             {
-              productId: payload.productId,
-              usage: payload.usage,
+              type: payload.type,
+              items: {
+                create: [
+                  {
+                    productId: payload.productId,
+                    usage: payload.usage,
+                  },
+                ],
+              },
             },
           ],
         },
       },
+      include: { routines: true },
     });
+    revalidatePath("/my-routine");
+    return { error: "", success: true };
   }
+
+  // Check if the product already exists in the routine type
+  const existingRoutine = await prismaClient.routine.findFirst({
+    where: {
+      type: payload.type,
+      profileId,
+      items: { some: { productId: payload.productId } },
+    },
+  });
+
+  if (existingRoutine) {
+    return {
+      error: `Product already exists in ${payload.type} routine`,
+      success: false,
+    };
+  }
+
+  // Safe to create the routine for the given type
+  await prismaClient.routine.create({
+    data: {
+      type: payload.type,
+      profile: { connect: { id: profileId } },
+      items: {
+        create: [
+          {
+            productId: payload.productId,
+            usage: payload.usage,
+          },
+        ],
+      },
+    },
+  });
 
   revalidatePath("/my-routine");
   return { error: "", success: true };
@@ -103,30 +97,23 @@ export async function updateRoutine({
   routineId: number;
 }) {
   try {
-    // Update the routine type (if provided) and the nested item
-    const typesToCreate =
-      payload.type === RoutineType.BOTH
-        ? [RoutineType.MORNING, RoutineType.EVENING]
-        : [payload.type];
-    if (payload.type == RoutineType.BOTH) {
-      for (const type of typesToCreate) {
-        // Check if product already exists in this shift type
-        const existingRoutine = await prismaClient.routine.findFirst({
-          where: {
-            type,
-            profileId,
-            items: { some: { productId: payload.productId } },
-          },
-        });
+    if (payload.type) {
+      const existingRoutine = await prismaClient.routine.findFirst({
+        where: {
+          type: payload.type,
+          profileId,
+          items: { some: { productId: payload.productId } },
+        },
+      });
 
-        if (existingRoutine) {
-          return {
-            error: `Product already exists in ${type} routine`,
-            success: false,
-          };
-        }
+      if (existingRoutine) {
+        return {
+          success: false,
+          error: `Product already exists in ${payload.type} routine`,
+        };
       }
     }
+
     await prismaClient.routine.update({
       where: { id: routineId, profileId },
       data: {
@@ -144,6 +131,7 @@ export async function updateRoutine({
     });
 
     revalidatePath("/my-routine");
+
     return { success: true, error: "" };
   } catch (error) {
     console.error("Update Routine Error:", error);
@@ -187,6 +175,13 @@ export async function deleteRoutineItem({
     await prismaClient.routineItem.delete({
       where: { id: itemId },
     });
+
+    // If that was the last item, delete the routine as well
+    if (routine.items.length === 1) {
+      await prismaClient.routine.delete({
+        where: { id: routineId },
+      });
+    }
 
     revalidatePath("/my-routine");
 

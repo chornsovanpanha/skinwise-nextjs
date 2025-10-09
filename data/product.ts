@@ -20,6 +20,8 @@ export async function getProductDetail({
   alias: string;
   updateCount?: boolean;
 }) {
+  console.time("getProductDetail");
+
   const product = await prismaClient.product.findFirst({
     where: {
       alias: alias,
@@ -41,6 +43,8 @@ export async function getProductDetail({
       },
     },
   });
+  console.timeLog("getProductDetail", "After findFirst");
+
   if (!product) return null;
   // Increment search count atomically
 
@@ -52,6 +56,8 @@ export async function getProductDetail({
       },
     });
   }
+
+  console.timeEnd("getProductDetail");
 
   return product;
 }

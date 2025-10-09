@@ -19,7 +19,7 @@ const BestProduct = async () => {
       {/* Products Section */}
       <section className="products bg-primary/50  py-12 left-0 ">
         <PopularProductListing
-          products={products as ProductWithBrandAndImages[]}
+          products={(products as ProductWithBrandAndImages[]) ?? []}
         />
       </section>
     </main>
