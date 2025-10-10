@@ -9,7 +9,7 @@ const AboutUs = () => {
       <main className="block sm:grid md:grid-cols-3 lg:grid-cols-6 gap-6 space-y-12">
         <section className="relative justify-self-center group col-span-4 lg:col-auto">
           {/* Rotation wrapper */}
-          <div className="rotate-[-8deg] group-hover:rotate-0 transition-transform duration-300 ease-in-out">
+          <div className="rotate-[-8deg] group-hover:rotate-0 transition-transform duration-300 ease-in-out  grid place-content-center">
             {/* Clipping wrapper */}
             <div className="w-[180px] h-[250px] overflow-hidden rounded-2xl">
               <Image
@@ -33,7 +33,7 @@ const AboutUs = () => {
             </Typography>
           </header>
 
-          <div className=" flex justify-center my-4 sm:my-0">
+          <div className=" flex justify-center my- sm:my-0">
             <Typography
               as="p"
               variant="default"
@@ -48,7 +48,7 @@ const AboutUs = () => {
         </section>
         <section className="relative justify-self-center group mt-12 col-span-4 lg:col-auto">
           {/* Rotation wrapper */}
-          <div className="rotate-[13deg] group-hover:rotate-0 transition-transform duration-300 ease-in-out">
+          <div className="rotate-[13deg] group-hover:rotate-0 transition-transform duration-300 ease-in-out  grid place-content-center">
             {/* Clipping wrapper */}
             <div className="w-[180px] h-[250px] overflow-hidden rounded-2xl">
               <Image
