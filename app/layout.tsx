@@ -31,9 +31,7 @@ export default function RootLayout({
       <body className="max-h-[100vh] overflow-x-hidden">
         <TanstackProvider>
           <NextTopLoader color="oklch(0.891 0.125 246.5)" showSpinner={false} />
-
           <JotaiProvider>{children}</JotaiProvider>
-
           <Toaster />
           <Monitoring />
         </TanstackProvider>

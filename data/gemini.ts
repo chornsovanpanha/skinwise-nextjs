@@ -52,14 +52,17 @@ type AnalyseParams = {
   keySecondary?: string;
 };
 
-export const analysisProductComparison = async ({
-  keyPrimary,
-  keySecondary,
-  productBrandPrimary,
-  productBrandSecondary,
-  productPrimaryName,
-  productSecondaryName,
-}: AnalyseParams): Promise<ResponseAnalyse | null> => {
+export const analysisProductComparison = async (
+  {
+    keyPrimary,
+    keySecondary,
+    productBrandPrimary,
+    productBrandSecondary,
+    productPrimaryName,
+    productSecondaryName,
+  }: AnalyseParams,
+  userId?: string
+): Promise<ResponseAnalyse | null> => {
   const response = await geminiAi.models.generateContent({
     model: "gemini-2.0-flash-001",
     contents: `
@@ -90,7 +93,7 @@ secondary: ${productBrandSecondary}
 response back as json object key value  summary, recommendation, feature  follow the pattern 
 Pls response back as 1 value combine together JSON object value
 also dont answer back i only need a code
-example response: remove word json as well:
+example response: remove word json as well only 1 object value only:
 {   
 "summary":They’re both likely to be good for dry skin,
  "recommendation":"They're both likely to be good for anti aging, dry skin, brightening skin, sensitive skin and scar healing",
@@ -98,7 +101,9 @@ example response: remove word json as well:
 ”,} `,
   });
 
-  return fromGeminiToJson(response.text ?? "");
+  if (userId) return fromGeminiToJson(response.text ?? "");
+
+  return null;
 };
 
 export const analysisUserQuiz = async ({ answers }: { answers: string[] }) => {

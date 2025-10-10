@@ -17,7 +17,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <div className="flex flex-col min-h-screen w-full">
         <NavBar />
 
-        <main className="flex-1 w-full">{children}</main>
+        <main className="flex-1 w-full min-h-screen">{children}</main>
 
         <div className="bg-primary mt-10">
           <Footer />

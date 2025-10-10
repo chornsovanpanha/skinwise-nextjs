@@ -6,6 +6,7 @@ import { splitComparisonSlug } from "@/utils/formatter";
 import { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import ComparisonResult from "./ComparisonResult";
+import { getUserIdFromSession } from "@/lib/sessions/session";
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
 export const generateMetadata = async ({
@@ -43,6 +44,7 @@ const Page = async ({ searchParams }: { searchParams: SearchParams }) => {
   });
 
   const result = await trackUserSearch();
+  const userId = await getUserIdFromSession();
   //User has reach their limit view product ,ingredients and comparison ...
   if (!result?.data?.success) {
     return redirect("/pricing");
@@ -55,16 +57,20 @@ const Page = async ({ searchParams }: { searchParams: SearchParams }) => {
   const primaryProduct = productComparisons?.at(0);
   const secondaryProduct = productComparisons?.at(1);
 
-  const analysis = await analysisProductComparison({
-    keyPrimary: primaryProduct?.ingredients?.toString(),
-    keySecondary: secondaryProduct?.ingredients?.toString(),
-    productBrandPrimary: primaryProduct?.brand?.title,
-    productBrandSecondary: secondaryProduct?.brand?.title,
-    productPrimaryName: primaryProduct?.name,
-    productSecondaryName: secondaryProduct?.name,
-  });
+  const analysis = await analysisProductComparison(
+    {
+      keyPrimary: primaryProduct?.ingredients?.toString(),
+      keySecondary: secondaryProduct?.ingredients?.toString(),
+      productBrandPrimary: primaryProduct?.brand?.title,
+      productBrandSecondary: secondaryProduct?.brand?.title,
+      productPrimaryName: primaryProduct?.name,
+      productSecondaryName: secondaryProduct?.name,
+    },
+    userId ?? ""
+  );
 
   const toProductSummaries = (analysis: ResponseAnalyse | null) => {
+    console.log("Analy sis is", analysis);
     if (!analysis) return [];
 
     return [
@@ -89,6 +95,7 @@ const Page = async ({ searchParams }: { searchParams: SearchParams }) => {
   return (
     <ComparisonResult
       data={productComparisons}
+      userId={userId ?? ""}
       productSummaries={
         (toProductSummaries(analysis) as ProductSummaryType[]) ?? []
       }

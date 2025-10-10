@@ -248,7 +248,6 @@ const MyRoutine = ({
   useEffect(() => {
     if (query) {
       setOpenSearch(true);
-      // Clear the query param after setting open state
       const newParams = new URLSearchParams(searchParams.toString());
       newParams.delete("search");
       router.replace(`?${newParams.toString()}`, { scroll: false });

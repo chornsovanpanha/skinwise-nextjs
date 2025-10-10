@@ -21,10 +21,12 @@ import {
 import { useRouter } from "nextjs-toploader/app";
 
 const ComparisonResult = ({
+  userId,
   data,
   productSummaries,
 }: {
   data?: ProductComparison[];
+  userId?: string;
   productSummaries?: ProductSummaryType[];
 }) => {
   const router = useRouter();
@@ -202,36 +204,39 @@ const ComparisonResult = ({
         </section>
 
         {/* **** Overview Comparison effects ****  */}
-        <section className="negative block space-y-4 sm:space-y-0 gap-4">
-          <ComparisonHeader
-            icon={<BookOpen className="w-6 h-6 sm:w-10 sm:h-10" />}
-            title="Overview"
-          />
-          <div className="compare block space-y-4 sm:space-y-0 sm:flex gap-4">
-            <BoxOutlineWrapper title={""} className="flex-1">
-              <main className="block sm:grid gap-4 space-y-6 w-full ">
-                {productSummaries?.map((compare, index) => (
-                  <li className="list-none" key={index}>
-                    <Typography
-                      variant="h6"
-                      as="p"
-                      className="text-secondary font-bold"
-                    >
-                      {compare.title}
-                    </Typography>
-                    <Typography
-                      variant="default"
-                      as="p"
-                      className="text-secondary"
-                    >
-                      {compare.desc}
-                    </Typography>
-                  </li>
-                ))}
-              </main>
-            </BoxOutlineWrapper>
-          </div>
-        </section>
+
+        {userId && (
+          <section className="negative block space-y-4 sm:space-y-0 gap-4">
+            <ComparisonHeader
+              icon={<BookOpen className="w-6 h-6 sm:w-10 sm:h-10" />}
+              title="Overview"
+            />
+            <div className="compare block space-y-4 sm:space-y-0 sm:flex gap-4">
+              <BoxOutlineWrapper title={""} className="flex-1">
+                <main className="block sm:grid gap-4 space-y-6 w-full ">
+                  {productSummaries?.map((compare, index) => (
+                    <li className="list-none" key={index}>
+                      <Typography
+                        variant="h6"
+                        as="p"
+                        className="text-secondary font-bold"
+                      >
+                        {compare.title}
+                      </Typography>
+                      <Typography
+                        variant="default"
+                        as="p"
+                        className="text-secondary"
+                      >
+                        {compare.desc}
+                      </Typography>
+                    </li>
+                  ))}
+                </main>
+              </BoxOutlineWrapper>
+            </div>
+          </section>
+        )}
 
         {/* **** Key Ingredients  ****  */}
         <section className="key-ingredients block space-y-4 sm:space-y-0 gap-4">
@@ -242,33 +247,47 @@ const ComparisonResult = ({
           <div className="compare block space-y-4 sm:space-y-0 sm:flex gap-4">
             <main className="block sm:grid sm:grid-cols-2 gap-4 space-y-6 sm:space-y-0 w-full my-4">
               {/* Left product key item  */}
-              {!!primaryKeyIngredients?.length && (
-                <section className="border-2 border-primary px-4 py-4 rounded-2xl hover-box">
-                  {primaryKeyIngredients?.map((ingred, index) => (
-                    <BadgeItem
-                      key={index}
-                      title={ingred.ingredient?.name ?? ""}
-                      subtitle={ingred.ingredient?.desc ?? ""}
-                      type="positive"
-                      icon={<Command />}
-                    />
-                  ))}
-                </section>
-              )}
+
+              <section className="border-2 border-primary px-4 py-4 rounded-2xl hover-box">
+                {primaryKeyIngredients?.length == 0 && (
+                  <BadgeItem
+                    key={"1"}
+                    type="positive"
+                    title={"No Information"}
+                    subtitle={"N/A"}
+                  />
+                )}
+                {primaryKeyIngredients?.map((ingred, index) => (
+                  <BadgeItem
+                    key={index}
+                    title={ingred.ingredient?.name ?? ""}
+                    subtitle={ingred.ingredient?.desc ?? ""}
+                    type="positive"
+                    icon={<Command />}
+                  />
+                ))}
+              </section>
               {/* Right product key item  */}
-              {!!secondaryKeyIngredient?.length && (
-                <section className="border-2 border-primary px-4 py-4 rounded-2xl hover-box">
-                  {secondaryKeyIngredient?.map((ingred, index) => (
-                    <BadgeItem
-                      key={index}
-                      title={ingred.ingredient?.name ?? ""}
-                      subtitle={ingred.ingredient?.desc ?? ""}
-                      type="positive"
-                      icon={<Command />}
-                    />
-                  ))}
-                </section>
-              )}
+
+              <section className="border-2 border-primary px-4 py-4 rounded-2xl hover-box">
+                {secondaryKeyIngredient?.length == 0 && (
+                  <BadgeItem
+                    key={"1"}
+                    type="positive"
+                    title={"No Information"}
+                    subtitle={"N/A"}
+                  />
+                )}
+                {secondaryKeyIngredient?.map((ingred, index) => (
+                  <BadgeItem
+                    key={index}
+                    title={ingred.ingredient?.name ?? ""}
+                    subtitle={ingred.ingredient?.desc ?? ""}
+                    type="positive"
+                    icon={<Command />}
+                  />
+                ))}
+              </section>
             </main>
           </div>
         </section>

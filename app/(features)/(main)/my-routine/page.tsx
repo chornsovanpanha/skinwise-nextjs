@@ -10,7 +10,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import MyRoutine from "./MyRoutine";
 export const metadata: Metadata = {
   title: "My routine builder",
@@ -34,7 +34,7 @@ const Page = async ({ searchParams }: { searchParams: SearchParams }) => {
   const userId = await getUserIdFromSession();
 
   if (!userId && !paramsUserId) {
-    return notFound();
+    return redirect("/login");
   }
   const userRoutine = await getRoutineByUser({
     userId: paramsUserId ? paramsUserId?.toString() : userId!,
@@ -48,7 +48,6 @@ const Page = async ({ searchParams }: { searchParams: SearchParams }) => {
     ? paramsUserId == userId
     : userId != undefined && userId != null;
 
-  console.log("Params id is", paramsUserId);
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: [TANSTACKQUERY.PRODUCTS, ""],
@@ -61,7 +60,7 @@ const Page = async ({ searchParams }: { searchParams: SearchParams }) => {
       <MyRoutine
         allowEdit={allowEdit}
         profile={userRoutine}
-        name={profile?.name ?? "N/A"}
+        name={profile?.name ?? "Not Found"}
         planType={profile?.subscription?.plan as PlanType}
         userId={
           paramsUserId
