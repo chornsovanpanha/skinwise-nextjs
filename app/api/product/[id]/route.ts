@@ -161,17 +161,45 @@ export async function DELETE(
 ) {
   try {
     const { id } = await context.params;
+    const productId = Number(id);
 
     const existing = await prisma.product.findUnique({
-      where: { id: Number(id) },
+      where: { id: productId },
     });
 
     if (!existing) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
 
+    // Delete all related ProductIngredient entries
+    await prisma.productIngredient.deleteMany({
+      where: { productId },
+    });
+
+    // Delete other related entities if needed
+    await prisma.insideGroup.deleteMany({
+      where: { productId },
+    });
+
+    await prisma.productEffect.deleteMany({
+      where: { productId },
+    });
+
+    await prisma.routineItem.deleteMany({
+      where: { productId },
+    });
+
+    await prisma.image.deleteMany({
+      where: { productId },
+    });
+
+    await prisma.productSkinMatch.deleteMany({
+      where: { productId },
+    });
+
+    // Finally delete the product
     await prisma.product.delete({
-      where: { id: Number(id) },
+      where: { id: productId },
     });
 
     return NextResponse.json({ message: "Product deleted successfully" });
