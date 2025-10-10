@@ -117,7 +117,7 @@ const Form = <T extends FormType>({ title, desc, type }: FormProps<T>) => {
                 </p>
               </header>
               {type === "register" && (
-                <div className="sm:flex gap-3 block sm:space-y-0">
+                <div className="sm:flex gap-3 block sm:space-y-0 space-y-6">
                   <AppInput
                     id="firstName"
                     label="First Name"
@@ -213,8 +213,21 @@ const Form = <T extends FormType>({ title, desc, type }: FormProps<T>) => {
         </div>
       </div>
       <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <Link href="#">Privacy Policy</Link>.
+        By clicking continue, you agree to our{" "}
+        <Link
+          target="_blank"
+          href="https://www.freeprivacypolicy.com/live/b603b221-5dc6-4195-9c90-51cf5fa56f75"
+        >
+          Terms of Service
+        </Link>{" "}
+        and{" "}
+        <Link
+          target="_blank"
+          href="https://www.freeprivacypolicy.com/live/b603b221-5dc6-4195-9c90-51cf5fa56f75"
+        >
+          Privacy Policy
+        </Link>
+        .
       </div>
     </div>
   );
