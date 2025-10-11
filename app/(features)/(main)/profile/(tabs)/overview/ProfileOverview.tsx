@@ -9,7 +9,7 @@ import { userAtom } from "@/lib/atom/user.atom";
 import { CurrentUserRoutine } from "@/types";
 import { useAtomValue } from "jotai";
 import { ChevronRight, LeafyGreen, Search, SmilePlus } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 
 const ProfileOverview = ({
   profileRoutine,

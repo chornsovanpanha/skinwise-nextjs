@@ -166,6 +166,17 @@ export async function DELETE(
       );
     }
 
+    await prisma.productIngredient.deleteMany({
+      where: {
+        ingredientId: parseInt(id),
+      },
+    });
+    await prisma.ingredientEffect.deleteMany({
+      where: {
+        ingredientId: parseInt(id),
+      },
+    });
+
     await prisma.ingredient.delete({
       where: { id: Number(id) },
     });

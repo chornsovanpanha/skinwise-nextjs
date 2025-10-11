@@ -12,6 +12,11 @@ export async function GET(req: NextRequest) {
       // Get ingredient by id
       const ingredient = await prisma.ingredient.findUnique({
         where: { id: Number(id) },
+        include: {
+          products: true,
+          similarFrom: true,
+          similarTo: true,
+        },
       });
       if (!ingredient) {
         return NextResponse.json(
@@ -25,6 +30,11 @@ export async function GET(req: NextRequest) {
     // Get all ingredients
     const ingredients = await prisma.ingredient.findMany({
       orderBy: { id: "asc" },
+      include: {
+        products: true,
+        similarFrom: true,
+        similarTo: true,
+      },
     });
     return NextResponse.json(ingredients);
   } catch (error) {

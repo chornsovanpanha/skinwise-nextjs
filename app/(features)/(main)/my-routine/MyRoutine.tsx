@@ -80,7 +80,9 @@ const MyRoutine = ({
       });
 
       if (routine && routine.success) {
-        show({ type: "success", message: "Routine has been added" });
+        setTimeout(() => {
+          show({ type: "success", message: "Routine has been added" });
+        }, 300);
       }
 
       if (routine?.error && !routine.success) {
@@ -89,12 +91,14 @@ const MyRoutine = ({
           message: routine.error || "Routine failed to add",
         });
       }
-      setLoading(false);
     } catch (error) {
       setLoading(false);
       if (error instanceof Error)
         show({ type: "error", message: error.message });
     } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 300);
       setSelectProduct(undefined);
     }
   }
@@ -125,7 +129,9 @@ const MyRoutine = ({
       });
 
       if (routine?.success) {
-        show({ type: "success", message: "Routine has been updated" });
+        setTimeout(() => {
+          show({ type: "success", message: "Routine has been updated" });
+        }, 300);
       } else {
         show({
           type: "error",
@@ -136,7 +142,9 @@ const MyRoutine = ({
       if (error instanceof Error)
         show({ type: "error", message: error.message });
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 300);
       setSelectProduct(undefined);
     }
   }
@@ -194,7 +202,9 @@ const MyRoutine = ({
       });
 
       if (routine?.success) {
-        show({ type: "success", message: "Routine has been deleted" });
+        setTimeout(() => {
+          show({ type: "success", message: "Routine has been deleted" });
+        }, 300);
       } else {
         show({
           type: "error",
@@ -205,7 +215,9 @@ const MyRoutine = ({
       if (error instanceof Error)
         show({ type: "error", message: error.message });
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 300);
       setSelectProduct(undefined);
     }
   };

@@ -8,8 +8,10 @@ import ProductFoundListing from "@/components/ingredient/ProductFoundListing";
 import SimilarIngredientListing from "@/components/ingredient/SimilarIngredientListing";
 import PageHeader from "@/components/PageHeader";
 import { Typography } from "@/components/Typography";
+import { Button } from "@/components/ui/button";
 import { AnalyseData, IngredientWithSimilar, PlanType } from "@/types";
 import clsx from "clsx";
+import Link from "next/link";
 
 type IngredientDetailProps = {
   ingredient: IngredientWithSimilar;
@@ -27,6 +29,7 @@ const IngredientDetail: React.FC<IngredientDetailProps> = ({
   const negativeEffects = ingredient.effects.filter(
     (effect) => effect.type == "NEGATIVE"
   );
+  const showBtnIdentify = planType == PlanType.PRO && !analysis;
 
   return (
     <main className="mb-12">
@@ -35,13 +38,21 @@ const IngredientDetail: React.FC<IngredientDetailProps> = ({
         title={
           analysis?.score && planType == PlanType.PRO
             ? analysis?.scoreDesc
-            : "Overview"
+            : "Ingredient Overview"
         }
         showBackgroundImg
         showPercentage
-        desc={
-          planType == PlanType.PRO ? analysis?.shortDesc ?? "N/A" : undefined
+        customDesc={
+          showBtnIdentify && (
+            <Button
+              variant={"default"}
+              className="w-full mt-2 rounded-2xl text-secondary"
+            >
+              <Link href={"/quiz"}>Find My SkinType</Link>
+            </Button>
+          )
         }
+        desc={planType == PlanType.PRO ? analysis?.shortDesc ?? "" : undefined}
         subtitle={
           analysis && planType == PlanType.PRO ? `${analysis?.score}%` : ""
         }
@@ -70,7 +81,7 @@ const IngredientDetail: React.FC<IngredientDetailProps> = ({
         {/* **** Positive effects ****  */}
         {ingredient && !!positiveEffects?.length && (
           <BoxOutlineWrapper title={"Positive effects"} className="hover-box">
-            <main className="block sm:grid gap-4 grid-cols-3 space-y-6 ">
+            <main className="block sm:grid gap-4  md:grid-cols-2 lg:grid-cols-3 space-y-6 sm:space-y-0">
               {positiveEffects?.map((item, index) => (
                 <BadgeItem
                   key={index}

@@ -62,8 +62,6 @@ const Page: React.FC<Params> = async ({ params }) => {
     });
   }
 
-  // console.log("Respons e is", product);
-
   return (
     <ProductDetail
       userId={userId ?? ""}

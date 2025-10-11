@@ -102,11 +102,13 @@ export async function updateRoutine({
         where: {
           type: payload.type,
           profileId,
+          id: { not: routineId },
           items: { some: { productId: payload.productId } },
         },
       });
 
       if (existingRoutine) {
+        revalidatePath("/my-routine");
         return {
           success: false,
           error: `Product already exists in ${payload.type} routine`,
@@ -115,7 +117,7 @@ export async function updateRoutine({
     }
 
     await prismaClient.routine.update({
-      where: { id: routineId, profileId },
+      where: { id: routineId },
       data: {
         type: payload.type as RoutineType,
         items: {
@@ -131,7 +133,6 @@ export async function updateRoutine({
     });
 
     revalidatePath("/my-routine");
-
     return { success: true, error: "" };
   } catch (error) {
     console.error("Update Routine Error:", error);

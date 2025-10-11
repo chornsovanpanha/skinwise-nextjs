@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { AnalyseData, PlanType, ProductWithDetail } from "@/types";
 import Link from "next/link";
 import CompareBtn from "./CompareBtn";
+import { Button } from "@/components/ui/button";
 
 const ProductDetail = ({
   product,
@@ -28,10 +29,23 @@ const ProductDetail = ({
   const negativeEffects = product.effects.filter(
     (effect) => effect.type == "NEGATIVE"
   );
-
+  const showBtnIdentify = planType == PlanType.PRO && !analysis;
   return (
     <main className="mb-12">
-      <PageHeader title="Product Overview" showBackgroundImg />
+      <PageHeader
+        title="Product Overview"
+        showBackgroundImg
+        customDesc={
+          showBtnIdentify && (
+            <Button
+              variant={"default"}
+              className="w-full mt-2 rounded-2xl text-secondary"
+            >
+              <Link href={"/quiz"}>Find My SkinType</Link>
+            </Button>
+          )
+        }
+      />
       <Wrapper className="flex-col sm:space-y-4 gap-8 sm:gap-12">
         {/* **** Product overview ****  */}
 
@@ -126,7 +140,7 @@ const ProductDetail = ({
             title={"Positive effects"}
             className="!my-0  hover-box"
           >
-            <main className="block sm:grid gap-4 grid-cols-3 space-y-6 ">
+            <main className="block sm:grid gap-4  md:grid-cols-2 lg:grid-cols-3 space-y-6 sm:space-y-0">
               {positiveEffects?.map((item, index) => (
                 <BadgeItem
                   key={index}
@@ -145,7 +159,7 @@ const ProductDetail = ({
             type="negative"
             className="!my-0 hover-box"
           >
-            <main className="block sm:grid gap-4 grid-cols-3 space-y-6">
+            <main className="block sm:grid gap-4  md:grid-cols-2 lg:grid-cols-3 space-y-6 sm:space-y-0">
               {negativeEffects?.map((item, index) => (
                 <BadgeItem
                   key={index}

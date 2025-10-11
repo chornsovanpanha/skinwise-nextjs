@@ -1,4 +1,5 @@
 import { createRoutine } from "@/actions/routine/routine-action";
+import Loading from "@/app/loading";
 import LucidLoading from "@/components/LucidLoading";
 import RoutineBuilderDialog from "@/components/my-routine/RoutineBuilderDialog";
 import SearchArea from "@/components/SearchArea";
@@ -69,7 +70,9 @@ const ChooseProduct = ({
           message: routine.error || "Routine failed to add",
         });
       }
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
     } catch (error) {
       setLoading(false);
       if (error instanceof Error)
@@ -100,6 +103,7 @@ const ChooseProduct = ({
 
   return (
     <section className="result flex flex-col  space-y-4 w-full  sm:w-xl">
+      {loading && <Loading />}
       <Dialog onOpenChange={setOpen} open={open}>
         <SearchArea
           key={searchAreaKey}
