@@ -1,4 +1,3 @@
-import { productsFoundIn } from "@/app/(features)/(main)/ingredient/data";
 import {
   DialogContent,
   DialogDescription,
@@ -6,24 +5,29 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useProductSearch } from "@/hooks/api/product/useProductSearch";
+import { ProductWithBrandAndImages } from "@/types";
+import { TANSTACKQUERY } from "@/utils/constant/queryclient";
 import { Search } from "lucide-react";
 import { useState } from "react";
 import AppInput from "../AppInput";
 import SmallProductItem from "../SmallProductItem";
-import { Product } from "@/types";
+import { useDebounce } from "use-debounce";
 
 const ComparisonSearchDialog = ({
   onClose,
   onSelect,
+  initSearch,
 }: {
   onClose: () => void;
-  onSelect: (value: Product) => void;
+  initSearch?: string;
+  onSelect: (value: ProductWithBrandAndImages) => void;
 }) => {
-  const [search, setSearch] = useState("");
-
-  const filteredProducts = productsFoundIn.filter((p) =>
-    p.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const [search, setSearch] = useState(initSearch ?? "");
+  const [debouncedSearch] = useDebounce(search, 300);
+  const { data } = useProductSearch(TANSTACKQUERY.PRODUCTS, {
+    search: debouncedSearch,
+  });
 
   return (
     <main>
@@ -49,10 +53,11 @@ const ComparisonSearchDialog = ({
         {/* Scrollable product list */}
         <DialogDescription asChild>
           <ScrollArea className="h-96 p-0 px-2 ">
-            {productsFoundIn.length > 0 ? (
+            {data && data?.length > 0 ? (
               <ul className="space-y-2">
-                {filteredProducts.map((product) => (
+                {data?.map((product) => (
                   <SmallProductItem
+                    highlight={search}
                     product={product}
                     key={product.id}
                     onPress={() => {

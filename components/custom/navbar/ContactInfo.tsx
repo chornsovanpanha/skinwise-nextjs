@@ -1,4 +1,5 @@
 import { Typography } from "@/components/Typography";
+import Link from "next/link";
 
 const ContactInfo = () => {
   return (
@@ -16,16 +17,20 @@ const ContactInfo = () => {
         <li>
           <Typography variant="body1" as="p" className="text-sm">
             Email:{" "}
-            <a href="mailto:skinwise@example.com" className="underline">
+            <Link
+              target="_blank"
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=amyjohn922@gmail.com&su=Hello%20Skinwise&body=I%20would%20like%20more%20information."
+              className="underline"
+            >
               info@skinwise.com
-            </a>
+            </Link>
           </Typography>
         </li>
         <li>
           <Typography variant="body1" as="p" className="text-sm">
             Phone:{" "}
-            <a href="tel:+855965689894" className="underline">
-              +855 96 56 89894
+            <a href="tel:+85512321472" className="underline">
+              +855 12 32 1472
             </a>
           </Typography>
         </li>

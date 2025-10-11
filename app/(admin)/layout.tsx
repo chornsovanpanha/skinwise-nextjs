@@ -14,7 +14,7 @@ export default async function Layout({
     <SidebarProvider defaultOpen={defaultOpen}>
       <AppSidebar />
       <section className="w-full">
-        <AppBar title="Dashboard" />
+        <AppBar />
         <main className="max-w-8xl mx-4">{children}</main>
       </section>
     </SidebarProvider>

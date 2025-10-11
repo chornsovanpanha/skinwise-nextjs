@@ -1,19 +1,54 @@
 "use client";
 import { BannerLanding } from "@/assets";
-import { SearchType } from "@/types";
+import { useGlobalSearch } from "@/hooks/api/search/useGlobalSearch";
+import { recentSearchProductAtom } from "@/lib/atom/search.atom";
+import { ProductWithBrandAndImages, SearchType } from "@/types";
+import { TANSTACKQUERY } from "@/utils/constant/queryclient";
+import { useAtom } from "jotai";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
+import { startTransition } from "react";
 import SearchArea from "../SearchArea";
 import { Typography } from "../Typography";
-import { searchPreviewListing } from "@/utils/mock";
+import { useDebounce } from "use-debounce";
 
 const HeaderSearchBanner = () => {
   const router = useRouter();
-  function handleTapItem(type: SearchType): void {
-    router.push(
-      type == "ingredient" ? "/ingredient/example" : "/product/example"
-    );
+  const [recentSearch, setRecentSearch] = useAtom(recentSearchProductAtom);
+  const searchParams = useSearchParams();
+  const q = searchParams?.get("q") ?? "";
+  const [debouceSearch] = useDebounce(q, 100);
+  const { data } = useGlobalSearch(TANSTACKQUERY.GLOBAL_SEARCH, {
+    search: debouceSearch ?? "",
+  });
+  function handleTapItem(
+    type: SearchType,
+    alias: string,
+    product?: ProductWithBrandAndImages
+  ): void {
+    if (type == "product" && product) {
+      startTransition(() => {
+        const duplicateProduct = recentSearch.find(
+          (item) => item.id === product.id
+        );
+        if (!duplicateProduct) {
+          if (recentSearch?.length >= 4) {
+            setRecentSearch((prev) => {
+              const newList = [...prev];
+              newList.shift();
+              newList.push(product);
+              return newList;
+            });
+          } else {
+            setRecentSearch((prev) => [...prev, product]);
+          }
+        }
+        router.push(`/product/${alias}`);
+      });
+    }
   }
+
   return (
     <section className="w-full h-[590px] bg-gray-100 relative z-10">
       <div className="bg-secondary/40 w-full h-full absolute" />
@@ -23,7 +58,7 @@ const HeaderSearchBanner = () => {
         className="object-cover w-full h-full"
       />
 
-      <div className="absolute top-0 bottom-0  left-0 right-0 flex justify-center items-center ">
+      <div className="absolute top-0 bottom-0  left-0 right-0 flex justify-center items-center">
         <header className="text-center">
           <Typography variant="h2" className="text-primary">
             Find skincare that works
@@ -33,10 +68,10 @@ const HeaderSearchBanner = () => {
           </Typography>
           {/* Search area text  */}
           <SearchArea
-            showRecent
+            showRecent={recentSearch?.length > 0}
             handleTapItem={handleTapItem}
-            ingredients={searchPreviewListing.ingredients}
-            products={searchPreviewListing.products}
+            ingredients={data?.ingredients}
+            products={data?.products}
           />
         </header>
       </div>

@@ -2,7 +2,7 @@
 import { requester } from "@/lib/axios/api";
 import { parseSetCookie, setAppSession } from "@/lib/sessions/cookie";
 import { clearUserCookie, setUserSessionCookie } from "@/lib/sessions/session";
-import { AuthResponse } from "@/types/api";
+import { UserPrisma } from "@/types";
 import { SESSION_NAME } from "@/utils/constant/cookie";
 import { LoginSchemaType } from "@/utils/schema";
 const defaultState = {
@@ -11,7 +11,7 @@ const defaultState = {
   error: "",
 };
 export interface LoginResponse {
-  data: AuthResponse;
+  data: UserPrisma;
 }
 type LoginParams = {
   loginBy?: string;
@@ -20,23 +20,24 @@ type LoginParams = {
   photoUrl?: string;
 } & LoginSchemaType;
 
-export const LoginAction = async (formData: LoginParams) => {
+export const LoginAction = async (
+  formData: LoginParams
+): Promise<{ data?: UserPrisma; success: boolean; error?: string }> => {
   const { data, error, success, headers } = await requester<
     LoginResponse,
     LoginSchemaType
   >("/auth/login", "POST", formData, { withCredentials: true });
   const setCookieHeader = headers?.["set-cookie"];
-
   if (data && success) {
     const parsed = parseSetCookie(setCookieHeader, SESSION_NAME);
     if (parsed?.value) {
       await setAppSession(parsed?.value, parsed.maxAge);
-      await setUserSessionCookie(data.data.id?.toString(), parsed.maxAge);
+      await setUserSessionCookie(data.data.id?.toString() ?? "", parsed.maxAge);
     }
     return { ...defaultState, data: data.data, success: true };
   }
 
-  return { ...defaultState, error };
+  return { ...defaultState, error: error ?? "N/A", success: false };
 };
 
 export const updateSession = async (cookie: string) => {
@@ -57,7 +58,10 @@ export const updateSession = async (cookie: string) => {
 
     if (parsed?.value) {
       await setAppSession(parsed?.value, parsed.maxAge);
-      await setUserSessionCookie(data.data?.id?.toString(), parsed.maxAge);
+      await setUserSessionCookie(
+        data.data?.id?.toString() ?? "",
+        parsed.maxAge
+      );
     }
     return { ...defaultState, data: data.data, success: true };
   } else {

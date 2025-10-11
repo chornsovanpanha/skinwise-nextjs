@@ -39,11 +39,11 @@ const PageHeader: React.FC<PageHeaderProps> = ({
           "flex-col items-center": showPercentage,
         })}
       >
-        <header>
+        <header className="flex flex-col justify-center items-center">
           <Typography as="p" variant="h4" className="text-primary">
             {title}
           </Typography>
-          {customDesc && customDesc}
+          <div className="w-[150px]"> {customDesc && customDesc}</div>
         </header>
 
         <section className="text-center">

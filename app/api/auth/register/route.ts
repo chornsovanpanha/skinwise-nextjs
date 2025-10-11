@@ -1,5 +1,5 @@
 import { validateBody } from "@/lib/middleware/zod-validation";
-import prismaClientTools from "@/lib/prisma";
+import prismaClient from "@/lib/prisma";
 import { EXPIRED_AT, SESSION_NAME } from "@/utils/constant/cookie";
 import { sendEmail } from "@/utils/node-mailer/send-email";
 import { extendedRegisterSchema, RegisterSchemaType } from "@/utils/schema";
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     );
     const { email, password, firstName, lastName } = body;
 
-    const existingUser = await prismaClientTools.user.findUnique({
+    const existingUser = await prismaClient.user.findUnique({
       where: { email: email?.toLowerCase() },
     });
     if (existingUser) {
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = await prismaClientTools.user.create({
+    const user = await prismaClient.user.create({
       data: {
         email: data.email?.toLowerCase(),
         password: hashedPassword,
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
     const token = randomUUID();
     const expiresAt = new Date(Date.now() + EXPIRED_AT * 1000);
 
-    await prismaClientTools.session.create({
+    await prismaClient.session.create({
       data: { userId: user.id, token, expiresAt },
     });
 
@@ -73,7 +73,7 @@ export async function POST(request: Request) {
         },
       ],
 
-      message: `<p>This is a welcoming message thanks you for trusting us.Enjoy ur member as skinwise.</p>`,
+      message: `<p>This is a welcoming message thanks you for trusting us. Enjoy ur member as skinwise.</p>`,
     });
 
     return response;

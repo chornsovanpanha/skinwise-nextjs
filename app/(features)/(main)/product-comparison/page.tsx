@@ -1,6 +1,12 @@
-import React from "react";
-import Comparison from "./Comparison";
+import { productSearchAction } from "@/actions/product/product.action";
+import { TANSTACKQUERY } from "@/utils/constant/queryclient";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 import { Metadata } from "next";
+import Comparison from "./Comparison";
 
 export const metadata: Metadata = {
   title: "Product Compare",
@@ -39,8 +45,19 @@ export const metadata: Metadata = {
     images: ["https://yourdomain.com/og-image.png"],
   },
 };
-const Page = () => {
-  return <Comparison />;
+//Server side tanstack query
+const Page = async () => {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: [TANSTACKQUERY.PRODUCTS, ""],
+    queryFn: () => productSearchAction({ search: "" }),
+  });
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <Comparison />
+    </HydrationBoundary>
+  );
 };
 
 export default Page;

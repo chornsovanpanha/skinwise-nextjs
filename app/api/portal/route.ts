@@ -1,5 +1,5 @@
 import { AppEnv } from "@/config/env";
-import prismaClientTools from "@/lib/prisma";
+import prismaClient from "@/lib/prisma";
 import { getAppSession } from "@/lib/sessions/cookie";
 import { stripe } from "@/lib/stripe/stripe";
 import { NextRequest, NextResponse } from "next/server";
@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     }
     console.log("Portal customer return", userId);
 
-    const user = await prismaClientTools.user.findUnique({
+    const user = await prismaClient.user.findUnique({
       where: { id: parseInt(userId) },
       include: { subscription: true },
     });

@@ -1,5 +1,6 @@
 import { useSearch } from "@/hooks/useSearch";
-import { Ingredient, Product, SearchType } from "@/types";
+import { ProductWithBrandAndImages, SearchType } from "@/types";
+import { Ingredient } from "@prisma/client";
 import { useEffect, useRef, useState } from "react";
 import AppInput from "./AppInput";
 import RecentProductListing from "./landing-page/RecentProductListing";
@@ -13,8 +14,12 @@ const SearchArea = ({
   showRecent,
 }: {
   className?: string;
-  handleTapItem: (type: SearchType) => void;
-  products?: Product[];
+  handleTapItem: (
+    type: SearchType,
+    alias: string,
+    product?: ProductWithBrandAndImages
+  ) => void;
+  products?: ProductWithBrandAndImages[];
   showRecent?: boolean;
   ingredients?: Ingredient[];
 }) => {
@@ -23,16 +28,16 @@ const SearchArea = ({
   const { debounceSearch, handleTextChange, pathName, q } = useSearch({
     searchRef: searchRef,
     queryParams: `?q=`,
+    backUrl: "",
     onFocus: (value) => setIsFocused(value),
   });
 
   useEffect(() => {
     if (q) {
       setIsFocused(true);
-    } else {
-      setIsFocused(false);
     }
   }, [pathName, q]);
+
   return (
     <div className="search-area relative" ref={searchRef}>
       <AppInput
@@ -44,7 +49,7 @@ const SearchArea = ({
         onFocus={() => setIsFocused(true)}
         onChange={handleTextChange}
         type="text"
-        className={`bg-secondary border-0 text-primary py-8 my-4 rounded-2xl z-50 ${className}`}
+        className={`bg-secondary border-0 text-primary py-8 my-4 rounded-2xl z-50  ${className}`}
         placeholder="Type to search for product or ingredient...."
       />
       {isFocused && debounceSearch && (
@@ -54,8 +59,9 @@ const SearchArea = ({
           onPress={handleTapItem}
         />
       )}
-
-      {showRecent && isFocused && !debounceSearch && <RecentProductListing />}
+      {showRecent && isFocused && !debounceSearch && (
+        <RecentProductListing onPress={handleTapItem} />
+      )}
     </div>
   );
 };

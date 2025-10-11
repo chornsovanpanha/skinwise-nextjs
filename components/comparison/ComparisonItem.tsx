@@ -2,23 +2,40 @@ import ProductCompareImage from "@/components/ProductCompareImage";
 import { Typography } from "@/components/Typography";
 import React from "react";
 
-const ComparisonItem = () => {
+export type ComparisonItemProps = {
+  imgUrl: string;
+  showFlag?: boolean;
+  country?: string;
+  title: string;
+  brandName: string;
+  ingredientsCount: number;
+};
+
+const ComparisonItem: React.FC<ComparisonItemProps> = ({
+  imgUrl,
+  showFlag = false,
+  title,
+  country,
+  brandName,
+  ingredientsCount,
+}) => {
   return (
-    <section className=" w-full justify-center items-center">
+    <section className="w-full flex flex-col justify-center items-center h-[480px]">
       <ProductCompareImage
-        imgUrl="https://storage.skinsort.com/vhfn18oeucujg2wmaqz2m4a6xy2a"
-        showFlag
+        imgUrl={imgUrl}
+        showFlag={showFlag}
+        country={country ?? ""}
       />
 
-      <div className="info w-full text-center">
+      <div className="info w-full text-center mt-2">
         <Typography as="p" variant="h6" className="text-secondary">
-          Low Ph Make up Cleaner
+          {title}
         </Typography>
         <Typography as="p" variant="caption" className="text-gray-5">
-          Makeup Remover
+          {brandName}
         </Typography>
         <Typography as="p" variant="default" className="text-secondary">
-          8 Ingredients
+          {ingredientsCount} Ingredients
         </Typography>
       </div>
     </section>

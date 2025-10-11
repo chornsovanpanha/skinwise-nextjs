@@ -6,40 +6,35 @@ export const toolFeatureMenus = [
   },
   {
     id: 2,
-    href: "#",
+    href: "/",
     name: "Ingredient Checker",
   },
   {
     id: 3,
-    href: "/routine-builder",
+    href: "/my-routine",
     name: "Skincare Routine Builder",
-  },
-  {
-    id: 4,
-    href: "/recommendations",
-    name: "Personalized Recommendations",
   },
 ];
 
 export const aboutMenus = [
   {
     id: 1,
-    href: "/about",
+    href: "/",
     name: "About",
   },
   {
     id: 2,
-    href: "/support",
+    href: "/",
     name: "Support",
   },
   {
     id: 3,
-    href: "/contact",
+    href: "/",
     name: "Contact Us",
   },
   {
     id: 4,
-    href: "/terms",
+    href: "/",
     name: "Terms of Service",
   },
 ];

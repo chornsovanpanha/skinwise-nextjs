@@ -16,27 +16,32 @@ export const useSearch = ({
   const router = useRouter();
   const q = searchParams.get("q") || "";
   const [debounceSearch, setDebounceSearch] = useState(q ?? "");
-
   const pathName = usePathname();
-
   function handleTextChange(e: ChangeEvent<HTMLInputElement>): void {
+    const value = e.target.value;
+
     onFocus(true);
-    setDebounceSearch(e.target.value?.toLowerCase());
+    setDebounceSearch(e.target.value);
+    const newUrl = value
+      ? `${queryParams}${encodeURIComponent(value)}`
+      : backUrl ?? "/";
+
     if (!e.target.value && backUrl) {
-      router.replace(backUrl ?? "/", {
-        scroll: false,
-      });
+      window.history.replaceState(null, "", newUrl);
     } else {
-      router.replace(`${queryParams}${encodeURIComponent(e.target.value)}`, {
-        scroll: false,
-      });
+      window.history.replaceState(null, "", newUrl);
     }
   }
   const clearSingleParam = () => {
     const params = new URLSearchParams(searchParams.toString());
     params.delete("q");
-    router.push(`${pathName}?${params.toString()}`);
+
+    const newQuery = params.toString();
+    const newUrl = newQuery ? `${pathName}?${newQuery}` : pathName;
+
+    router.push(newUrl, { scroll: false });
   };
+
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
@@ -48,11 +53,11 @@ export const useSearch = ({
   }, []);
 
   useEffect(() => {
-    if (!q) {
-      setDebounceSearch("");
+    if (!debounceSearch) {
+      // setDebounceSearch("");
       clearSingleParam();
     }
-  }, [q]);
+  }, [debounceSearch]);
 
   return {
     handleTextChange,

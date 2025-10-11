@@ -8,73 +8,138 @@ import ProductFoundListing from "@/components/ingredient/ProductFoundListing";
 import SimilarIngredientListing from "@/components/ingredient/SimilarIngredientListing";
 import PageHeader from "@/components/PageHeader";
 import { Typography } from "@/components/Typography";
+import { Button } from "@/components/ui/button";
+import { AnalyseData, IngredientWithSimilar, PlanType } from "@/types";
 import clsx from "clsx";
-import { AboutIngredients, positiveEffects } from "../data";
+import Link from "next/link";
 
-const IngredientDetail = ({ name }: { name: string }) => {
+type IngredientDetailProps = {
+  ingredient: IngredientWithSimilar;
+  analysis?: AnalyseData | null;
+  planType?: PlanType;
+};
+const IngredientDetail: React.FC<IngredientDetailProps> = ({
+  ingredient,
+  analysis,
+  planType,
+}) => {
+  const positiveEffects = ingredient.effects.filter(
+    (effect) => effect.type == "POSITIVE"
+  );
+  const negativeEffects = ingredient.effects.filter(
+    (effect) => effect.type == "NEGATIVE"
+  );
+  const showBtnIdentify = planType == PlanType.PRO && !analysis;
+
   return (
     <main className="mb-12">
-      <PageHeader title="Overview" showBackgroundImg />
-      {/* <PageHeader
-        title="Good match"
+      {/* <PageHeader title="Overview" showBackgroundImg /> */}
+      <PageHeader
+        title={
+          analysis?.score && planType == PlanType.PRO
+            ? analysis?.scoreDesc
+            : "Ingredient Overview"
+        }
         showBackgroundImg
         showPercentage
-        desc="best ingredient for your face problem"
-        subtitle="96%"
-      /> */}
+        customDesc={
+          showBtnIdentify && (
+            <Button
+              variant={"default"}
+              className="w-full mt-2 rounded-2xl text-secondary"
+            >
+              <Link href={"/quiz"}>Find My SkinType</Link>
+            </Button>
+          )
+        }
+        desc={planType == PlanType.PRO ? analysis?.shortDesc ?? "" : undefined}
+        subtitle={
+          analysis && planType == PlanType.PRO ? `${analysis?.score}%` : ""
+        }
+      />
 
       <Wrapper className="flex-col sm:space-y-0 gap-4">
         {/* **** Header overview ****  */}
-        <HeaderOverview name={name} />
+        <HeaderOverview
+          name={ingredient?.name ?? name ?? ""}
+          desc={ingredient.desc ?? "N/A"}
+        />
         {/* **** About Ingredient ****  */}
-        <BoxOutlineWrapper title={"About this ingredient"}>
-          <main className="block sm:grid gap-4 grid-cols-3 space-y-6 sm:space-y-4">
-            {AboutIngredients?.map((ingredient, index) => (
-              <AboutItem data={ingredient} key={index} />
-            ))}
-          </main>
-        </BoxOutlineWrapper>
+        {ingredient && !!ingredient?.insideGroups?.length && (
+          <BoxOutlineWrapper
+            title={"About this ingredient"}
+            className="hover-box"
+          >
+            <main className="block sm:grid gap-4 grid-cols-3 space-y-6 sm:space-y-4">
+              {ingredient?.insideGroups?.map((ingredient, index) => (
+                <AboutItem data={ingredient?.title} key={index} />
+              ))}
+            </main>
+          </BoxOutlineWrapper>
+        )}
 
         {/* **** Positive effects ****  */}
-        <BoxOutlineWrapper title={"Positive effects"}>
-          <main className="block sm:grid gap-4 grid-cols-3 space-y-6 ">
-            {positiveEffects?.map((_, index) => (
-              <BadgeItem key={index} type="positive" />
-            ))}
-          </main>
-        </BoxOutlineWrapper>
+        {ingredient && !!positiveEffects?.length && (
+          <BoxOutlineWrapper title={"Positive effects"} className="hover-box">
+            <main className="block sm:grid gap-4  md:grid-cols-2 lg:grid-cols-3 space-y-6 sm:space-y-0">
+              {positiveEffects?.map((item, index) => (
+                <BadgeItem
+                  key={index}
+                  type="positive"
+                  title={item.title}
+                  subtitle={item.shortDesc ?? ""}
+                />
+              ))}
+            </main>
+          </BoxOutlineWrapper>
+        )}
         {/* **** Negative effects **** */}
-        <BoxOutlineWrapper title={"Negative effects"} type="negative">
-          <main className="block sm:grid gap-4 grid-cols-3 space-y-6">
-            {positiveEffects?.map((_, index) => (
-              <BadgeItem key={index} type="negative" />
-            ))}
-          </main>
-        </BoxOutlineWrapper>
+        {ingredient && !!negativeEffects?.length && (
+          <BoxOutlineWrapper
+            title={"Negative effects"}
+            type="negative"
+            className="hover-box"
+          >
+            <main className="block sm:grid gap-4 grid-cols-3 space-y-6">
+              {negativeEffects?.map((item, index) => (
+                <BadgeItem
+                  key={index}
+                  type="negative"
+                  title={item.title}
+                  subtitle={item.shortDesc ?? ""}
+                />
+              ))}
+            </main>
+          </BoxOutlineWrapper>
+        )}
 
         {/* **** Similar Ingredients ****  */}
-        <section className="ingredient py-12 space-y-4">
-          <Typography
-            as="h6"
-            variant="subtitle1"
-            className={clsx(" !text-md sm:!text-xl text-secondary")}
-          >
-            Similar Ingredient
-          </Typography>
-          <SimilarIngredientListing />
-        </section>
+        {ingredient && !!ingredient?.similarTo?.length && (
+          <section className="ingredient py-12 space-y-4">
+            <Typography
+              as="h6"
+              variant="subtitle1"
+              className={clsx(" !text-md sm:!text-xl text-secondary")}
+            >
+              Similar Ingredient
+            </Typography>
+            <SimilarIngredientListing data={ingredient?.similarTo} />
+          </section>
+        )}
 
         {/* **** Product Found in ****  */}
-        <section className="space-y-6">
-          <Typography
-            as="h6"
-            variant="subtitle1"
-            className={clsx(" !text-md sm:!text-xl text-secondary")}
-          >
-            Products found in {name}
-          </Typography>
-          <ProductFoundListing />
-        </section>
+        {ingredient && !!ingredient?.products?.length && (
+          <section className="space-y-6">
+            <Typography
+              as="h6"
+              variant="subtitle1"
+              className={clsx(" !text-md sm:!text-xl text-secondary")}
+            >
+              Products found in {ingredient?.name}
+            </Typography>
+            <ProductFoundListing products={ingredient?.products} />
+          </section>
+        )}
       </Wrapper>
     </main>
   );

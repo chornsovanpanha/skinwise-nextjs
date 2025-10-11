@@ -1,7 +1,11 @@
+import { getPopularProducts } from "@/data";
 import HeaderOverview from "./HeaderOverview";
 import PopularProductListing from "./PopularProductListing";
+import { ProductWithBrandAndImages } from "@/types";
 
-const BestProduct = () => {
+const BestProduct = async () => {
+  const products = await getPopularProducts();
+
   return (
     <main className="flex-col my-12">
       <HeaderOverview
@@ -14,7 +18,9 @@ const BestProduct = () => {
 
       {/* Products Section */}
       <section className="products bg-primary/50  py-12 left-0 ">
-        <PopularProductListing />
+        <PopularProductListing
+          products={(products as ProductWithBrandAndImages[]) ?? []}
+        />
       </section>
     </main>
   );

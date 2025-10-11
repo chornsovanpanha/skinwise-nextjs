@@ -48,6 +48,7 @@ export class AppEnv {
   static readonly stripeSecretKey = serverEnv?.STRIPE_SECRET_APIKEY!;
   static readonly stripepriceIdMonthly = serverEnv?.STRIPE_PRICEID_MONTHLY!;
   static readonly stripeWebhookSecret = serverEnv?.STRIPE_WEBHOOK_SECRET!;
+  static readonly apiKey = serverEnv?.API_KEY!;
 }
 
 export class ClientAppEnv {

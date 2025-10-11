@@ -17,3 +17,4 @@ export { default as PanaLogoSvg } from "../public/assets/svg/pana.svg";
 export { default as QRSvg } from "../public/assets/svg/qr.svg";
 export { default as SkinwiseLogoTop } from "../public/assets/svg/skinwise.svg";
 export { default as PerfumeLogoSvg } from "../public/perfume.svg";
+export { default as ImageNotFound } from "../public/assets/images/no-img-card.png";

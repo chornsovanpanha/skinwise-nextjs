@@ -22,8 +22,9 @@ const AppInput: React.FC<AppInputProps> = ({
 }) => {
   const [togglePassword, setTogglePassword] = useState(false);
   return (
-    <div className={`grid w-full items-start gap-1 max-w-full`}>
-      <Label htmlFor={props.id}>{label}</Label>
+    <div className={`grid items-start gap-1 w-full`}>
+      {label && <Label htmlFor={props.id}>{label}</Label>}
+
       <div className="relative flex items-center">
         {icon && (
           <span className="absolute left-3 text-gray-400 flex items-center h-full">
@@ -33,7 +34,7 @@ const AppInput: React.FC<AppInputProps> = ({
 
         <Input
           className={clsx(
-            "focus-visible:ring-1 focus:border-1 placeholder:text-gray-4",
+            "focus-visible:ring-1 focus:border-1 placeholder:text-gray-4 placeholder:text-sm sm:placeholder:text-md h-10.5",
             {
               "focus-visible:ring-1 focus-visible:ring-error-background focus-visible:border-error-background":
                 error,
@@ -59,13 +60,14 @@ const AppInput: React.FC<AppInputProps> = ({
           </span>
         )}
       </div>
-      {error ? (
-        <Typography className="text-error-main" variant="caption" as="p">
-          *{error}
-        </Typography>
-      ) : (
-        <div className="mt-[20px]" />
-      )}
+      {
+        error ? (
+          <Typography className="text-error-main" variant="caption" as="p">
+            *{error}
+          </Typography>
+        ) : null
+        // <div className="mt-[20px]" />
+      }
     </div>
   );
 };

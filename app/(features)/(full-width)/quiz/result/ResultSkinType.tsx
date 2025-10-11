@@ -1,17 +1,25 @@
 import { Typography } from "@/components/Typography";
 import { Button } from "@/components/ui/button";
+import { ProfileWithConcerns } from "@/types";
 import { Flower } from "lucide-react";
-import React from "react";
 
-const ResultSkinType = ({ onContinue }: { onContinue: () => void }) => {
+const ResultSkinType = ({
+  onContinue,
+  userSkinType,
+  desc,
+}: {
+  onContinue: () => void;
+  userSkinType?: ProfileWithConcerns;
+  desc?: string;
+}) => {
   return (
     <section className="result flex flex-col items-center space-y-4">
       <div className="top text-center">
         <Typography as="p" variant="h2" className="text-secondary">
-          Oily
+          {userSkinType?.skinType ?? "N/A"}
         </Typography>
         <Typography as="p" variant="default" className="text-secondary">
-          You skin products an above average amoun tof oil
+          {desc}
         </Typography>
       </div>
       <Flower className="w-25 h-25" />

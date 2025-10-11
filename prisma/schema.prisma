@@ -64,6 +64,7 @@ model User {
   email     String   @unique
   password  String
   name      String?
+  bio       String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   platform  String?
@@ -76,6 +77,8 @@ model User {
   subscription        Subscription?
   profile             Profile?
   userUsage           UserUsage?
+  lastSearch          DateTime?            @default(now())
+  searchCount         Int                  @default(0)
 }
 
 model Subscription {
@@ -119,69 +122,63 @@ model Brand {
   id        Int       @id @default(autoincrement())
   alias     String
   title     String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  products  Product[]
-}
-
-model Category {
-  id        Int       @id @default(autoincrement())
-  title     String
-  alias     String
+  country   String?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   products  Product[]
 }
 
 model Product {
-  id     Int     @id @default(autoincrement())
-  name   String
-  code   String  @unique
-  alias  String?
-  desc   String?
-  rating Int     @default(0)
-
+  id      Int     @id @default(autoincrement())
+  name    String
+  code    String? @unique
+  alias   String?
+  desc    String?
+  rating  Int     @default(0)
   brandId Int
-  brand   Brand @relation(fields: [brandId], references: [id])
-
-  categoryId Int
-  category   Category @relation(fields: [categoryId], references: [id])
+  brand   Brand   @relation(fields: [brandId], references: [id])
 
   // Relations
-  ingredients  ProductIngredient[]
-  insideGroups InsideGroup[]
-  effects      ProductEffect[]
-  RoutineItem  RoutineItem[]
-  Image        Image[]
+  ingredients      ProductIngredient[]
+  insideGroups     InsideGroup[]
+  effects          ProductEffect[]
+  RoutineItem      RoutineItem[]
+  Image            Image[]
+  searchCount      Int?                @default(0)
+  ProductSkinMatch ProductSkinMatch[]
 
   @@index([name])
   @@index([alias])
 }
 
 model Ingredient {
-  id    Int     @id @default(autoincrement())
-  name  String? // e.g. "Retinol (Vitamin A)"
-  desc  String? // Short description
-  about String? // Longer "About this ingredient"
-  alias String
+  id          Int     @id @default(autoincrement())
+  name        String? // e.g. "Retinol (Vitamin A)"
+  desc        String? // Short description
+  about       String? // Longer "About this ingredient"
+  alias       String
+  searchCount Int?    @default(0)
 
   // Relations
-  products     ProductIngredient[] // Many to many 
-  insideGroups IngredientInsideGroup[] // Many to many 
-  effects      IngredientEffect[]
-  similarFrom  SimilarIngredient[]     @relation("FromIngredient")
-  similarTo    SimilarIngredient[]     @relation("ToIngredient")
-  Image        Image[]
+  products            ProductIngredient[] // Many to many 
+  insideGroups        IngredientInsideGroup[] // Many to many 
+  effects             IngredientEffect[]
+  similarFrom         SimilarIngredient[]     @relation("FromIngredient")
+  similarTo           SimilarIngredient[]     @relation("ToIngredient")
+  Image               Image[]
+  IngredientSkinMatch IngredientSkinMatch[]
 
   @@index([name])
   @@index([alias])
 }
 
+//Many to Many
 model ProductIngredient {
   productId     Int
   ingredientId  Int
   concentration String?
   notes         String?
+  isKey         Boolean @default(false)
 
   product    Product    @relation(fields: [productId], references: [id])
   ingredient Ingredient @relation(fields: [ingredientId], references: [id])
@@ -190,12 +187,10 @@ model ProductIngredient {
 }
 
 model InsideGroup {
-  id        Int      @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   productId Int
   title     String // e.g. "Allergens"
-  items     String[] // list of items, e.g. ["Fragrance", "Limonene"]
-
-  product Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
 }
 
 model ProductEffect {
@@ -214,7 +209,6 @@ model IngredientInsideGroup {
   id           Int        @id @default(autoincrement())
   ingredientId Int
   title        String // e.g. "Allergens"
-  items        String[] // ["Fragrance", "Limonene"]
   ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
 }
 
@@ -246,10 +240,11 @@ model Profile {
   userId Int  @unique
   user   User @relation(fields: [userId], references: [id])
 
-  skinType  SkinType?
-  allergies String[] // e.g. ["Fragrance", "Limonene"]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  skinType     SkinType?
+  skinTypeDesc String?
+  allergies    String[] // e.g. ["Fragrance", "Limonene"]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
   concerns SkinConcern[] @relation("ProfileConcerns") // many-to-many
   routines Routine[]
@@ -257,7 +252,7 @@ model Profile {
 
 model SkinConcern {
   id   Int    @id @default(autoincrement())
-  name String @unique // e.g. "Acne", "Wrinkles", "Dark spots"
+  name String
 
   profiles Profile[] @relation("ProfileConcerns") // many-to-many
 }
@@ -278,18 +273,38 @@ model RoutineItem {
   id        Int     @id @default(autoincrement())
   routineId Int
   productId Int
-  step      Int // the order in the routine (1, 2, 3...)
-  notes     String? // optional instructions
+  usage     String // Monday, tues,...etc 'M,T,W,'
+  routine   Routine @relation(fields: [routineId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+}
 
-  routine Routine @relation(fields: [routineId], references: [id])
+model ProductSkinMatch {
+  id        Int      @id @default(autoincrement())
+  productId Int
+  skinType  SkinType
+  score     Float
+
   product Product @relation(fields: [productId], references: [id])
+
+  @@unique([productId, skinType])
+}
+
+model IngredientSkinMatch {
+  id           Int      @id @default(autoincrement())
+  ingredientId Int
+  skinType     SkinType
+  score        Float
+
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id])
+
+  @@unique([ingredientId, skinType])
 }
 
 enum RoutineType {
   MORNING
   EVENING
   NIGHT
-  CUSTOM
+  BOTH
 }
 
 enum SkinType {

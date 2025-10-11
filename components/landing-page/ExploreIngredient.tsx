@@ -1,7 +1,9 @@
+import { getPartialIngredients } from "@/data/ingredient";
 import HeaderOverview from "./HeaderOverview";
 import IngredientListing from "./IngredientListing";
 
-const ExploreIngredient = () => {
+const ExploreIngredient = async () => {
+  const ingredients = await getPartialIngredients();
   return (
     <main className="flex-col my-12">
       <HeaderOverview
@@ -11,9 +13,10 @@ const ExploreIngredient = () => {
         title="Explore"
         titlePrimary="Ingredient"
       />
+
       {/* Ingredients Section */}
       <section className="products bg-primary/10  py-12 left-0">
-        <IngredientListing />
+        <IngredientListing data={ingredients} />
       </section>
     </main>
   );

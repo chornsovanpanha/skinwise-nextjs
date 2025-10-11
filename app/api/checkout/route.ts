@@ -1,6 +1,6 @@
 import { AppEnv } from "@/config/env";
 import { withAuth } from "@/lib/middleware/with-auth";
-import prismaClientTools from "@/lib/prisma";
+import prismaClient from "@/lib/prisma";
 import { stripe } from "@/lib/stripe/stripe";
 import { StripeCheckoutBody } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
@@ -17,7 +17,7 @@ const handler = async (request: NextRequest) => {
     }
 
     // Find user with subscription
-    const user = await prismaClientTools.user.findUnique({
+    const user = await prismaClient.user.findUnique({
       where: { id: parseInt(userId) },
       include: { subscription: true },
     });
@@ -37,7 +37,7 @@ const handler = async (request: NextRequest) => {
       customerId = customer.id;
 
       // Upsert subscription in Prisma (required fields)
-      await prismaClientTools.user.update({
+      await prismaClient.user.update({
         where: { id: user.id },
         data: {
           subscription: {

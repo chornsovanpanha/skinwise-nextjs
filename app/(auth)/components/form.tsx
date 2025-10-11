@@ -5,7 +5,9 @@ import { SkinwiseLogoLight } from "@/assets";
 import AppInput from "@/components/AppInput";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { userAtom } from "@/lib/atom/user.atom";
 import { cn } from "@/lib/utils";
+import { UserPrisma } from "@/types";
 import {
   loginSchema,
   LoginSchemaType,
@@ -22,7 +24,6 @@ import { redirect } from "next/navigation";
 import { startTransition, useState } from "react";
 import { FieldErrors, Path, Resolver, useForm } from "react-hook-form";
 import SocialButton from "./SocialButton";
-import { userAtom } from "@/lib/atom/user.atom";
 
 type FormType = "login" | "register";
 
@@ -65,8 +66,22 @@ const Form = <T extends FormType>({ title, desc, type }: FormProps<T>) => {
         : await RegisterAction(formData as RegisterSchemaType);
 
     if (data && success) {
+      const mutateData: UserPrisma = data as UserPrisma;
+      // alert(JSON.stringify(data));
+
       startTransition(() => {
-        setUserAtom({ ...data });
+        setUserAtom({
+          bio: mutateData?.bio,
+          email: mutateData.email,
+          loginBy: mutateData.loginBy,
+          name: mutateData.name,
+          platform: mutateData.platform ?? undefined,
+          role: mutateData.role,
+          photoUrl: {
+            url: mutateData.Image?.at(0)?.url ?? "",
+          },
+          id: mutateData.id?.toString(),
+        });
 
         show({ type: "success", message: `Welcome back ${data?.name}` });
         setMutatestate(defaultState);
@@ -89,7 +104,7 @@ const Form = <T extends FormType>({ title, desc, type }: FormProps<T>) => {
       <div className="overflow-hidden p-0 m-0">
         <div className="grid md:grid-cols-2 m-0 bg-white rounded-2xl">
           <form className="p-6 md:p-8" onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 space-y-4">
               <header className="flex flex-col items-center text-center mb-4">
                 <h1 className="text-lg md:text-2xl font-bold">{title}</h1>
                 <p
@@ -102,7 +117,7 @@ const Form = <T extends FormType>({ title, desc, type }: FormProps<T>) => {
                 </p>
               </header>
               {type === "register" && (
-                <div className="sm:flex gap-3 block sm:space-y-0">
+                <div className="sm:flex gap-3 block sm:space-y-0 space-y-6">
                   <AppInput
                     id="firstName"
                     label="First Name"
@@ -198,8 +213,21 @@ const Form = <T extends FormType>({ title, desc, type }: FormProps<T>) => {
         </div>
       </div>
       <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <Link href="#">Privacy Policy</Link>.
+        By clicking continue, you agree to our{" "}
+        <Link
+          target="_blank"
+          href="https://www.freeprivacypolicy.com/live/b603b221-5dc6-4195-9c90-51cf5fa56f75"
+        >
+          Terms of Service
+        </Link>{" "}
+        and{" "}
+        <Link
+          target="_blank"
+          href="https://www.freeprivacypolicy.com/live/b603b221-5dc6-4195-9c90-51cf5fa56f75"
+        >
+          Privacy Policy
+        </Link>
+        .
       </div>
     </div>
   );

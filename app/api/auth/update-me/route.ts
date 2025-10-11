@@ -1,4 +1,4 @@
-import prismaClientTools from "@/lib/prisma";
+import prismaClient from "@/lib/prisma";
 import { EXPIRED_AT, SESSION_NAME } from "@/utils/constant/cookie";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -15,13 +15,14 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     }
 
     // Find session in DB and include user
-    const session = await prismaClientTools.session.findUnique({
+    const session = await prismaClient.session.findUnique({
       where: { token },
       include: {
         user: {
           include: {
             subscription: true,
             Image: true,
+            profile: true,
           },
           omit: {
             password: true,
@@ -36,7 +37,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     // Update session expiration
     const newExpiresAt = new Date(Date.now() + EXPIRED_AT * 1000);
-    await prismaClientTools.session.update({
+    await prismaClient.session.update({
       where: { token },
       data: { expiresAt: newExpiresAt },
     });

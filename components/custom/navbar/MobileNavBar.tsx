@@ -15,10 +15,14 @@ import ContactInfo from "./ContactInfo";
 import RightOwnerDate from "./RightOwnerDate";
 import MobileLogout from "./MobileLogout";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import clsx from "clsx";
 
 const MobileNavBar = ({ isLogin }: { isLogin: boolean }) => {
   const router = useRouter();
+  const currentPathName = usePathname();
+
+  const mobileMenus = isLogin ? menus : menus?.filter((item) => item.id != 0);
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -60,14 +64,25 @@ const MobileNavBar = ({ isLogin }: { isLogin: boolean }) => {
       </SheetTrigger>
       <SheetContent side="left" className="w-[300px]">
         <nav className="space-y-4 p-4 ">
-          <SheetHeader>
-            <SheetTitle className="text-lg font-bold">Get Premium</SheetTitle>
+          <SheetHeader className="p-0">
+            <Link href={"/"}>
+              <SheetTitle className="text-xl text-left font-bold">
+                Skinwise
+              </SheetTitle>
+            </Link>
           </SheetHeader>
-          {menus.map((navbar) => (
+
+          {mobileMenus?.map((navbar) => (
             <Link
               key={navbar.id}
               href={navbar.link}
-              className="block text-gray-800 dark:text-white hover:underline text-base hover:text-primary duration-50 transition-colors  ease-in"
+              className={clsx(
+                "block text-gray-800 dark:text-white hover:underline text-base hover:text-primary duration-50 transition-colors  ease-in",
+                {
+                  "text-secondary !font-bold":
+                    navbar.link == `${currentPathName}`,
+                }
+              )}
             >
               {navbar.name}
             </Link>
@@ -78,15 +93,21 @@ const MobileNavBar = ({ isLogin }: { isLogin: boolean }) => {
 
         <SheetFooter className="pt-6 pb-12">
           <section className="space-y-2">
-            <Button
-              onClick={() => {
-                router.push("/pricing");
-              }}
-              className="bg-secondary rounded-full text-primary px-6 hover:text-white w-full"
-            >
-              Get Premium
-            </Button>
-            {!isLogin ? <AuthButtonMobile /> : <MobileLogout />}
+            {!isLogin && (
+              <Button
+                onClick={() => {
+                  router.push("/pricing");
+                }}
+                className="bg-secondary rounded-full text-primary px-6 hover:text-white w-full"
+              >
+                Get Premium
+              </Button>
+            )}
+            {!isLogin ? (
+              <AuthButtonMobile key={isLogin + ""} />
+            ) : (
+              <MobileLogout key={isLogin + ""} />
+            )}
 
             <RightOwnerDate />
           </section>

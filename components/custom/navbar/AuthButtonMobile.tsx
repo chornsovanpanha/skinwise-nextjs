@@ -8,7 +8,7 @@ const AuthButtonMobile = () => {
   return (
     <div className="flex flex-col space-y-2 w-full text-sm text-gray-600  bg-white pb-2">
       <Button
-        className="bg-gray-50 text-black hover:bg-gray-100 focus:border-0"
+        className="bg-gray-50 text-black hover:bg-gray-100 focus:border-0 rounded-full"
         onClick={() => {
           router.push("/login");
         }}

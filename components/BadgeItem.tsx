@@ -8,8 +8,12 @@ type BadgeItemProps = {
   icon?: React.ReactNode;
   className?: string;
   customTitle?: React.ReactNode;
+  title?: string;
+  subtitle?: string;
 };
 const BadgeItem: React.FC<BadgeItemProps> = ({
+  title,
+  subtitle,
   type,
   icon,
   className,
@@ -43,10 +47,10 @@ const BadgeItem: React.FC<BadgeItemProps> = ({
 
       <div className="right gap-2 items-center">
         <Typography as="p" variant="subtitle1" className="text-secondary">
-          Iretated
+          {title || "Unnamed Title"}
         </Typography>
         <Typography as="p" variant="caption" className="text-secondary">
-          Damage your skin cell
+          {subtitle || "Unnamed Desc"}
         </Typography>
       </div>
     </div>

@@ -3,7 +3,7 @@ import BestProduct from "@/components/landing-page/BestProduct";
 import ExploreIngredient from "@/components/landing-page/ExploreIngredient";
 import HeaderSearchBanner from "@/components/landing-page/HeaderSearchBanner";
 
-const LandingDefault = () => {
+const LandingDefault = async () => {
   return (
     <main className="w-full ">
       {/*  ******* Header Banner Section *******  */}

@@ -3,11 +3,13 @@ import { QuizRoutineBg, SkinwiseLogoLight } from "@/assets";
 import Wrapper from "@/components/custom/layout/Wrapper";
 import PageHeader from "@/components/PageHeader";
 import QuizResultHeader from "@/components/quiz-result/QuizResultHeader";
-import { quizAnswerOptionAtom } from "@/lib/atom/quiz.atom";
-import { useAtomValue } from "jotai";
+import { quizAnswerOptionAtom, quizStepIndexAtom } from "@/lib/atom/quiz.atom";
+import { ProfileWithConcerns } from "@/types";
+import { useAtom, useSetAtom } from "jotai";
 import Image from "next/image";
-import { redirect, useRouter } from "next/navigation";
-import { useState } from "react";
+import { redirect, useSearchParams } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
+import { startTransition, useEffect, useState } from "react";
 import ChooseProduct from "./ChooseProduct";
 import PersonalQuestion from "./PersonalQuestion";
 import ResultSkinType from "./ResultSkinType";
@@ -30,25 +32,56 @@ const stepContent: Record<number, StepContent> = {
     subtitle: "Search your product bellow and we can help you build a routine",
   },
 };
-export default function ResultQuiz() {
+export default function ResultQuiz({
+  userSkinType,
+  profileId,
+  userId,
+  totalConcerns,
+  desc,
+}: {
+  userSkinType?: ProfileWithConcerns;
+  profileId?: number;
+  userId?: number;
+  totalConcerns: number;
+  desc?: string;
+}) {
   const router = useRouter();
-  const previousAnswers = useAtomValue(quizAnswerOptionAtom);
+  const [previousAnswers, setPrevAnswers] = useAtom(quizAnswerOptionAtom);
+  const searchParams = useSearchParams();
+  const setNextStep = useSetAtom(quizStepIndexAtom);
   const [currIndex, setCurrIndex] = useState(0);
   const { title, subtitle } = stepContent[currIndex] ?? {
     title: "Invalid step",
     subtitle: "",
   };
-  const onContinue = () => {
-    if (currIndex >= 2) {
+  const clearState = () => {
+    setPrevAnswers([]);
+    setNextStep(0);
+  };
+  const clearSingleParam = () => {
+    startTransition(() => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("q");
+      clearState();
       router.push("/quiz/profile");
-      return;
+    });
+  };
+  const onContinue = () => {
+    if (currIndex >= 2 || totalConcerns > 0) {
+      //This case user has finish thier setup with routine builder profile
+      return clearSingleParam();
     }
     setCurrIndex((pre) => pre + 1);
   };
+  useEffect(() => {
+    setNextStep(0);
+  }, [setNextStep]);
+
   if (previousAnswers?.length <= 0) {
     //Safe guard to protect if user manually input result from search url
     return redirect("/");
   }
+
   return (
     <main>
       <PageHeader
@@ -64,7 +97,7 @@ export default function ResultQuiz() {
         showBackgroundImg={true}
         backgroundImage={QuizRoutineBg}
       />
-      <Wrapper className="flex flex-col">
+      <Wrapper className="flex flex-col items-center w-full">
         <section className="flex flex-col items-center my-6 space-y-6 w-full">
           <QuizResultHeader
             currIndex={currIndex}
@@ -79,6 +112,10 @@ export default function ResultQuiz() {
 
         <QuizStep
           currIndex={currIndex}
+          profileId={profileId}
+          userId={userId}
+          desc={desc}
+          userSkinType={userSkinType}
           onContinue={onContinue}
           key={"quiz-step"}
         />
@@ -88,12 +125,29 @@ export default function ResultQuiz() {
 }
 type StepProps = {
   currIndex: number;
+  desc?: string;
   onContinue: () => void;
+  userSkinType?: ProfileWithConcerns;
+  profileId?: number;
+  userId?: number;
 };
-function QuizStep({ currIndex, onContinue }: StepProps) {
+function QuizStep({
+  currIndex,
+  desc,
+  onContinue,
+  userSkinType,
+  profileId,
+  userId,
+}: StepProps) {
   switch (currIndex) {
     case 0:
-      return <ResultSkinType onContinue={onContinue} />;
+      return (
+        <ResultSkinType
+          onContinue={onContinue}
+          userSkinType={userSkinType}
+          desc={desc ?? "N/A"}
+        />
+      );
     case 1:
       return (
         <PersonalQuestion
@@ -102,7 +156,13 @@ function QuizStep({ currIndex, onContinue }: StepProps) {
         />
       );
     case 2:
-      return <ChooseProduct currentIndex={currIndex} onContinue={onContinue} />;
+      return (
+        <ChooseProduct
+          onContinue={onContinue}
+          profileId={profileId}
+          userId={userId}
+        />
+      );
     default:
       return <div>Invalid step</div>;
   }

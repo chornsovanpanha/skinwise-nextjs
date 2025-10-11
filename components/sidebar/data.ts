@@ -19,9 +19,9 @@ export const data = {
   },
   teams: [
     {
-      name: "Acme Inc",
+      name: "SkinWise",
       logo: GalleryVerticalEnd,
-      plan: "Enterprise",
+      plan: "Admin Dashboard",
     },
     {
       name: "Acme Corp.",
@@ -50,57 +50,65 @@ export const data = {
       url: "/dashboard/products",
       items: [
         {
-          title: "Data Scaping",
-          url: "/dashboard/products/scape",
-        },
-        {
-          title: "View All",
+          title: "All Products",
           url: "/dashboard/products",
         },
         {
-          title: "Add New",
-          url: "/dashboard/products/create",
+          title: "Create New",
+          url: "/dashboard/products/form",
         },
       ],
     },
     {
-      title: "Skin Collection",
-      url: "#",
+      title: "Ingredients",
+      url: "/dashboard/ingredients",
       icon: Bot, // pick a better icon, e.g. Box or Layers
       items: [
         {
-          title: "My Collection",
-          url: "#",
+          title: "All Ingredients",
+          url: "/dashboard/ingredients",
         },
         {
-          title: "Add New",
-          url: "#",
-        },
-        {
-          title: "Recommendations",
-          url: "#",
+          title: "Create New",
+          url: "/dashboard/ingredients/form",
         },
       ],
     },
     {
-      title: "Requests",
-      url: "#",
-      icon: BookOpen, // pick something like Mail or ClipboardList
+      title: "Brands",
+      icon: BookOpen,
+      isActive: false,
+      url: "/dashboard/brands",
       items: [
         {
-          title: "My Requests",
-          url: "#",
+          title: "All Brands",
+          url: "/dashboard/brands",
         },
         {
-          title: "Submit Request",
-          url: "#",
-        },
-        {
-          title: "History",
-          url: "#",
+          title: "Create New",
+          url: "/dashboard/brands/form",
         },
       ],
     },
+    // {
+    //   title: "Requests",
+    //   url: "#",
+    //   icon: BookOpen, // pick something like Mail or ClipboardList
+    //   items: [
+    //     {
+    //       title: "My Requests",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Submit Request",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "History",
+    //       url: "#",
+    //     },
+    //   ],
+    // },
     {
       title: "Payments",
       url: "#",

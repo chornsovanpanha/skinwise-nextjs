@@ -1,3 +1,4 @@
+import TanstackProvider from "@/lib/tanstack/TanstackProvider";
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
@@ -28,10 +29,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${nunito.className}`}>
       <body className="max-h-[100vh] overflow-x-hidden">
-        <NextTopLoader color="oklch(0.891 0.125 246.5)" showSpinner={false} />
-        <JotaiProvider>{children}</JotaiProvider>
-        <Toaster />
-        <Monitoring />
+        <TanstackProvider>
+          <NextTopLoader color="oklch(0.891 0.125 246.5)" showSpinner={false} />
+          <JotaiProvider>{children}</JotaiProvider>
+          <Toaster />
+          <Monitoring />
+        </TanstackProvider>
       </body>
     </html>
   );

@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography } from "../Typography";
 
-const HeaderOverview = ({ name }: { name: string }) => {
+const HeaderOverview = ({ name, desc }: { name: string; desc: string }) => {
   return (
     <header>
       <Typography
@@ -19,9 +19,7 @@ const HeaderOverview = ({ name }: { name: string }) => {
         variant="default"
         className="text-secondary font-light"
       >
-        Retinol is a gold-standard ingredient for anti-aging. It is a form of
-        Vitamin A and belongs to the class of retinoids that also
-        includes tretinoin.
+        {desc}
       </Typography>
     </header>
   );

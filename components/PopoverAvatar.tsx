@@ -1,27 +1,27 @@
 import { LogoutAction } from "@/actions/authentication/logout.action";
-import { portalCustomerAction } from "@/actions/stripe/portal.action";
 import { defaultState } from "@/app/(auth)/components/SocialButton";
 import Loading from "@/app/loading";
 import { useToast } from "@/hooks/use-toast";
 import { defaultUserState, userAtom } from "@/lib/atom/user.atom";
 import { auth } from "@/lib/firebase/config";
+import { PlanType } from "@/types";
 import { clearGoogleLogout } from "@/utils/social/clear-auth";
 import { signOut } from "firebase/auth";
 import { useAtomValue, useSetAtom } from "jotai";
 import { CreditCard, LogOut, User } from "lucide-react";
-import { redirect, useRouter } from "next/navigation";
 import { startTransition, useState } from "react";
 import { Typography } from "./Typography";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Separator } from "./ui/separator";
-import { PlanType } from "@/types";
+import { useRouter } from "nextjs-toploader/app";
 
 const PopoverAvatar = ({ plan }: { plan?: PlanType | null }) => {
   const router = useRouter();
   const currentUser = useAtomValue(userAtom);
   const fallAvatar =
-    currentUser?.name?.[0] + currentUser?.name?.[currentUser?.name?.length - 1];
+    currentUser?.name?.[0] ??
+    "" + currentUser?.name?.[currentUser?.name?.length - 1];
   const [mutateState, setMutatestate] = useState(defaultState);
   const { show } = useToast();
   const [open, setOpen] = useState(false);
@@ -34,17 +34,10 @@ const PopoverAvatar = ({ plan }: { plan?: PlanType | null }) => {
   };
 
   const handleManageSubscription = async () => {
-    const { data, error, success } = await portalCustomerAction({
-      userId: currentUser?.id?.toString(),
+    startTransition(() => {
+      router.push("/pricing");
+      setOpen(false);
     });
-
-    if (data && success) {
-      window.location.href = data;
-    } else {
-      show({ type: "error", message: JSON.stringify(error) });
-      console.error(error);
-    }
-    setOpen(false);
   };
 
   const handleLogout = async () => {
@@ -57,18 +50,18 @@ const PopoverAvatar = ({ plan }: { plan?: PlanType | null }) => {
     await signOut(auth);
 
     const { error } = await LogoutAction();
+
     if (!error) {
       startTransition(() => {
         setMutatestate(defaultState);
         setUserAtom(defaultUserState);
-        show({ type: "success", message: `Logout successfully` });
-        redirect("/login");
+        window.location.href = "/login";
       });
     } else {
       console.error(error);
       show({
         type: "error",
-        message: JSON.stringify(error),
+        message: error,
       });
 
       setMutatestate((pre) => ({

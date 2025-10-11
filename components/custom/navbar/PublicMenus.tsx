@@ -1,18 +1,30 @@
+"use client";
 import { Typography } from "@/components/Typography";
 import { menus } from "@/utils/constant/menus";
+import clsx from "clsx";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const PublicMenus = () => {
-  return menus.map((navbar) => (
+  const currentPathName = usePathname();
+  const filterMenus = menus?.filter((item) => item.id != 0); //Remove profile link only for mobile
+  return filterMenus.map((navbar) => (
     <div key={navbar.id} className="relative group flex items-center">
       <Link
         href={navbar.link}
-        className="dark:text-white text-base text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-800 flex items-center gap-1"
+        className={clsx(
+          "dark:text-white text-base text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-800 flex items-center gap-1"
+        )}
       >
         <Typography
           variant="default"
-          className="hover:text-primary duration-50 transition-colors  ease-in "
+          className={clsx(
+            "hover:text-primary duration-50 transition-colors  ease-in",
+            {
+              "text-secondary !font-bold": navbar.link == `${currentPathName}`,
+            }
+          )}
         >
           {navbar.name}
           {navbar.hasHover && <ChevronDown className="w-4 h-4" />}

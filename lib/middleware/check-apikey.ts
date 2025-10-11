@@ -1,11 +1,21 @@
-import { NextRequest } from "next/server";
-type Handler = (req: NextRequest, context?: unknown) => Promise<Response>;
+import { NextRequest, NextResponse } from "next/server";
+import { AppResponse } from "../axios/response";
+import { AppEnv } from "@/config/env";
+type Handler = (req: NextRequest) => void;
 export function checkApiKey(handler: Handler) {
   return async function (req: NextRequest) {
     const apiKey = req.headers.get("apiKey");
-    if (!apiKey || apiKey?.toLowerCase() !== "skinwise-2025-xyz") {
-      return Response.json({ error: "Unauthorized" }, { status: 401 });
+
+    if (!apiKey || apiKey.toLowerCase() !== AppEnv.apiKey) {
+      const response = new AppResponse({
+        data: "",
+        status: 401,
+        error: "Missing Api Key",
+      });
+
+      return NextResponse.json(response, { status: 401 });
     }
-    return handler(req, { date: Date.now() });
+
+    return handler(req);
   };
 }

@@ -3,8 +3,15 @@ import clsx from "clsx";
 import { Typography } from "../Typography";
 import { Button } from "../ui/button";
 import { CardContent } from "../ui/card";
+import { PlanType } from "@/types";
 
-const PricingListing = ({ onClick }: { onClick: () => void }) => {
+const PricingListing = ({
+  onClick,
+  planType,
+}: {
+  onClick: () => void;
+  planType?: PlanType;
+}) => {
   return skinWisePlans.map((plan) => (
     <section
       key={plan.name}
@@ -16,8 +23,8 @@ const PricingListing = ({ onClick }: { onClick: () => void }) => {
         className={clsx(
           " border-4 rounded-3xl px-6  flex flex-col justify-center items-center space-y-5 py-20",
           {
-            "border-secondary bg-secondary": plan.type == "premium",
-            "border-primary": plan.type == "free",
+            "border-secondary bg-secondary": plan.type == PlanType.PRO,
+            "border-primary": plan.type == PlanType.FREE,
           }
         )}
       >
@@ -47,10 +54,10 @@ const PricingListing = ({ onClick }: { onClick: () => void }) => {
           className="w-fit bg-transparent border-primary border-4 rounded-4xl py-8 mt-4  px-12 hover:bg-primary/50 ease-in-out transition-colors duration-200"
           variant={"outline"}
           onClick={onClick}
-          disabled={plan.name?.toLowerCase() == "free" ? true : false}
+          disabled={planType == plan.type}
         >
           <Typography as="p" variant="h6" className="text-primary">
-            {plan.isCurrentPlan ? "CURRENT PLAN" : "GET THIS PLAN"}
+            {planType == plan.type ? "CURRENT PLAN" : "GET THIS PLAN"}
           </Typography>
         </Button>
       </div>

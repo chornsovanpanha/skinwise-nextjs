@@ -39,7 +39,6 @@ export default function ForgetPasswordPreview() {
 
     const { data, error } = await SendEmailForgetAction(forms);
 
-    console.log("Data is", data);
     if (data) {
       startTransition(() => {
         setMutatestate(defaultState);

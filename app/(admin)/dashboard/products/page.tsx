@@ -1,5 +1,12 @@
+import { Metadata } from "next";
+import Product from "./(tables)/Product";
+
+export const metadata: Metadata = {
+  title: "Product",
+  description: "Product overview of admin dashboard",
+};
 const Page = () => {
-  return <div>Welcome to Products</div>;
+  return <Product />;
 };
 
 export default Page;
