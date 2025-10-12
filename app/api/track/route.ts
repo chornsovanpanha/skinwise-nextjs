@@ -21,7 +21,14 @@ export async function GET(req: NextRequest) {
     if (userId) {
       user = await prisma.user.findUnique({
         where: { id: parseInt(userId) },
-        include: { subscription: true, profile: true },
+        include: {
+          subscription: true,
+          profile: {
+            include: {
+              concerns: true,
+            },
+          },
+        },
       });
 
       if (!user) {
@@ -38,6 +45,7 @@ export async function GET(req: NextRequest) {
           message: "Subscribed user: unlimited searches",
           planType: user?.subscription?.plan,
           skinType: user?.profile?.skinType,
+          skinConcern: user?.profile?.concerns?.map((item) => item.name),
         });
       }
 
@@ -65,6 +73,7 @@ export async function GET(req: NextRequest) {
         success: false,
         message: "Search limit reached. Please subscribe or wait 30 days.",
         planType: PlanType.FREE,
+        skinConcern: user?.profile?.concerns?.map((item) => item.name),
         skinType: user?.profile?.skinType,
       });
     }
@@ -83,6 +92,7 @@ export async function GET(req: NextRequest) {
       } searches left.`,
       planType: PlanType.FREE,
       skinType: user?.profile?.skinType,
+      skinConcern: user?.profile?.concerns?.map((item) => item.name),
     });
   } catch (err) {
     console.error(err);
@@ -91,6 +101,7 @@ export async function GET(req: NextRequest) {
       message: "Something went wrong.",
       planType: PlanType.FREE,
       skinType: "",
+      skinConcern: [],
     });
   }
 }

@@ -33,4 +33,5 @@ export type UserTrackResponse = {
   message: string;
   planType: PlanType;
   skinType?: string;
+  skinConcern?: string[];
 };

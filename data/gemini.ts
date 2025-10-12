@@ -5,18 +5,25 @@ import { ResponseAnalyse } from "@/types/response";
 import { fromGeminiToJson } from "@/utils/formatter";
 
 type Params = {
-  insideGroup: string;
+  skinConcerns: string;
   userSkinType?: string;
+  name: string;
 };
-export const getUserAnalyse = async ({ insideGroup, userSkinType }: Params) => {
+export const getProductUserAnalyse = async ({
+  skinConcerns,
+  userSkinType,
+  name,
+}: Params) => {
+  console.log("Analysis data is", userSkinType, name, skinConcerns);
   const response = await geminiAi.models.generateContent({
     model: "gemini-2.0-flash-001",
     contents: `
-Please analysis giving score by provide :
-example: best ingredient for your achne problem..etc at least 50 characters or less
+Please analysis this skin care product giving score by provide :
 Now start:
-User skin type: ${userSkinType ?? "Oily"}
-inside ingredient: ${insideGroup}
+Product Name: is ${name}
+User Skin Type: ${userSkinType ?? "Unknown"}
+User Main Concern: ${skinConcerns ?? ""}
+
 Pls response back as 1 value JSON object value
 
 also dont answer back i only need a code
@@ -25,24 +32,73 @@ response the same pattern example
 
 scoreDesc must response the same pattern as:
 
-condition score:
+condition score is :
 
-0-100 : Bad Match
-0-50 :Bad Match
-60-75  Normal Match
+(if there a pattern like bad give a 50 score or less pls unless it good  would be fine base on the condition product, user skin type and concern as well )
+
+
+65-0 :Bad Match
+70-75  Normal Match
 80-95: Good Match
 95- 100 :Perfect Match
 And also a short description like:
 pls response in this pattern 1 json value only
+
+average score must be  50 - 90  
+description score and short desc must be ( 50 letters or less)
 {   
-“score”:”80”,
- "scoreDesc":"Good Match",
-“shortDesc:”This help control oil”,} `,
+“score”:"",
+ "scoreDesc":"" ,
+“shortDesc:""
+
+  } `,
   });
 
   return fromGeminiToJson(response.text ?? "");
 };
 
+export const getUserIngredientAnalyse = async ({
+  skinConcerns,
+  userSkinType,
+  name,
+}: Params) => {
+  console.log("Analysis data is", userSkinType);
+  const response = await geminiAi.models.generateContent({
+    model: "gemini-2.0-flash-001",
+    contents: `
+Please analysis this skin care ingredient giving score by provide :
+Now start:
+Ingredient name ${name}
+User Skin Type: ${userSkinType ?? "Oily"}
+User Main Concern: ${skinConcerns ?? ""}
+also dont answer back i only need a code
+example response: remove word json as well
+response the same pattern example
+condition score is :
+
+(if there a pattern like bad give a 50 score or less pls unless it good  would be fine base on the condition product, user skin type and concern as well )
+
+
+65-0 :Bad Match
+70-75  Normal Match
+80-95: Good Match
+95- 100 :Perfect Match
+And also a short description like:
+pls response in this pattern 1 json value only
+
+average score must be  50 - 90  
+
+description score and short desc must be ( 50 letters or less)
+{   
+“score”:"",
+ "scoreDesc":"" ,
+“shortDesc:""
+
+  }`,
+  });
+
+  return fromGeminiToJson(response.text ?? "");
+};
 type AnalyseParams = {
   productPrimaryName?: string;
   productSecondaryName?: string;

@@ -13,8 +13,7 @@ const RoutineChartSight: React.FC<RoutineChartSightProps> = ({
   const renderScoreMatcher = useMemo(() => {
     if (percentage >= 95) return "Perfect Match";
     if (percentage >= 80) return "Good Match";
-    if (percentage >= 60) return "Normal Match";
-    if (percentage >= 50) return "Weak Match";
+    if (percentage >= 70) return "Normal Match";
     return "Bad Match";
   }, [percentage]);
 
@@ -23,8 +22,8 @@ const RoutineChartSight: React.FC<RoutineChartSightProps> = ({
       className={clsx(
         "rounded-3xl px-10 py-6 flex items-center gap-4 w-fit cursor-text",
         {
-          "bg-error-main/40": percentage <= 50,
-          "bg-secondary": percentage > 50,
+          "bg-error-main/40": percentage <= 70,
+          "bg-secondary": percentage > 70,
         }
       )}
     >
@@ -33,8 +32,8 @@ const RoutineChartSight: React.FC<RoutineChartSightProps> = ({
           as="p"
           variant="h6"
           className={clsx({
-            "text-error-text": percentage <= 50,
-            "text-primary": percentage > 50,
+            "text-error-text": percentage <= 70,
+            "text-primary": percentage > 70,
           })}
         >
           {renderScoreMatcher}
@@ -44,8 +43,8 @@ const RoutineChartSight: React.FC<RoutineChartSightProps> = ({
           as="p"
           variant="caption"
           className={clsx({
-            "text-error-text": percentage <= 50,
-            "text-gray-5": percentage > 50,
+            "text-error-text": percentage <= 70,
+            "text-gray-5": percentage > 70,
           })}
         >
           {desc}
@@ -55,8 +54,8 @@ const RoutineChartSight: React.FC<RoutineChartSightProps> = ({
         className={clsx(
           "box-container aspect-square w-20 rounded-full border-2 grid place-content-center justify-self-center",
           {
-            "border-error-text": percentage <= 50,
-            "border-primary": percentage > 50,
+            "border-error-text": percentage <= 70,
+            "border-primary": percentage > 70,
           }
         )}
       >
@@ -64,8 +63,8 @@ const RoutineChartSight: React.FC<RoutineChartSightProps> = ({
           as="p"
           variant="h6"
           className={clsx({
-            "text-error-text": percentage <= 50,
-            "text-primary": percentage > 50,
+            "text-error-text": percentage <= 70,
+            "text-primary": percentage > 70,
           })}
         >
           {percentage}%

@@ -1,12 +1,12 @@
+import { trackUserSearch } from "@/actions/track/track-action";
 import { getProductDetail } from "@/data";
+import { getProductUserAnalyse } from "@/data/gemini";
+import { getUserIdFromSession } from "@/lib/sessions/session";
+import { PlanType } from "@/types";
 import { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import React from "react";
 import ProductDetail from "./ProductDetail";
-import { getUserAnalyse } from "@/data/gemini";
-import { trackUserSearch } from "@/actions/track/track-action";
-import { PlanType } from "@/types";
-import { getUserIdFromSession } from "@/lib/sessions/session";
 
 type Params = {
   params: Promise<{ name: string }>;
@@ -56,11 +56,13 @@ const Page: React.FC<Params> = async ({ params }) => {
   let data;
 
   if (result?.data?.planType === PlanType.PRO && result.data?.skinType) {
-    data = await getUserAnalyse({
-      insideGroup: JSON.stringify(product?.insideGroups ?? ""),
-      userSkinType: "Normal Skin",
+    data = await getProductUserAnalyse({
+      skinConcerns: result.data?.skinConcern?.toString() ?? "",
+      userSkinType: result.data.skinType,
+      name: product.name,
     });
   }
+  console.log("Gemini data is", data);
 
   return (
     <ProductDetail

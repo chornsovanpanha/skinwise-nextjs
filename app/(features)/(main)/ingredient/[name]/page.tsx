@@ -1,5 +1,5 @@
 import { trackUserSearch } from "@/actions/track/track-action";
-import { getUserAnalyse } from "@/data/gemini";
+import { getUserIngredientAnalyse } from "@/data/gemini";
 import { getIngredientDetail } from "@/data/ingredient";
 import { PlanType } from "@/types";
 import { Metadata } from "next";
@@ -56,9 +56,10 @@ const Page: React.FC<Params> = async ({ params }) => {
   let data;
 
   if (result?.data?.planType === PlanType.PRO && result.data?.skinType) {
-    data = await getUserAnalyse({
-      insideGroup: JSON.stringify(ingredient?.insideGroups ?? ""),
+    data = await getUserIngredientAnalyse({
+      skinConcerns: result.data?.skinConcern?.toString() ?? "",
       userSkinType: result.data.skinType ?? "Unknown",
+      name: ingredient.name ?? "",
     });
   }
 
