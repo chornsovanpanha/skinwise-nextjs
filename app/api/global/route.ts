@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
         },
       },
     },
-    take: 20,
+    take: 12,
   });
 
   const ingredients = await prismaClient.ingredient.findMany({
@@ -47,7 +47,7 @@ export async function GET(req: NextRequest) {
     orderBy: {
       searchCount: "desc",
     },
-    take: 20,
+    take: 25,
   });
   return NextResponse.json(
     new AppResponse({

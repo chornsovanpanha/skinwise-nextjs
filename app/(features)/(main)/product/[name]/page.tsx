@@ -62,7 +62,7 @@ const Page: React.FC<Params> = async ({ params }) => {
       name: product.name,
     });
   }
-  console.log("Gemini data is", data);
+  // console.log("Gemini data is", data);
 
   return (
     <ProductDetail

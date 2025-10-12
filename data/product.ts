@@ -20,7 +20,7 @@ export async function getProductDetail({
   alias: string;
   updateCount?: boolean;
 }) {
-  console.time("getProductDetail");
+  // console.time("getProductDetail");
 
   const product = await prismaClient.product.findFirst({
     where: {
@@ -57,7 +57,7 @@ export async function getProductDetail({
     });
   }
 
-  console.timeEnd("getProductDetail");
+  // console.timeEnd("getProductDetail");
 
   return product;
 }
