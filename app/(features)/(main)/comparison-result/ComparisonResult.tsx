@@ -205,12 +205,13 @@ const ComparisonResult = ({
 
         {/* **** Overview Comparison effects ****  */}
 
-        {userId && (
+        {userId && productSummaries && productSummaries.length > 0 && (
           <section className="negative block space-y-4 sm:space-y-0 gap-4">
             <ComparisonHeader
               icon={<BookOpen className="w-6 h-6 sm:w-10 sm:h-10" />}
               title="Overview"
             />
+
             <div className="compare block space-y-4 sm:space-y-0 sm:flex gap-4">
               <BoxOutlineWrapper title={""} className="flex-1">
                 <main className="block sm:grid gap-4 space-y-6 w-full ">

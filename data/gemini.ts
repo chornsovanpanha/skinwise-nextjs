@@ -3,7 +3,14 @@ import { skinConcernDummy } from "@/app/(features)/(main)/profile/data";
 import geminiAi from "@/lib/gemini/google-gemini";
 import { ResponseAnalyse } from "@/types/response";
 import { fromGeminiToJson } from "@/utils/formatter";
-
+type AnalyseParams = {
+  productPrimaryName?: string;
+  productSecondaryName?: string;
+  productBrandPrimary?: string;
+  productBrandSecondary?: string;
+  keyPrimary?: string;
+  keySecondary?: string;
+};
 type Params = {
   skinConcerns: string;
   userSkinType?: string;
@@ -99,14 +106,6 @@ description score and short desc must be ( 50 letters or less)
 
   return fromGeminiToJson(response.text ?? "");
 };
-type AnalyseParams = {
-  productPrimaryName?: string;
-  productSecondaryName?: string;
-  productBrandPrimary?: string;
-  productBrandSecondary?: string;
-  keyPrimary?: string;
-  keySecondary?: string;
-};
 
 export const analysisProductComparison = async (
   {
@@ -126,8 +125,8 @@ Please analysis summaries between these two products giving :
 example:
 
 -Summary What they are ( 25 words or less )
--Best for
--Feature
+-Best for ( 60 words or less )
+-Feature (Special feat of these two products )
 i will provide detail  bellow:
 
 key active between these two ingredients
@@ -149,10 +148,11 @@ secondary: ${productBrandSecondary}
 response back as json object key value  summary, recommendation, feature  follow the pattern 
 Pls response back as 1 value combine together JSON object value
 also dont answer back i only need a code
-example response: remove word json as well only 1 object value only:
+remove word 1 object json only 1 object value only:
+example response pattern : 
 {   
 "summary":They’re both likely to be good for dry skin,
- "recommendation":"They're both likely to be good for anti aging, dry skin, brightening skin, sensitive skin and scar healing",
+"recommendation":"They're both likely to be good for anti aging, dry skin, brightening skin, sensitive skin and scar healing",
 "feature":”They both do not contain any harsh alcohols, common allergens, fragrances or parabens
 ”,} `,
   });
