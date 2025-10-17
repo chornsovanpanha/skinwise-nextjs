@@ -8,7 +8,7 @@ const ExploreIngredient = async () => {
     <main className="flex-col my-12">
       <HeaderOverview
         orientation="left"
-        shortDesc="Top ingredient that is"
+        shortDesc="Top searched ingredient this month"
         shortDescPrimary="favor by user"
         title="Explore"
         titlePrimary="Ingredient"

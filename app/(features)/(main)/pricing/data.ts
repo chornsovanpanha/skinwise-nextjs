@@ -16,7 +16,7 @@ export const skinWisePlans = [
     ],
   },
   {
-    name: "Premiere",
+    name: "Premium",
     price: 5.99,
     type: PlanType.PRO,
     billingCycle: "per month",
@@ -26,7 +26,7 @@ export const skinWisePlans = [
       "Save up to 10+ routines",
       "Personalized Recommendations (with quiz)",
       "Full product details and analysis",
-      "Full ingredient informatio and analysis",
+      "Full ingredient information and analysis",
     ],
   },
 ];

@@ -1,10 +1,12 @@
 import { getMyProfileAction } from "@/actions/profile/profile.action";
 import AuthenticatedButton from "@/app/(auth)/components/AuthenticatedButton";
-import { SkinwiseLogoTop } from "@/assets";
+import { SkinwiseLogoTop, SkinwisePremium } from "@/assets";
 import LoginButton from "@/components/LoginButton";
 import { getAppSession } from "@/lib/sessions/cookie";
 import { getUserIdFromSession } from "@/lib/sessions/session";
 import { UserWithSubscription } from "@/types/prisma";
+import { PlanType } from "@prisma/client";
+import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import MobileNavBar from "./MobileNavBar";
@@ -24,15 +26,22 @@ export default async function NavBar() {
         <Link href="/" className="flex items-center">
           <Image
             alt="skin-wise-logo"
-            src={SkinwiseLogoTop}
-            className="w-40 h-auto"
+            src={
+              profile && profile?.subscription?.plan == PlanType.PRO
+                ? SkinwisePremium
+                : SkinwiseLogoTop
+            }
+            className={clsx(" w-40 h-auto", {
+              "w-60": profile && profile?.subscription?.plan == PlanType.PRO,
+              "w-30": profile?.subscription?.plan == PlanType.FREE,
+            })}
             priority
           />
         </Link>
 
         {/* Right side (Menus + Auth) */}
         <div className="hidden md:flex flex-1 justify-end items-center gap-8">
-          <PublicMenus />
+          <PublicMenus isLogin={!!profile} />
 
           {/* Authentication Buttons */}
           {cookie ? <AuthenticatedButton profile={profile} /> : <LoginButton />}

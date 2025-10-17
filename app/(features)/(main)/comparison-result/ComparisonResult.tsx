@@ -63,6 +63,7 @@ const ComparisonResult = ({
         {/* Product Header overview  */}
         <header className="space-y-4 block md:flex w-full gap-12 items-center">
           <ComparisonItem
+            alias={primaryProduct?.alias ?? ""}
             brandName={primaryProduct?.brand?.title ?? ""}
             imgUrl={primaryProduct?.Image?.at(0)?.url ?? ""}
             ingredientsCount={primaryProduct?.ingredients?.length ?? 0}
@@ -82,12 +83,13 @@ const ComparisonResult = ({
             </Button>
           </div>
           <ComparisonItem
-            brandName={primaryProduct?.brand?.country ?? ""}
+            alias={secondaryProduct?.alias ?? ""}
+            brandName={secondaryProduct?.brand?.country ?? ""}
             imgUrl={secondaryProduct?.Image?.at(0)?.url ?? ""}
             ingredientsCount={secondaryProduct?.ingredients?.length ?? 0}
             title={secondaryProduct?.name ?? "Unnamed Product"}
             showFlag
-            country={primaryProduct?.brand?.country ?? ""}
+            country={secondaryProduct?.brand?.country ?? ""}
           />
         </header>
 
@@ -95,7 +97,7 @@ const ComparisonResult = ({
         <section className="postiive block space-y-4 sm:space-y-0 gap-4">
           <ComparisonHeader
             icon={<BadgeCheck className="w-6 h-6 sm:w-10 sm:h-10" />}
-            title="Benefit"
+            title="Benefits"
           />
           <div className="compare block space-y-4 sm:space-y-0 sm:flex gap-4">
             <BoxOutlineWrapper title={""} className="flex-1/2 hover-box">
@@ -148,7 +150,7 @@ const ComparisonResult = ({
             icon={
               <BadgeAlert className="w-6 h-6 sm:w-10 sm:h-10 text-error-main" />
             }
-            title="Concern"
+            title="Concerns"
           />
           <div className="compare block space-y-4 sm:space-y-0 sm:flex gap-4">
             <BoxOutlineWrapper
@@ -209,7 +211,7 @@ const ComparisonResult = ({
           <section className="negative block space-y-4 sm:space-y-0 gap-4">
             <ComparisonHeader
               icon={<BookOpen className="w-6 h-6 sm:w-10 sm:h-10" />}
-              title="Overview"
+              title="Overviews"
             />
 
             <div className="compare block space-y-4 sm:space-y-0 sm:flex gap-4">
@@ -297,7 +299,7 @@ const ComparisonResult = ({
         <section className="ingredients block space-y-4 sm:space-y-0 gap-4">
           <ComparisonHeader
             icon={<IconFlask className="w-6 h-6 sm:w-10 sm:h-10" />}
-            title="Ingredient side by side"
+            title="Ingredients side by side"
           />
           <div className="compare block space-y-4 sm:space-y-0 sm:flex gap-4">
             <BoxOutlineWrapper title={""} className="flex-1/2 hover-box">

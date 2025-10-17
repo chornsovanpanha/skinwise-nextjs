@@ -25,4 +25,10 @@ export const menus: MobileMenu[] = [
     name: "Routine",
     hasHover: false,
   },
+  {
+    id: 4,
+    link: "/pricing",
+    name: "Pricing",
+    hasHover: false,
+  },
 ];

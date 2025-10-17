@@ -6,9 +6,17 @@ import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const PublicMenus = () => {
+const PublicMenus = ({ isLogin }: { isLogin?: boolean }) => {
   const currentPathName = usePathname();
-  const filterMenus = menus?.filter((item) => item.id != 0); //Remove profile link only for mobile
+  const filterMenus = menus?.filter((item) => {
+    if (isLogin) {
+      return item.id !== 4;
+    } else {
+      return item.id !== 0;
+    }
+  });
+
+  //Remove profile link only for mobile
   return filterMenus.map((navbar) => (
     <div key={navbar.id} className="relative group flex items-center">
       <Link

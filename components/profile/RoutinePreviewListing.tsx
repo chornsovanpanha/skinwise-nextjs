@@ -1,7 +1,6 @@
 import { RoutineSubItem } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import { Typography } from "../Typography";
 import { Card } from "../ui/card";
 const maxUnit = 10;
 
@@ -35,17 +34,6 @@ const RoutineListing = ({ routines }: { routines?: RoutineSubItem[] }) => {
           />
         )
       )}
-
-      <div className="col-span-2 md:col-span-3 lg:col-span-5  space-y-1">
-        <Typography variant="default" className="text-secondary">
-          My Routine
-        </Typography>
-        {routines && routines?.length > 0 ? (
-          <Typography variant="caption" className="text-secondary">
-            {routines.length} {routines.length > 1 ? "steps" : "step"}
-          </Typography>
-        ) : null}
-      </div>
     </div>
   );
 };

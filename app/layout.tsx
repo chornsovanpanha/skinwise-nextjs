@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     template: "Skin Wise | %s",
   },
   description:
-    "Discover expert skincare advice, high-quality beauty products, and personalized solutions tailored to your skin type. Glow smarter with Skin Wise.",
+    "Discover expert skincare advice, high-quality beauty products, and personalized solutions tailored to your skin type. Glow smarter with Skinwise.",
 };
 
 export default function RootLayout({

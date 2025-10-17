@@ -10,6 +10,7 @@ export { default as AppLogo } from "../public/assets/svg/app-logo.svg";
 export { default as ErrorImageSvg } from "../public/assets/svg/error_img.svg";
 export { default as FacebookSvg } from "../public/assets/svg/facebook.svg";
 export { default as SkinwiseLogoLight } from "../public/assets/svg/logo-light.svg";
+export { default as SkinwisePremium } from "../public/assets/premiumlogo.png";
 export { default as LogoSvg } from "../public/assets/svg/Logo.svg";
 export { default as TovtripLogoTextSvg } from "../public/assets/svg/logo_text.svg";
 export { default as NotFoundSvg } from "../public/assets/svg/not_found.svg";

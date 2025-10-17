@@ -129,7 +129,7 @@ export async function POST(request: NextRequest) {
           await sendEmail({
             sender: {
               address: "amyjohn922@gmail.com",
-              name: "Skin Wise Premiere Account",
+              name: "Skinwise Premium Account",
             },
             receipients: [
               {
@@ -140,7 +140,7 @@ export async function POST(request: NextRequest) {
             subject: "Your Pro Account Subscription Invoice",
             message: `
 <p>Hi,</p>
-<p>Thank you for subscribing to <strong>Skinwise Premiere Account Pro</strong>! 🎉</p>
+<p>Thank you for subscribing to <strong>Skinwise Premium Account Pro</strong>! 🎉</p>
 <p>Your payment has been successfully received.</p>
 <p>You can download your invoice here:</p>
 <p><a href="${invoiceUrl}">Download Invoice (PDF)</a></p>
@@ -161,7 +161,7 @@ export async function POST(request: NextRequest) {
           await sendEmail({
             sender: {
               address: "amyjohn922@gmail.com",
-              name: "Skin Wise Premiere Account",
+              name: "Skinwise Premium Account",
             },
             receipients: [
               {

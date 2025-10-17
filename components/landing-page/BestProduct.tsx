@@ -10,7 +10,7 @@ const BestProduct = async () => {
     <main className="flex-col my-12">
       <HeaderOverview
         orientation="right"
-        shortDesc="top product search favor by user building routine"
+        shortDesc="top product searched this month"
         shortDescPrimary="favor by user"
         title="Best Product"
         titlePrimary="Ingredient"

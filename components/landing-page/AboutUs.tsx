@@ -39,7 +39,7 @@ const AboutUs = () => {
               variant="default"
               className="text-secondary max-w-xl"
             >
-              At Skin Wise, we believe skincare should be simple, trustworthy,
+              At Skinwise, we believe skincare should be simple, trustworthy,
               and tailored to you. Our mission is to empower everyone to make
               informed choices about their skin by providing clear,
               science-backed insights into products, ingredients, and routines.

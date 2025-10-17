@@ -64,7 +64,7 @@ const HeaderSearchBanner = () => {
             Find skincare that works
           </Typography>
           <Typography variant="body1" className="text-primary">
-            see what’s inside any product
+            see what’s inside any products or ingredients
           </Typography>
           {/* Search area text  */}
           <SearchArea

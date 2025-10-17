@@ -37,7 +37,7 @@ const Pricing = ({ profile }: { profile: UserWithSubscription }) => {
     });
 
     if (data && success) {
-      window.location.href = data; // redirect to Stripe checkout page
+      window.location.href = data;
     } else {
       router.push("/login");
       console.error(error);
@@ -58,8 +58,8 @@ const Pricing = ({ profile }: { profile: UserWithSubscription }) => {
         )}
       </header>
 
-      <Wrapper maxHeight={false} className="mb-24 my-20">
-        <div className="block sm:grid grid-cols-2 w-full gap-12 space-y-5">
+      <Wrapper maxHeight={false} className="mb-24 my-4 md:my-16">
+        <div className="block  lg:grid grid-cols-2 w-full gap-12 space-y-12 lg:space-y-0">
           <PricingListing
             planType={
               (profile?.subscription?.plan as PlanType) ?? PlanType.FREE

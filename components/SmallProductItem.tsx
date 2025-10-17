@@ -45,8 +45,7 @@ const SmallProductItem = ({
             variant="caption"
             className="text-secondary text-left"
           >
-            {product?.ingredients?.length}{" "}
-            {product?.ingredients?.length > 1 ? "ingredients" : "ingredient"}
+            Brand: {product?.brand?.title}{" "}
           </Typography>
         )}
         {showBrand && (
@@ -55,7 +54,7 @@ const SmallProductItem = ({
             variant="caption"
             className="text-secondary text-left"
           >
-            {product.brand?.title}
+            Brand: {product.brand?.title}
           </Typography>
         )}
       </div>
