@@ -35,7 +35,7 @@ model Image {
   createdAt DateTime @default(now())
 
   userId Int?
-  user   User? @relation(fields: [userId], references: [id])
+  user   User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   productId Int?
   product   Product? @relation(fields: [productId], references: [id])
@@ -55,7 +55,7 @@ model UserUsage {
   ingredientViews Int      @default(0)
   lastResetAt     DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 //  User Schema 
@@ -94,7 +94,7 @@ model Subscription {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, stripeId])
 }
@@ -102,7 +102,7 @@ model Subscription {
 model Session {
   id        Int      @id @default(autoincrement())
   userId    Int
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   token     String   @unique
   expiresAt DateTime
   createdAt DateTime @default(now())
@@ -111,7 +111,7 @@ model Session {
 model PasswordResetToken {
   id        Int      @id @default(autoincrement())
   userId    Int
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   token     String   @unique
   expiresAt DateTime
   createdAt DateTime @default(now())
@@ -238,7 +238,7 @@ model SimilarIngredient {
 model Profile {
   id     Int  @id @default(autoincrement())
   userId Int  @unique
-  user   User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   skinType     SkinType?
   skinTypeDesc String?
@@ -265,7 +265,7 @@ model Routine {
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
 
-  profile Profile       @relation(fields: [profileId], references: [id])
+  profile Profile       @relation(fields: [profileId], references: [id], onDelete: Cascade)
   items   RoutineItem[]
 }
 
@@ -274,7 +274,7 @@ model RoutineItem {
   routineId Int
   productId Int
   usage     String // Monday, tues,...etc 'M,T,W,'
-  routine   Routine @relation(fields: [routineId], references: [id])
+  routine   Routine @relation(fields: [routineId], references: [id], onDelete: Cascade)
   product   Product @relation(fields: [productId], references: [id])
 }
 

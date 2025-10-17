@@ -16,3 +16,8 @@ export function getContentType(filename: string) {
       return "application/octet-stream";
   }
 }
+
+export function extractFilePathFromUrl(url: string): string {
+  const match = url.match(/firebasestorage\.app\/(.*)$/);
+  return match ? match[1] : "";
+}
