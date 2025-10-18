@@ -17,6 +17,20 @@ export const setAppSession = async (value: string, maxAge?: number) => {
     secure: true,
   });
 };
+export const setGuestRateIp = async (
+  name: string,
+  value: string,
+  maxAge?: number
+) => {
+  const cookieStore = await cookies();
+  cookieStore.set(name, value, {
+    maxAge,
+    path: "/",
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV == "production",
+  });
+};
 export const clearAppSession = (): NextResponse => {
   const response = NextResponse.json({ success: true });
   response.cookies.delete(SESSION_NAME);

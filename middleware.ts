@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { updateSession } from "./actions/authentication/login.action";
-import { getAppSession } from "./lib/sessions/cookie";
+import {
+  getAppSession,
+  parseSetCookie,
+  setGuestRateIp,
+} from "./lib/sessions/cookie";
 
 const protectedPaths = [
   "/dashboard",
@@ -39,6 +43,20 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
+  // -----------------------------
+  // Handle guest cookies from API headers (if needed)
+  // -----------------------------
+  const setCookieHeader = request.cookies.getAll();
+  // console.log("Middleware run", setCookieHeader);
+
+  // if (setCookieHeader) {
+  //   const parsed = parseSetCookie(setCookieHeader, "guest_id");
+
+  //   if (parsed?.value && typeof parsed.value === "string") {
+  //     console.log("Set guest ip");
+  //     await setGuestRateIp("guest_id", parsed.value, parsed.maxAge);
+  //   }
+  // }
   const response = NextResponse.next();
 
   if (isProtected) {
