@@ -472,3 +472,18 @@ div[data-nextjs-dev-overlay] {
       background-color: red !important; /* Example: set to red */
       color: white !important; /* Example: set text color to white */
    }
+
+input {
+  font-size: 16px !important;
+  line-height: 1.2 !important;
+  appearance: none;
+  -webkit-text-size-adjust: 100%;
+}
+
+
+/* Fix scroll area inside mobile dialogs */
+[data-radix-scroll-area-viewport] {
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto !important;
+  overscroll-behavior: contain; /* prevent bounce to background */
+}

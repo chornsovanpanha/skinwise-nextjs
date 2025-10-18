@@ -43,11 +43,9 @@ export async function getProductDetail({
       },
     },
   });
-  console.timeLog("getProductDetail", "After findFirst");
 
   if (!product) return null;
   // Increment search count atomically
-
   if (updateCount) {
     await prismaClient.product.update({
       where: { id: product.id },
@@ -56,8 +54,6 @@ export async function getProductDetail({
       },
     });
   }
-
-  // console.timeEnd("getProductDetail");
 
   return product;
 }

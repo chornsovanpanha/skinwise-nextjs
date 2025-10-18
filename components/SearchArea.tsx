@@ -40,7 +40,7 @@ const SearchArea = ({
 
   return (
     <div
-      className="search-area relative w-screen px-2 sm:w-full sm:px-0"
+      className="search-area relative w-screen px-4 sm:w-full sm:px-0"
       ref={searchRef}
     >
       <AppInput

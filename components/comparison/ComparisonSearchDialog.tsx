@@ -34,7 +34,7 @@ const ComparisonSearchDialog = ({
       <DialogContent
         aria-description="dialog-search-product"
         aria-describedby="dialog"
-        className="z-[12000] md:max-w-xl w-full p-0 rounded-2xl overflow-hidden border-0 [&>button]:hidden bg-[#F7FCFD] max-w-[350px] sm:max-w-md"
+        className="z-[12000] md:max-w-xl w-full p-0 rounded-2xl overflow-hidden border-0 [&>button]:hidden bg-[#F7FCFD] max-w-[350px] sm:max-w-md touch-auto"
       >
         {/* Header without extra padding */}
         <DialogHeader className="p-0 bg-secondary py-4 px-4 h-24">
@@ -46,7 +46,7 @@ const ComparisonSearchDialog = ({
               placeholder="Search for a product..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full py-6 border-b bg-white placeholder:text-gray-4"
+              className="w-full py-6 border-b bg-white placeholder:text-gray-4 leading-[1.2]"
             />
           </DialogTitle>
         </DialogHeader>

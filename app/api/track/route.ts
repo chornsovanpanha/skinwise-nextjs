@@ -56,8 +56,12 @@ export async function GET(req: NextRequest) {
       // -----------------------------
       // Guest user
       // -----------------------------
+      // const forwardedFor = req.headers.get("x-forwarded-for") || "";
+      // const ip = forwardedFor.split(",")[0].trim() || `guest_local`;
+
       const forwardedFor = req.headers.get("x-forwarded-for") || "";
-      const ip = forwardedFor.split(",")[0].trim() || `guest_local`;
+      const realIp = req.headers.get("x-real-ip");
+      const ip = realIp || forwardedFor.split(",")[0].trim() || "guest_local";
 
       key = `guest_search_${ip}`;
       limit = GUEST_LIMIT;
