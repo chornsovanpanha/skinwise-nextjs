@@ -1,19 +1,23 @@
 import prisma from "@/lib/prisma";
 import redis from "@/lib/redis";
 import { getUserIdFromSession } from "@/lib/sessions/session";
-import { PlanType } from "@/types";
-import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
+import { v4 as uuidv4 } from "uuid";
 
 const FREE_USER_LIMIT = 5;
 const GUEST_LIMIT = 5;
 const TTL_SECONDS = 1 * 24 * 60 * 60;
-export async function GET(req: NextRequest) {
+
+export async function GET() {
   try {
+    const cookieStore = await cookies();
     const userId = await getUserIdFromSession();
 
     let key: string;
     let limit: number;
-    let user;
+    let user: any;
+    let setGuestCookie = false;
 
     // -----------------------------
     // Logged-in user
@@ -38,46 +42,45 @@ export async function GET(req: NextRequest) {
       // Subscribed user → unlimited
       if (
         user.subscription?.status === "ACTIVE" &&
-        user.subscription?.plan == "PRO"
+        user.subscription?.plan === "PRO"
       ) {
         return NextResponse.json({
           success: true,
           message: "Subscribed user: unlimited searches",
-          planType: user?.subscription?.plan,
-          skinType: user?.profile?.skinType,
-          skinConcern: user?.profile?.concerns?.map((item) => item.name),
+          planType: user.subscription.plan,
+          skinType: user.profile?.skinType,
+          skinConcern: user.profile?.concerns?.map((item: any) => item.name),
         });
       }
 
-      // Free user → track in Redis
       key = `user_search_${user.id}`;
       limit = FREE_USER_LIMIT;
     } else {
       // -----------------------------
       // Guest user
       // -----------------------------
-      // const forwardedFor = req.headers.get("x-forwarded-for") || "";
-      // const ip = forwardedFor.split(",")[0].trim() || `guest_local`;
+      let guestId = cookieStore.get("guest_id")?.value;
 
-      const forwardedFor = req.headers.get("x-forwarded-for") || "";
-      const realIp = req.headers.get("x-real-ip");
-      const ip = realIp || forwardedFor.split(",")[0].trim() || "guest_local";
+      if (!guestId) {
+        guestId = uuidv4();
+        setGuestCookie = true;
+      }
 
-      key = `guest_search_${ip}`;
+      key = `guest_search_${guestId}`;
       limit = GUEST_LIMIT;
     }
 
     // -----------------------------
-    // 3Track searches in Redis
+    // Track usage in Redis
     // -----------------------------
     const count = parseInt((await redis.get(key)) || "0", 10);
 
     if (count >= limit) {
       return NextResponse.json({
         success: false,
-        message: "Search limit reached. Please subscribe or wait 30 days.",
-        planType: PlanType.FREE,
-        skinConcern: user?.profile?.concerns?.map((item) => item.name),
+        message: "Search limit reached. Please subscribe or wait 24 hours.",
+        planType: "FREE",
+        skinConcern: user?.profile?.concerns?.map((item: any) => item.name),
         skinType: user?.profile?.skinType,
       });
     }
@@ -88,22 +91,35 @@ export async function GET(req: NextRequest) {
       await redis.incr(key);
     }
 
-    return NextResponse.json({
+    const res = NextResponse.json({
       success: true,
       remaining: limit - (count + 1),
       message: `Search recorded. You have ${
         limit - (count + 1)
       } searches left.`,
-      planType: PlanType.FREE,
+      planType: "FREE",
       skinType: user?.profile?.skinType,
-      skinConcern: user?.profile?.concerns?.map((item) => item.name),
+      skinConcern: user?.profile?.concerns?.map((item: any) => item.name),
     });
+
+    // -----------------------------
+    // Set guest cookie if needed
+    // -----------------------------
+    if (setGuestCookie) {
+      res.cookies.set("guest_id", uuidv4(), {
+        httpOnly: true,
+        path: "/",
+        maxAge: TTL_SECONDS,
+      });
+    }
+
+    return res;
   } catch (err) {
-    console.error(err);
+    console.error("Search Error:", err);
     return NextResponse.json({
       success: false,
       message: "Something went wrong.",
-      planType: PlanType.FREE,
+      planType: "FREE",
       skinType: "",
       skinConcern: [],
     });
