@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import { v4 as uuidv4 } from "uuid";
 import { updateSession } from "./actions/authentication/login.action";
-import {
-  getAppSession,
-  parseSetCookie,
-  setGuestRateIp,
-} from "./lib/sessions/cookie";
+import { trackAndSetGuestSearch } from "./actions/track/track-action";
+import { getAppSession } from "./lib/sessions/cookie";
+import { cookies } from "next/headers";
 
 const protectedPaths = [
   "/dashboard",
@@ -13,6 +12,8 @@ const protectedPaths = [
   "/profile/edit-profile",
   "/profile/my-skin",
 ];
+
+const limitSearchPaths = ["/product", "/ingredient", "/result-comparison"];
 const loginPath = "/login";
 
 export async function middleware(request: NextRequest) {
@@ -20,7 +21,33 @@ export async function middleware(request: NextRequest) {
   const pathName = url.pathname;
   const isProtected = protectedPaths.some((path) => pathName.startsWith(path));
   const cookieValue = await getAppSession();
+  const cookieStore = await cookies();
+  const res = NextResponse.next();
+  const isRoute = limitSearchPaths.some((path) => pathName.startsWith(path));
+  // -----------------------------
+  // Handle guest cookies from API headers (if needed)
+  // -----------------------------
+  const guestCookie = cookieStore.get("guest_session")?.value ?? uuidv4();
 
+  if (isRoute && !cookieValue) {
+    console.log("call again", guestCookie);
+    const apiResponse = await trackAndSetGuestSearch(guestCookie);
+    console.log("Track guest user middle ware run", apiResponse.data);
+    if (apiResponse.data && apiResponse.success) {
+      res.cookies.set("guest_session", apiResponse.data, {
+        httpOnly: true,
+        path: "/",
+        sameSite: "lax",
+        secure: process.env.NODE_ENV == "production",
+        maxAge: 60 * 60 * 24,
+      });
+    }
+    if (!apiResponse.success) {
+      return NextResponse.redirect(new URL("/pricing", url));
+    }
+
+    return res;
+  }
   const loginUrl = new URL(loginPath, url);
   if (isProtected) {
     loginUrl.searchParams.set("returnTo", pathName + url.search);
@@ -43,20 +70,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  // -----------------------------
-  // Handle guest cookies from API headers (if needed)
-  // -----------------------------
-  const setCookieHeader = request.cookies.getAll();
-  // console.log("Middleware run", setCookieHeader);
-
-  // if (setCookieHeader) {
-  //   const parsed = parseSetCookie(setCookieHeader, "guest_id");
-
-  //   if (parsed?.value && typeof parsed.value === "string") {
-  //     console.log("Set guest ip");
-  //     await setGuestRateIp("guest_id", parsed.value, parsed.maxAge);
-  //   }
-  // }
   const response = NextResponse.next();
 
   if (isProtected) {

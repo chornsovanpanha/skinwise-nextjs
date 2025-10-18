@@ -11,6 +11,7 @@ import { AnalyseData, PlanType, ProductWithDetail } from "@/types";
 import Link from "next/link";
 import CompareBtn from "./CompareBtn";
 import { Button } from "@/components/ui/button";
+import UnlockButton from "@/components/UnlockButton";
 
 const ProductDetail = ({
   product,
@@ -83,10 +84,15 @@ const ProductDetail = ({
               <CompareBtn product={product} />
             </footer>
 
-            {analysis?.score && planType == PlanType.PRO && (
+            {analysis?.score && planType == PlanType.PRO ? (
               <RoutineChartSight
                 percentage={parseInt(analysis?.score)}
                 desc={analysis?.shortDesc}
+              />
+            ) : (
+              <UnlockButton
+                className="flex justify-start mt-6"
+                title="Unlock Premium to see this product analysis"
               />
             )}
           </section>

@@ -12,6 +12,7 @@ import {
   FacebookAuthProvider,
   GoogleAuthProvider,
   signInWithPopup,
+  signOut,
 } from "firebase/auth";
 import { useSetAtom } from "jotai";
 import Image from "next/image";
@@ -22,6 +23,7 @@ export const defaultState = {
   loading: false,
   error: "",
 };
+
 const SocialButton = () => {
   const setUserAtom = useSetAtom(userAtom);
 
@@ -32,10 +34,14 @@ const SocialButton = () => {
     try {
       await clearGoogleLogout();
       const googleprovider = new GoogleAuthProvider();
+      googleprovider.setCustomParameters({ prompt: "select_account" });
 
       googleprovider.addScope("email");
       googleprovider.addScope("profile");
-
+      if (auth.currentUser) {
+        await signOut(auth);
+        console.log("Signed out existing Firebase session");
+      }
       const result = await signInWithPopup(auth, googleprovider);
 
       await result.user.reload();
@@ -116,6 +122,8 @@ const SocialButton = () => {
   const handleFacebookLogin = async () => {
     try {
       const facebookprovider = new FacebookAuthProvider();
+      facebookprovider.setCustomParameters({ auth_type: "reauthenticate" });
+
       facebookprovider.addScope("email");
       facebookprovider.addScope("public_profile");
 

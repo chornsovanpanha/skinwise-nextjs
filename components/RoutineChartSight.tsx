@@ -6,7 +6,7 @@ type RoutineChartSightProps = {
   percentage: number;
   desc: string;
 };
-const RoutineChartSight: React.FC<RoutineChartSightProps> = ({
+const   RoutineChartSight: React.FC<RoutineChartSightProps> = ({
   percentage,
   desc,
 }) => {

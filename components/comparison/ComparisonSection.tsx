@@ -92,7 +92,7 @@ const ComparisonSection = () => {
       <Button
         onClick={() => {
           router.push(
-            `/comparison-result?compare=${selectProducts?.at(0)?.alias}-vs-${
+            `/result-comparison?compare=${selectProducts?.at(0)?.alias}-vs-${
               selectProducts?.at(1)?.alias
             }`
           );

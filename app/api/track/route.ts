@@ -1,52 +1,42 @@
-// import prisma from "@/lib/prisma";
 import prisma from "@/lib/prisma";
 import redis from "@/lib/redis";
 import { getUserIdFromSession } from "@/lib/sessions/session";
-import { PlanType } from "@/types";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 const FREE_USER_LIMIT = 5;
-const GUEST_LIMIT = 5;
 const TTL_SECONDS = 24 * 60 * 60; // 1 day
 
-// -----------------------------
-// Helper: Get partial IP
-// -----------------------------
-function getPartialIP(req: NextRequest) {
-  const forwarded = req.headers.get("x-forwarded-for");
-  const realIp = req.headers.get("x-real-ip");
-  const ip = (forwarded?.split(",")[0] || realIp || "guest_local").trim();
-
-  if (ip.includes(".")) return ip.split(".").slice(0, 3).join("."); // IPv4
-  if (ip.includes(":")) return ip.split(":").slice(0, 3).join(":"); // IPv6
-  return ip;
-}
-
-// -----------------------------
-// Main GET handler
-// -----------------------------
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const userId = await getUserIdFromSession();
-    let key: string;
-    let limit: number;
-    let user;
+    let user = null;
+    let key = "";
+    let limit = 0;
 
-    // -----------------------------
-    // Logged-in user
-    // -----------------------------
+    // -----------------------------------
+    // Fetch user if logged in
+    // -----------------------------------
     if (userId) {
       user = await prisma.user.findUnique({
         where: { id: parseInt(userId) },
         include: {
           subscription: true,
-          profile: { include: { concerns: true } },
+          profile: {
+            include: {
+              concerns: true,
+            },
+          },
         },
       });
 
-      if (!user)
-        return NextResponse.json({ success: false, message: "User not found" });
+      if (!user) {
+        return NextResponse.json({
+          success: false,
+          message: "User not found",
+        });
+      }
 
+      // If user is PRO subscriber → unlimited access
       if (
         user.subscription?.status === "ACTIVE" &&
         user.subscription?.plan === "PRO"
@@ -55,43 +45,37 @@ export async function GET(req: NextRequest) {
           success: true,
           message: "Subscribed user: unlimited searches",
           planType: user.subscription.plan,
-          skinType: user.profile?.skinType,
-          skinConcern: user.profile?.concerns?.map((c) => c.name),
+          skinType: user.profile?.skinType || "",
+          skinConcern: user.profile?.concerns?.map((item) => item.name) || [],
         });
       }
 
+      // Set key and limit for FREE user
       key = `user_search_${user.id}`;
       limit = FREE_USER_LIMIT;
-    } else {
-      // -----------------------------
-      // Guest user → partial IP + guest cookie
-      // -----------------------------
-      const partialIp = getPartialIP(req);
-
-      key = `guest_search_${partialIp}`;
-      limit = GUEST_LIMIT;
     }
 
-    // -----------------------------
-    // Track usage in Redis
-    // -----------------------------
+    // -----------------------------------
+    // Track search usage via Redis
+    // -----------------------------------
     const count = parseInt((await redis.get(key)) || "0", 10);
 
     if (count >= limit) {
       return NextResponse.json({
         success: false,
-        message: `Search limit reached. Please subscribe or wait ${
-          TTL_SECONDS / (24 * 60 * 60)
-        } days.`,
-        planType: user ? PlanType.FREE : PlanType.PRO,
-        skinType: user?.profile?.skinType,
-        skinConcern: user?.profile?.concerns?.map((c) => c.name),
+        message: "Search limit reached. Please subscribe or wait 24 hours.",
+        planType: "FREE",
+        skinType: user?.profile?.skinType || "",
+        skinConcern: user?.profile?.concerns?.map((item) => item.name) || [],
       });
     }
 
-    await (count === 0
-      ? redis.set(key, 1, "EX", TTL_SECONDS)
-      : redis.incr(key));
+    // Increment usage
+    if (count === 0) {
+      await redis.set(key, 1, "EX", TTL_SECONDS);
+    } else {
+      await redis.incr(key);
+    }
 
     return NextResponse.json({
       success: true,
@@ -99,16 +83,16 @@ export async function GET(req: NextRequest) {
       message: `Search recorded. You have ${
         limit - (count + 1)
       } searches left.`,
-      planType: user ? PlanType.FREE : PlanType.PRO,
-      skinType: user?.profile?.skinType,
-      skinConcern: user?.profile?.concerns?.map((c) => c.name),
+      planType: "FREE",
+      skinType: user?.profile?.skinType || "",
+      skinConcern: user?.profile?.concerns?.map((item) => item.name) || [],
     });
   } catch (err) {
-    console.error(err);
+    console.error("Search Error:", err);
     return NextResponse.json({
       success: false,
       message: "Something went wrong.",
-      planType: PlanType.FREE,
+      planType: "FREE",
       skinType: "",
       skinConcern: [],
     });

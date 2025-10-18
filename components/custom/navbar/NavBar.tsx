@@ -20,7 +20,7 @@ export default async function NavBar() {
   )) as UserWithSubscription;
 
   return (
-    <div className="sticky top-0 z-[50] bg-gray-50">
+    <div className="sticky top-0 z-[50] bg-gray-50 shadow-md">
       <div className="flex mx-auto container max-w-7xl justify-between px-6 sm:px-12 py-6 ">
         {/* Left side (Logo) */}
         <Link href="/" className="flex items-center">

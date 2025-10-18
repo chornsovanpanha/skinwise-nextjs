@@ -17,7 +17,7 @@ const CompareBtn = ({ product }: { product?: ProductWithDetail }) => {
           imageUrl: product?.Image?.at(0)?.url ?? "",
           name: product?.name ?? "",
         });
-        router.push(`/product-comparison?primary`);
+        router.push(`/comparison?primary`);
       }}
       className="rounded-full bg-secondary text-primary px-8 hover:bg-secondary/80 py-2.5 hover:cursor-pointer"
     >

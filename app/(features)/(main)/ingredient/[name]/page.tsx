@@ -6,6 +6,7 @@ import { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import React from "react";
 import IngredientDetail from "./IngredientDetail";
+import { getUserIdFromSession } from "@/lib/sessions/session";
 type Params = {
   params: Promise<{ name: string }>;
 };
@@ -43,9 +44,11 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 const Page: React.FC<Params> = async ({ params }) => {
   const paramsResult = await params;
+  const userId = await getUserIdFromSession();
+
   const result = await trackUserSearch();
   //User has reach their limit view product ,ingredients and comparison ...
-  if (!result?.data?.success) {
+  if (!result?.data?.success && userId) {
     return redirect("/pricing");
   }
   const ingredient = await getIngredientDetail({ alias: paramsResult.name });

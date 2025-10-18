@@ -9,7 +9,7 @@ export const menus: MobileMenu[] = [
   },
   {
     id: 1,
-    link: "/product-comparison",
+    link: "/comparison",
     name: "Comparison",
     hasHover: false,
   },

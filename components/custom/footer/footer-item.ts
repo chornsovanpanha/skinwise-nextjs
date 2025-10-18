@@ -1,7 +1,7 @@
 export const toolFeatureMenus = [
   {
     id: 1,
-    href: "/product-comparison",
+    href: "/comparison",
     name: "Product Comparison Tool",
   },
   {

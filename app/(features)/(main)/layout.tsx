@@ -14,10 +14,12 @@ export const metadata: Metadata = {
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <SidebarProvider>
-      <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
+      <div className="flex flex-col min-h-screen w-full">
         <NavBar />
 
-        <main className="flex-1 w-full min-h-screen">{children}</main>
+        <main className="flex-1 w-full min-h-screen overflow-x-hidden">
+          {children}
+        </main>
 
         <div className="bg-primary mt-10">
           <Footer />

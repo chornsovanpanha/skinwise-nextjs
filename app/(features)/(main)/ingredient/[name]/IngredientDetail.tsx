@@ -9,6 +9,7 @@ import SimilarIngredientListing from "@/components/ingredient/SimilarIngredientL
 import PageHeader from "@/components/PageHeader";
 import { Typography } from "@/components/Typography";
 import { Button } from "@/components/ui/button";
+import UnlockButton from "@/components/UnlockButton";
 import { AnalyseData, IngredientWithSimilar, PlanType } from "@/types";
 import clsx from "clsx";
 import Link from "next/link";
@@ -57,6 +58,12 @@ const IngredientDetail: React.FC<IngredientDetailProps> = ({
           analysis && planType == PlanType.PRO ? `${analysis?.score}%` : ""
         }
       />
+      {planType != PlanType.PRO && (
+        <UnlockButton
+          className="flex justify-center my-6 mt-10"
+          title="Unlock Premium to see this ingredient analysis"
+        />
+      )}
 
       <Wrapper className="flex-col sm:space-y-0 gap-4">
         {/* **** Header overview ****  */}

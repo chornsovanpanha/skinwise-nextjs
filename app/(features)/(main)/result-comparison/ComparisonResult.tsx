@@ -8,6 +8,7 @@ import Wrapper from "@/components/custom/layout/Wrapper";
 import PageHeader from "@/components/PageHeader";
 import { Typography } from "@/components/Typography";
 import { Button } from "@/components/ui/button";
+import UnlockButton from "@/components/UnlockButton";
 import { ProductComparison } from "@/types";
 import { ProductSummaryType } from "@/types/response";
 import { IconFlask, IconTestPipe } from "@tabler/icons-react";
@@ -21,12 +22,10 @@ import {
 import { useRouter } from "nextjs-toploader/app";
 
 const ComparisonResult = ({
-  userId,
   data,
   productSummaries,
 }: {
   data?: ProductComparison[];
-  userId?: string;
   productSummaries?: ProductSummaryType[];
 }) => {
   const router = useRouter();
@@ -76,7 +75,7 @@ const ComparisonResult = ({
             <Button
               className="text-secondary rounded-2xl"
               onClick={() => {
-                router.push("/product-comparison");
+                router.push("/comparison");
               }}
             >
               New Comparison
@@ -204,42 +203,6 @@ const ComparisonResult = ({
             </BoxOutlineWrapper>
           </div>
         </section>
-
-        {/* **** Overview Comparison effects ****  */}
-
-        {userId && productSummaries && productSummaries.length > 0 && (
-          <section className="negative block space-y-4 sm:space-y-0 gap-4">
-            <ComparisonHeader
-              icon={<BookOpen className="w-6 h-6 sm:w-10 sm:h-10" />}
-              title="Overviews"
-            />
-
-            <div className="compare block space-y-4 sm:space-y-0 sm:flex gap-4">
-              <BoxOutlineWrapper title={""} className="flex-1">
-                <main className="block sm:grid gap-4 space-y-6 w-full ">
-                  {productSummaries?.map((compare, index) => (
-                    <li className="list-none" key={index}>
-                      <Typography
-                        variant="h6"
-                        as="p"
-                        className="text-secondary font-bold"
-                      >
-                        {compare.title}
-                      </Typography>
-                      <Typography
-                        variant="default"
-                        as="p"
-                        className="text-secondary"
-                      >
-                        {compare.desc}
-                      </Typography>
-                    </li>
-                  ))}
-                </main>
-              </BoxOutlineWrapper>
-            </div>
-          </section>
-        )}
 
         {/* **** Key Ingredients  ****  */}
         <section className="key-ingredients block space-y-4 sm:space-y-0 gap-4">
@@ -396,6 +359,47 @@ const ComparisonResult = ({
             </BoxOutlineWrapper>
           </div>
         </section>
+
+        {/* **** Overview Comparison effects ****  */}
+
+        {productSummaries?.length ? (
+          <section className="negative block space-y-4 sm:space-y-0 gap-4">
+            <ComparisonHeader
+              icon={<BookOpen className="w-6 h-6 sm:w-10 sm:h-10" />}
+              title="Overviews"
+            />
+
+            <div className="compare block space-y-4 sm:space-y-0 sm:flex gap-4">
+              <BoxOutlineWrapper title={""} className="flex-1">
+                <main className="block sm:grid gap-4 space-y-6 w-full ">
+                  {productSummaries?.map((compare, index) => (
+                    <li className="list-none" key={index}>
+                      <Typography
+                        variant="h6"
+                        as="p"
+                        className="text-secondary font-bold"
+                      >
+                        {compare.title}
+                      </Typography>
+                      <Typography
+                        variant="default"
+                        as="p"
+                        className="text-secondary"
+                      >
+                        {compare.desc}
+                      </Typography>
+                    </li>
+                  ))}
+                </main>
+              </BoxOutlineWrapper>
+            </div>
+          </section>
+        ) : (
+          <UnlockButton
+            className="flex justify-center my-6 mt-10"
+            title="Unlock Premium to see more"
+          />
+        )}
       </Wrapper>
     </main>
   );

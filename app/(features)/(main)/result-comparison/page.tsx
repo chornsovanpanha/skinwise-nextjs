@@ -1,12 +1,13 @@
 import { trackUserSearch } from "@/actions/track/track-action";
 import { getProductComparison } from "@/data/comparison";
 import { analysisProductComparison } from "@/data/gemini";
+import { getUserIdFromSession } from "@/lib/sessions/session";
+import { PlanType } from "@/types";
 import { ProductSummaryType, ResponseAnalyse } from "@/types/response";
 import { splitComparisonSlug } from "@/utils/formatter";
 import { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import ComparisonResult from "./ComparisonResult";
-import { getUserIdFromSession } from "@/lib/sessions/session";
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
 export const generateMetadata = async ({
@@ -36,19 +37,19 @@ export const generateMetadata = async ({
 
 const Page = async ({ searchParams }: { searchParams: SearchParams }) => {
   const search = await searchParams;
+  const userId = await getUserIdFromSession();
+
+  const subscription = await trackUserSearch();
+  //User has reach their limit view product ,ingredients and comparison ...
+  if (!subscription?.data?.success && userId) {
+    return redirect("/pricing");
+  }
   const comparison = search?.compare ?? "";
   const { primary, secondary } = splitComparisonSlug(comparison?.toString());
   const productComparisons = await getProductComparison({
     primaryAlias: primary,
     secondaryAlias: secondary,
   });
-
-  const result = await trackUserSearch();
-  const userId = await getUserIdFromSession();
-  //User has reach their limit view product ,ingredients and comparison ...
-  if (!result?.data?.success) {
-    return redirect("/pricing");
-  }
 
   if (productComparisons?.length <= 1 || primary === secondary) {
     return notFound();
@@ -57,19 +58,23 @@ const Page = async ({ searchParams }: { searchParams: SearchParams }) => {
   const primaryProduct = productComparisons?.at(0);
   const secondaryProduct = productComparisons?.at(1);
 
-  const analysis = await analysisProductComparison(
-    {
-      keyPrimary: primaryProduct?.ingredients?.toString(),
-      keySecondary: secondaryProduct?.ingredients?.toString(),
-      productBrandPrimary: primaryProduct?.brand?.title,
-      productBrandSecondary: secondaryProduct?.brand?.title,
-      productPrimaryName: primaryProduct?.name,
-      productSecondaryName: secondaryProduct?.name,
-    },
-    userId ?? ""
-  );
+  let analysis;
 
-  const toProductSummaries = (analysis: ResponseAnalyse | null) => {
+  if (subscription.data?.planType == PlanType.PRO) {
+    analysis = await analysisProductComparison(
+      {
+        keyPrimary: primaryProduct?.ingredients?.toString(),
+        keySecondary: secondaryProduct?.ingredients?.toString(),
+        productBrandPrimary: primaryProduct?.brand?.title,
+        productBrandSecondary: secondaryProduct?.brand?.title,
+        productPrimaryName: primaryProduct?.name,
+        productSecondaryName: secondaryProduct?.name,
+      },
+      userId ?? ""
+    );
+  }
+
+  const toProductSummaries = (analysis?: ResponseAnalyse | null) => {
     console.log("Analy sis is", analysis);
     if (!analysis) return [];
 
@@ -95,7 +100,6 @@ const Page = async ({ searchParams }: { searchParams: SearchParams }) => {
   return (
     <ComparisonResult
       data={productComparisons}
-      userId={userId ?? ""}
       productSummaries={
         (toProductSummaries(analysis) as ProductSummaryType[]) ?? []
       }

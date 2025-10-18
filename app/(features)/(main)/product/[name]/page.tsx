@@ -11,12 +11,14 @@ import ProductDetail from "./ProductDetail";
 type Params = {
   params: Promise<{ name: string }>;
 };
+
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const paramsResult = await params;
   const product = await getProductDetail({
     alias: paramsResult.name,
     updateCount: false,
   });
+
   if (!product) {
     return {
       title: "Product Not Found",
@@ -43,10 +45,11 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 const Page: React.FC<Params> = async ({ params }) => {
   const paramsResult = await params;
-  const result = await trackUserSearch();
+
   const userId = await getUserIdFromSession();
+  const result = await trackUserSearch();
   //User has reach their limit view product ,ingredients and comparison ...
-  if (!result?.data?.success) {
+  if (!result?.data?.success && userId) {
     return redirect("/pricing");
   }
   const product = await getProductDetail({ alias: paramsResult.name });
@@ -62,7 +65,6 @@ const Page: React.FC<Params> = async ({ params }) => {
       name: product.name,
     });
   }
-  // console.log("Gemini data is", data);
 
   return (
     <ProductDetail
