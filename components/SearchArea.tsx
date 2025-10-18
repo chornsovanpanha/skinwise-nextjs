@@ -39,7 +39,10 @@ const SearchArea = ({
   }, [pathName, q]);
 
   return (
-    <div className="search-area relative" ref={searchRef}>
+    <div
+      className="search-area relative w-screen px-2 sm:w-full sm:px-0"
+      ref={searchRef}
+    >
       <AppInput
         id="search"
         autoCapitalize="none"

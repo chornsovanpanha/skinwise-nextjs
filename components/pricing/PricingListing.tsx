@@ -16,9 +16,9 @@ const PricingListing = ({
     <section
       key={plan.name}
       className={clsx("w-full ", {
-        "transform lg:scale-110  transition-transform ease-in-out duration-300":
+        "transform scale-100 xl:scale-110  transition-transform ease-in-out duration-300":
           plan.type == PlanType.PRO,
-        "transform lg:scale-100  transition-transform ease-in-out duration-300":
+        "transform scale-100  xl:scale-100  transition-transform ease-in-out duration-300":
           plan.type == PlanType.FREE,
       })}
     >
@@ -65,7 +65,7 @@ const PricingListing = ({
         </header>
 
         <CardContent className="my-2">
-          <ul className="list-disc list-inside">
+          <ul className="list-disc list-inside space-y-2">
             {plan.features.map((feature, idx) => (
               <li
                 key={idx}
@@ -81,7 +81,7 @@ const PricingListing = ({
         </CardContent>
 
         <Button
-          className={`w-fit bg-transparent border-4 rounded-4xl py-8 mt-4  px-12 hover:bg-primary/50 ease-in-out transition-colors duration-200 ${
+          className={`w-fit bg-transparent border-4 rounded-4xl py-6 lg:py-7 mt-4  px-12 hover:bg-primary/50 ease-in-out transition-colors duration-200 ${
             plan.type == PlanType.FREE ? "border-secondary" : "border-primary"
           }`}
           variant={"outline"}

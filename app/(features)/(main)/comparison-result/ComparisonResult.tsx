@@ -99,7 +99,7 @@ const ComparisonResult = ({
             icon={<BadgeCheck className="w-6 h-6 sm:w-10 sm:h-10" />}
             title="Benefits"
           />
-          <div className="compare block space-y-4 sm:space-y-0 sm:flex gap-4">
+          <div className="compare block space-y-4 sm:space-y-0 lg:flex gap-4">
             <BoxOutlineWrapper title={""} className="flex-1/2 hover-box">
               <main className="block sm:grid gap-4 grid-cols-2 space-y-6 w-full ">
                 {positivePirmaryEffects?.map((item, index) => (
@@ -152,7 +152,7 @@ const ComparisonResult = ({
             }
             title="Concerns"
           />
-          <div className="compare block space-y-4 sm:space-y-0 sm:flex gap-4">
+          <div className="compare block space-y-4 sm:space-y-0 lg:flex gap-4">
             <BoxOutlineWrapper
               title={""}
               className="flex-1/2 hover-box"
@@ -248,7 +248,7 @@ const ComparisonResult = ({
             title="Key Ingredients"
           />
           <div className="compare block space-y-4 sm:space-y-0 sm:flex gap-4">
-            <main className="block sm:grid sm:grid-cols-2 gap-4 space-y-6 sm:space-y-0 w-full my-4">
+            <main className="block sm:grid lg:grid-cols-2 gap-4 space-y-6 sm:space-y-0 w-full my-4">
               {/* Left product key item  */}
 
               <section className="border-2 border-primary px-4 py-4 rounded-2xl hover-box">
@@ -301,7 +301,7 @@ const ComparisonResult = ({
             icon={<IconFlask className="w-6 h-6 sm:w-10 sm:h-10" />}
             title="Ingredients side by side"
           />
-          <div className="compare block space-y-4 sm:space-y-0 sm:flex gap-4">
+          <div className="compare block space-y-4 sm:space-y-0 lg:flex gap-4">
             <BoxOutlineWrapper title={""} className="flex-1/2 hover-box">
               <header className="text-center mb-6">
                 <Typography
@@ -324,7 +324,7 @@ const ComparisonResult = ({
                   </Typography>
                 )}
               </header>
-              <main className="block sm:grid gap-4 grid-cols-2 w-full space-y-6 sm:space-y-0">
+              <main className="block sm:grid gap-4 lg:grid-cols-2 w-full space-y-6 sm:space-y-0">
                 {primaryProduct?.ingredients?.map((item, index) => (
                   <BadgeItem
                     className={"bg-transparent"}

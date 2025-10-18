@@ -34,7 +34,7 @@ const ComparisonSearchDialog = ({
       <DialogContent
         aria-description="dialog-search-product"
         aria-describedby="dialog"
-        className="z-[12000] md:max-w-xl w-full p-0 rounded-2xl overflow-hidden border-0 [&>button]:hidden bg-[#F7FCFD] max-w-md"
+        className="z-[12000] md:max-w-xl w-full p-0 rounded-2xl overflow-hidden border-0 [&>button]:hidden bg-[#F7FCFD] max-w-[350px] sm:max-w-md"
       >
         {/* Header without extra padding */}
         <DialogHeader className="p-0 bg-secondary py-4 px-4 h-24">

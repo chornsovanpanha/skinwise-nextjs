@@ -22,7 +22,7 @@ export function BlockCompareCard({
   return (
     <div
       className={clsx(
-        "border-2 flex flex-row  w-full space-x-4 !border-primary items-center py-6 px-6 rounded-2xl cursor-pointer hover:scale-105 transition-transform duration-200 ease-in-out hover:bg-primary/10 ",
+        "border-2  block sm:flex flex-row  w-full space-x-4 !border-primary items-center py-6 px-6 rounded-2xl cursor-pointer hover:scale-105 transition-transform duration-200 ease-in-out hover:bg-primary/10 space-y-4 sm:space-y-0",
         className
       )}
     >
@@ -31,12 +31,12 @@ export function BlockCompareCard({
       {imagePreview ? (
         <div
           onClick={onClick}
-          className="w-fit h-[215px] flex-2/4  relative border border-primary rounded-2xl border-dashed"
+          className="h-[215px]  w-full sm:flex-1/2  relative border border-primary rounded-2xl border-dashed"
         >
           <button
             type="button"
             onClick={onClick}
-            className=" z-20 left rounded-2xl bg-primary flex-2/4 grid place-content-center hover:bg-primary/70 transition cursor-pointer absolute right-[-10] top-[-20] p-2.5"
+            className=" z-20 left rounded-full bg-primary sm:flex-1/2 grid place-content-center hover:bg-primary/70 transition cursor-pointer absolute right-[-10] top-[-20] p-2.5"
           >
             <Edit2 className="w-4 h-4 text-secondary" />
           </button>
@@ -51,7 +51,7 @@ export function BlockCompareCard({
         <button
           type="button"
           onClick={onClick}
-          className="left rounded-2xl border border-primary border-dashed flex-2/4 grid place-content-center py-20 hover:bg-primary/10 transition cursor-pointer"
+          className="left rounded-2xl border border-primary border-dashed w-full sm:flex-1/2 grid place-content-center py-20 hover:bg-primary/10 transition cursor-pointer"
         >
           <Plus className="w-10 h-10 text-primary" />
         </button>

@@ -13,8 +13,10 @@ const IngredientSearchItem = ({
 }) => {
   return (
     <Link href={`/ingredient/${data?.alias}`}>
-      <div className="flex flex-row gap-5 items-center hover:cursor-pointer hover:bg-primary/20 px-4  py-4">
-        <IconFlask className="w-fit h-fit bg-primary  p-4 rounded-full" />
+      <div className="flex flex-row gap-5 items-center hover:cursor-pointer hover:bg-primary/20 px-6  py-4">
+        <div className="flex items-center justify-center w-15 h-15 aspect-square bg-primary rounded-full">
+          <IconFlask className="w-fit h-fit " />
+        </div>
 
         <section>
           <Typography

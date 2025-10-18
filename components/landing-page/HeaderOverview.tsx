@@ -20,21 +20,22 @@ const HeaderOverview = ({
     <Wrapper maxHeight={false}>
       <header
         className={clsx(
-          "block  sm:flex items-center justify-between w-full h-full",
+          "block  sm:flex items-center justify-between w-full h-full ",
           {
-            "sm:flex-row-reverse": orientation == "left",
+            "sm:flex-row-reverse w-full gap-4": orientation == "left",
           }
         )}
       >
         {/* left Section */}
         <section
-          className={clsx("left flex  w-fit items-center", {
+          className={clsx("left flex w-full  sm:w-fit items-center", {
             "flex-row-reverse": orientation == "left",
           })}
         >
           <div
             className={clsx("row-one w-full", {
-              "flex justify-end gap-4": orientation == "left",
+              "w-full block md:flex items-end justify-end gap-2  text-right":
+                orientation == "left",
             })}
           >
             <Typography variant="h2" as="p">
@@ -44,8 +45,8 @@ const HeaderOverview = ({
               {titlePrimary}{" "}
             </Typography>
           </div>
-          <div className="row-two w-50 bg-primary">
-            <Separator className=" h-0.5" />
+          <div className="row-two w-30 bg-primary">
+            <Separator className="h-0.5" />
           </div>
         </section>
         {/* Right Section */}

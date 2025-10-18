@@ -36,17 +36,25 @@ const BadgeItem: React.FC<BadgeItemProps> = ({
           icon ? (
             icon
           ) : (
-            <TriangleAlert className="text-white w-5 h-5" />
+            <div className="flex items-center justify-center w-5 h-5 aspect-square">
+              <TriangleAlert className="text-white " />
+            </div>
           )
         ) : icon ? (
           icon
         ) : (
-          <IconMedicineSyrup className="text-secondary w-6 h-6" />
+          <div className="flex items-center justify-center w-5 h-5 aspect-square">
+            <IconMedicineSyrup className="text-secondary w-6 h-6" />
+          </div>
         )}
       </div>
 
-      <div className="right gap-2 items-center">
-        <Typography as="p" variant="subtitle1" className="text-secondary">
+      <div className="right gap-2 items-center flex-1/2">
+        <Typography
+          as="p"
+          variant="subtitle1"
+          className="text-secondary leading-2"
+        >
           {title || "Unnamed Title"}
         </Typography>
         <Typography as="p" variant="caption" className="text-secondary">

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <SidebarProvider>
-      <div className="flex flex-col min-h-screen w-full">
+      <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
         <NavBar />
 
         <main className="flex-1 w-full min-h-screen">{children}</main>

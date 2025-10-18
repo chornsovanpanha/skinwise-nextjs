@@ -22,7 +22,7 @@ const SearchPreviewListing = ({
   const searchParams = useSearchParams();
   const highLightText = searchParams.get("q");
   return (
-    <div className="box-area absolute top-18 left-0 right-0 bg-white rounded-none rounded-b-2xl z-10 shadow pt-6">
+    <div className="box-area absolute top-18 left-0 right-0 bg-white rounded-none rounded-b-2xl z-10 shadow pt-6 px-2 mx-2 sm:w-full sm:mx-0">
       <ScrollArea className="h-[400px]">
         {ingredients?.map((ingred) => (
           <IngredientSearchItem
