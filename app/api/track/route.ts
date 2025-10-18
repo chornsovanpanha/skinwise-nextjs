@@ -16,7 +16,7 @@ export async function GET() {
 
     let key: string;
     let limit: number;
-    let user: any;
+    let user;
     let setGuestCookie = false;
 
     // -----------------------------
@@ -49,7 +49,7 @@ export async function GET() {
           message: "Subscribed user: unlimited searches",
           planType: user.subscription.plan,
           skinType: user.profile?.skinType,
-          skinConcern: user.profile?.concerns?.map((item: any) => item.name),
+          skinConcern: user.profile?.concerns?.map((item) => item.name),
         });
       }
 
@@ -80,7 +80,7 @@ export async function GET() {
         success: false,
         message: "Search limit reached. Please subscribe or wait 24 hours.",
         planType: "FREE",
-        skinConcern: user?.profile?.concerns?.map((item: any) => item.name),
+        skinConcern: user?.profile?.concerns?.map((item) => item.name),
         skinType: user?.profile?.skinType,
       });
     }
@@ -99,7 +99,7 @@ export async function GET() {
       } searches left.`,
       planType: "FREE",
       skinType: user?.profile?.skinType,
-      skinConcern: user?.profile?.concerns?.map((item: any) => item.name),
+      skinConcern: user?.profile?.concerns?.map((item) => item.name),
     });
 
     // -----------------------------
