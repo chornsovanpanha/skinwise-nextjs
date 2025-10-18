@@ -114,6 +114,7 @@ const ProductDetail = ({
             <main className="flex flex-wrap space-y-3 space-x-4 ustify-start">
               {product?.ingredients?.map((item, index) => (
                 <Link
+                  prefetch={false}
                   href={`/ingredient/${item?.ingredient?.alias}`}
                   key={index}
                 >

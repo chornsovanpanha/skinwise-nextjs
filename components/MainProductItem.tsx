@@ -23,6 +23,7 @@ const MainProductItem = ({
   return (
     <div className="group border border-primary rounded-xl overflow-hidden h-[480px] hover:cursor-pointer ">
       <Link
+        prefetch={false}
         href={`/product/${data.alias}`}
         className={clsx({
           "pointer-events-none": !allowLink,

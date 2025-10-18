@@ -12,7 +12,7 @@ const IngredientSearchItem = ({
   highlight?: string;
 }) => {
   return (
-    <Link href={`/ingredient/${data?.alias}`}>
+    <Link href={`/ingredient/${data?.alias}`} prefetch={false}>
       <div className="flex flex-row gap-5 items-center hover:cursor-pointer hover:bg-primary/20 px-6  py-4">
         <div className="flex items-center justify-center w-15 h-15 aspect-square bg-primary rounded-full">
           <IconFlask className="w-fit h-fit " />
