@@ -20,14 +20,12 @@ export async function middleware(request: NextRequest) {
   const pathName = url.pathname;
   const res = NextResponse.next();
 
-  // Protected paths (require login)
-  const isProtected = protectedPaths.some((path) =>
-    pathName.startsWith(pathName)
-  );
-
-  // Routes that need guest tracking
+  // -----------------------------
+  // Path checks
+  // -----------------------------
+  const isProtected = protectedPaths.some((path) => pathName.startsWith(path));
   const isGuestRoute = limitSearchPaths.some((path) =>
-    pathName.startsWith(pathName)
+    pathName.startsWith(path)
   );
 
   const cookieStore = await cookies();
@@ -35,51 +33,42 @@ export async function middleware(request: NextRequest) {
   const cookieValue = await getAppSession(); // logged-in user session
 
   // -----------------------------
-  // Handle guest session tracking
+  // Guest session tracking
   // -----------------------------
 
-  console.log("Url pathName is", pathName);
-
-  console.log("isGuestRoute", isGuestRoute);
-
+  console.log("Path is", pathName);
+  console.log("isGuestRoute is", isGuestRoute);
   if (isGuestRoute && !cookieValue) {
     let apiResponse;
 
     if (!guestCookie) {
-      console.log("🆕 No guest cookie — creating new guest session...");
       apiResponse = await trackAndSetGuestSearch();
-
       if (apiResponse.success && apiResponse.data) {
-        // Set the guest cookie
         res.cookies.set("guest_session", apiResponse.data, {
           httpOnly: true,
           path: "/",
           sameSite: "lax",
           secure: process.env.NODE_ENV === "production",
-          maxAge: 60 * 60 * 24, // 24 hours
+          maxAge: 60 * 60 * 24,
         });
-        console.log("✅ Guest cookie set:", apiResponse.data);
       } else {
-        console.warn("⚠️ Guest limit reached or failed to track guest.");
         return NextResponse.redirect(new URL("/pricing", url));
       }
     } else {
-      console.log("✅ Reusing existing guest cookie:", guestCookie);
       apiResponse = await trackAndSetGuestSearch(guestCookie);
-
       if (!apiResponse.success) {
-        console.warn("⚠️ Guest limit reached.");
         return NextResponse.redirect(new URL("/pricing", url));
       }
     }
   }
 
   // -----------------------------
-  // Handle protected paths
+  // Protected paths
   // -----------------------------
-  const loginUrl = new URL(loginPath, url);
-  if (isProtected) {
+  if (isProtected && !cookieValue) {
+    const loginUrl = new URL(loginPath, url);
     loginUrl.searchParams.set("returnTo", pathName + url.search);
+    return NextResponse.redirect(loginUrl);
   }
 
   // Redirect logged-in users away from login
@@ -87,20 +76,13 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", url));
   }
 
-  // Update user session if exists
+  // Update session if user logged in
   if (cookieValue) {
-    const { success, error } = await updateSession(cookieValue);
-    if (!success || error) {
-      return NextResponse.next();
-    }
-  }
-
-  if (isProtected && !cookieValue) {
-    return NextResponse.redirect(loginUrl);
+    await updateSession(cookieValue);
   }
 
   // -----------------------------
-  // Prevent caching of protected / guest-tracked pages
+  // Prevent caching
   // -----------------------------
   res.headers.set(
     "Cache-Control",
@@ -108,11 +90,7 @@ export async function middleware(request: NextRequest) {
   );
   res.headers.set("Pragma", "no-cache");
   res.headers.set("Expires", "0");
-  res.headers.set("Vary", "Cookie"); // prevents sharing guest cookies across users
+  res.headers.set("Vary", "Cookie");
 
   return res;
 }
-
-export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
-};
