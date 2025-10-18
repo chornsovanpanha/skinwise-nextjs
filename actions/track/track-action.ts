@@ -27,7 +27,6 @@ export async function trackAndSetGuestSearch(guestCookie?: string) {
         "Content-Type": "application/json",
       },
       cache: "no-store",
-      credentials: "include",
       body: JSON.stringify({ guestSession: guestCookie }),
     });
 
