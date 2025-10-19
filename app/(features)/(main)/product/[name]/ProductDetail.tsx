@@ -71,11 +71,7 @@ const ProductDetail = ({
 
             <footer className="w-full flex gap-2 items-center">
               <Link
-                href={
-                  userId
-                    ? `/my-routine?search=${product?.brand?.title}`
-                    : "/login"
-                }
+                href={userId ? `/my-routine?search=${product?.name}` : "/login"}
                 className="rounded-full bg-primary text-secondary px-8 hover:bg-primary/80 py-2.5"
               >
                 Add to routine
