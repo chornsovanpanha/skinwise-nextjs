@@ -1,5 +1,6 @@
 import { AppResponse } from "@/lib/axios/response";
 import prismaClient from "@/lib/prisma";
+import { escapeLike } from "@/utils/formatter";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -10,10 +11,11 @@ export async function GET(req: Request) {
   const search = searchParams.get("search") ?? "";
   const sortField = searchParams.get("sortField") ?? "id";
   const sortOrder = searchParams.get("sortOrder") ?? "asc";
+  const escapedQuery = escapeLike(search);
 
   const products = await prismaClient.product.findMany({
     where: {
-      name: { contains: search, mode: "insensitive" },
+      name: { contains: escapedQuery, mode: "insensitive" },
     },
     orderBy: {
       [sortField]: sortOrder as "asc" | "desc",

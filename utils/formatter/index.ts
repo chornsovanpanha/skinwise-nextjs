@@ -2,6 +2,9 @@ import { Prisma } from "@prisma/client";
 import z from "zod";
 import { countryMap } from "../constant/data";
 import { KeyCountries } from "@/types";
+export function escapeLike(query: string) {
+  return query.replace(/[%_\\]/g, "\\$&"); // escape %, _, and \
+}
 
 export const getFlagEmoji = (countryCode: string): string => {
   if (!/^[A-Z]{2}$/i.test(countryCode)) {

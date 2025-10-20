@@ -122,30 +122,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
-// EXAMPLE
-// data form
-// {
-//   "name": "Test Product",
-//   "code": "TP-001",
-//   "alias": "test-product",
-//   "desc": "This is a test product",
-//   "rating": 5,
-//   "brandId": 1,
-//   "ingredients": [
-//     { "ingredientId": 1, "concentration": "2%", "notes": "Key ingredient", "isKey": true },
-//     { "ingredientId": 2, "concentration": "1%", "notes": "Secondary", "isKey": false }
-//   ],
-//   "insideGroups": [
-//     { "title": "Example Group 1" },
-//     { "title": "Example Group 2" }
-//   ],
-//   "effects": [
-//     { "type": "POSITIVE", "title": "Effect 1", "shortDesc": "Short description", "desc": "Full description" },
-//     { "type": "NEGATIVE", "title": "Effect 2", "shortDesc": "Short description", "desc": "Full description" }
-//   ]
-// }
-
-//image form
-
-// image : Files

@@ -1,5 +1,6 @@
 import { AppResponse } from "@/lib/axios/response";
 import prismaClient from "@/lib/prisma";
+import { escapeLike } from "@/utils/formatter";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -15,10 +16,11 @@ export async function GET(req: NextRequest) {
       })
     );
   }
+  const escapedQuery = escapeLike(query);
   const products = await prismaClient.product.findMany({
     where: {
       name: {
-        contains: query,
+        contains: escapedQuery,
         mode: "insensitive",
       },
     },
@@ -40,7 +42,7 @@ export async function GET(req: NextRequest) {
   const ingredients = await prismaClient.ingredient.findMany({
     where: {
       name: {
-        startsWith: query,
+        startsWith: escapedQuery,
         mode: "insensitive",
       },
     },
