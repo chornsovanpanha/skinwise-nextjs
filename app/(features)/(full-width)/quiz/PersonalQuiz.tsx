@@ -13,8 +13,9 @@ import { QuizOption } from "@/types";
 import { quizQuestions } from "@/utils/constant/data";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
-import { startTransition, useState } from "react";
+import { startTransition, useEffect, useState } from "react";
 
 export default function PersonalQuiz() {
   const currentIndex = useAtomValue(quizStepIndexAtom);
@@ -24,6 +25,7 @@ export default function PersonalQuiz() {
   const [loading, setLoading] = useState(false);
   const previousAnswers = useAtomValue(quizAnswerOptionAtom);
   const setAnswer = useSetAtom(quizAnswerOptionAtom);
+
   const [nextStep, setNextStep] = useAtom(quizStepIndexAtom);
 
   const handleAnalysis = async () => {
@@ -68,22 +70,31 @@ export default function PersonalQuiz() {
     setNextStep((prev) => prev + 1);
   };
 
+  useEffect(() => {
+    return () => {
+      setNextStep(0);
+      setAnswer([]);
+    };
+  }, [setAnswer, setNextStep]);
+
   return (
     <main>
       {loading && <Loading />}
-      <PageHeader
-        title=""
-        customDesc={
-          <Image
-            alt="img-quiz-cover"
-            src={SkinwiseLogoLight}
-            width={200}
-            height={200}
-          />
-        }
-        showBackgroundImg={true}
-        backgroundImage={QuizRoutineBg}
-      />
+      <Link prefetch={false} href={"/"}>
+        <PageHeader
+          title=""
+          customDesc={
+            <Image
+              alt="img-quiz-cover"
+              src={SkinwiseLogoLight}
+              width={200}
+              height={200}
+            />
+          }
+          showBackgroundImg={true}
+          backgroundImage={QuizRoutineBg}
+        />
+      </Link>
       <Wrapper className="flex flex-col">
         <section className="flex flex-col items-center my-6 space-y-6 w-full">
           <QuizHeader />

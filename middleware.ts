@@ -11,7 +11,6 @@ const protectedPaths = [
   "/profile/overview",
   "/profile/edit-profile",
   "/profile/my-skin",
-  "/my-routine",
 ];
 
 const loginPath = "/login";
