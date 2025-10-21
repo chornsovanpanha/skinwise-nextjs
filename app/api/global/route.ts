@@ -17,16 +17,12 @@ export async function GET(req: NextRequest) {
     );
   }
   const escapedQuery = escapeLike(query);
-  const keywords = escapedQuery.split(/\s+/);
-
   const products = await prismaClient.product.findMany({
     where: {
-      AND: keywords.map((word) => ({
-        name: {
-          contains: word,
-          mode: "insensitive",
-        },
-      })),
+      name: {
+        contains: escapedQuery,
+        mode: "insensitive",
+      },
     },
     orderBy: {
       searchCount: "desc",
@@ -39,12 +35,10 @@ export async function GET(req: NextRequest) {
   });
   const ingredients = await prismaClient.ingredient.findMany({
     where: {
-      AND: keywords.map((word) => ({
-        name: {
-          contains: word,
-          mode: "insensitive",
-        },
-      })),
+      name: {
+        contains: escapedQuery,
+        mode: "insensitive",
+      },
     },
     orderBy: {
       searchCount: "desc",
