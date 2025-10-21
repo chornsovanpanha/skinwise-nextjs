@@ -17,34 +17,34 @@ export async function GET(req: NextRequest) {
     );
   }
   const escapedQuery = escapeLike(query);
+  const keywords = escapedQuery.split(/\s+/);
+
   const products = await prismaClient.product.findMany({
     where: {
-      name: {
-        contains: escapedQuery,
-        mode: "insensitive",
-      },
+      AND: keywords.map((word) => ({
+        name: {
+          contains: word,
+          mode: "insensitive",
+        },
+      })),
     },
     orderBy: {
       searchCount: "desc",
     },
     include: {
       brand: true,
-      Image: {
-        select: {
-          url: true,
-          altText: true,
-        },
-      },
+      Image: { select: { url: true, altText: true } },
     },
     take: 12,
   });
-
   const ingredients = await prismaClient.ingredient.findMany({
     where: {
-      name: {
-        startsWith: escapedQuery,
-        mode: "insensitive",
-      },
+      AND: keywords.map((word) => ({
+        name: {
+          contains: word,
+          mode: "insensitive",
+        },
+      })),
     },
     orderBy: {
       searchCount: "desc",

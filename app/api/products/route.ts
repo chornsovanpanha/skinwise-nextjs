@@ -12,10 +12,16 @@ export async function GET(req: Request) {
   const sortField = searchParams.get("sortField") ?? "id";
   const sortOrder = searchParams.get("sortOrder") ?? "asc";
   const escapedQuery = escapeLike(search);
+  const keywords = escapedQuery.split(/\s+/);
 
   const products = await prismaClient.product.findMany({
     where: {
-      name: { contains: escapedQuery, mode: "insensitive" },
+      AND: keywords.map((word) => ({
+        name: {
+          contains: word,
+          mode: "insensitive",
+        },
+      })),
     },
     orderBy: {
       [sortField]: sortOrder as "asc" | "desc",

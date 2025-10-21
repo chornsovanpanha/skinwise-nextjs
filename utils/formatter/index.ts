@@ -3,7 +3,7 @@ import z from "zod";
 import { countryMap } from "../constant/data";
 import { KeyCountries } from "@/types";
 export function escapeLike(query: string) {
-  return query.replace(/[%_\\]/g, "\\$&"); // escape %, _, and \
+  return query.replace(/[%_\\]/g, "");
 }
 
 export const getFlagEmoji = (countryCode: string): string => {
