@@ -11,6 +11,7 @@ const protectedPaths = [
   "/profile/overview",
   "/profile/edit-profile",
   "/profile/my-skin",
+  "/my-routine",
 ];
 
 const loginPath = "/login";
@@ -94,7 +95,7 @@ export async function middleware(request: NextRequest) {
   // -----------------------------
   const loginUrl = new URL(loginPath, url);
   if (isProtected) {
-    loginUrl.searchParams.set("returnTo", pathName + url.search);
+    loginUrl.searchParams.set("returnTo", pathName);
   }
 
   // Redirect logged-in users away from login

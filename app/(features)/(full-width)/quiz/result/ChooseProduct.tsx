@@ -10,8 +10,8 @@ import { useToast } from "@/hooks/use-toast";
 import { ProductWithBrandAndImages, SearchType, SelectProduct } from "@/types";
 import { TANSTACKQUERY } from "@/utils/constant/queryclient";
 import { FormValueRoutine } from "@/utils/schema/zod/routine";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { startTransition, useState } from "react";
 
 const ChooseProduct = ({
   onContinue,
@@ -25,6 +25,7 @@ const ChooseProduct = ({
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
   const { show } = useToast();
+  const router = useRouter();
   const [searchAreaKey, setSearchAreaKey] = useState(0);
   const [open, setOpen] = useState(false);
   const { data } = useGlobalSearch(TANSTACKQUERY.GLOBAL_SEARCH, {
@@ -35,10 +36,17 @@ const ChooseProduct = ({
     SelectProduct | undefined
   >(undefined);
 
+  const clearSearchParams = () => {
+    startTransition(() => {
+      onCloseDialog();
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("q");
+      router.replace("/quiz/result", { scroll: false });
+    });
+  };
   const onCloseDialog = () => {
     setOpen(false);
     setSearchAreaKey((pre) => pre + 1);
-    // clearSingleParam();
   };
 
   async function handleRoutineCreate({
@@ -61,6 +69,7 @@ const ChooseProduct = ({
       });
 
       if (routine && routine.success) {
+        clearSearchParams();
         show({ type: "success", message: "Routine has been added" });
       }
 

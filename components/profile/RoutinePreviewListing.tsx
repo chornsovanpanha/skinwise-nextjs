@@ -13,7 +13,7 @@ const RoutineListing = ({ routines }: { routines?: RoutineSubItem[] }) => {
           key={i}
           className="cursor-pointer relative w-full aspect-square overflow-hidden hover:opacity-80 hover:scale-110 transition-transform ease-in-out duration-200"
         >
-          <Link href={`/product/${routine.product?.alias}`}>
+          <Link href={`/my-routine`}>
             <Image
               src={routine.product.Image?.at(0)?.url ?? ""}
               alt={`routine-${routine.id}`}
