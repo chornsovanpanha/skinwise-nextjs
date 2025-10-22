@@ -72,7 +72,7 @@ const ComparisonResult = ({
             showFlag
             country={primaryProduct?.brand?.country ?? ""}
           />
-          <div className="grid justify-self-center col-span-1  place-items-center gap-4">
+          <div className="grid justify-self-center col-span-1  place-items-center gap-4 mb-12 md:mb-0">
             <ArrowRightLeft className="w-8 h-8 md:w-10 md:h-10 text-primary" />
             <Button
               className="text-secondary rounded-2xl"

@@ -15,15 +15,15 @@ const ProductCompareImage: React.FC<ProductCompareImageProps> = ({
 }) => {
   return (
     <section className="product-img mb-6 md:mb-0 overflow-hidden border border-primary rounded-xl w-full relative h-full">
-      <Image
-        src={
-          imgUrl ?? "https://storage.skinsort.com/vhfn18oeucujg2wmaqz2m4a6xy2a"
-        }
-        alt={imgUrl}
-        width={350}
-        height={350}
-        className="h-full w-full object-contain  transform transition-transform duration-300 ease-in-out scale-80 hover:scale-85"
-      />
+      <div className="w-fit h-[400px]   border border-gray-300 rounded-xl overflow-hidden flex items-center justify-center">
+        <Image
+          src={imgUrl || ""}
+          alt="Product image"
+          width={400}
+          height={400}
+          className="object-contain h-full scale-80 transition-transform duration-300 ease-in-out hover:scale-85"
+        />
+      </div>
       {showFlag && country && (
         <Typography className="mb-4 z-[10] text-center absolute bottom-[-5] left-0 right-0 text-secondary">
           {getCountryFullName(country as KeyCountries)} brand{" "}

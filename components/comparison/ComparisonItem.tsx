@@ -24,7 +24,7 @@ const ComparisonItem: React.FC<ComparisonItemProps> = ({
 }) => {
   return (
     <>
-      <section className="w-full flex flex-col justify-center items-center h-[480px]">
+      <section className="w-full flex flex-col justify-center items-center h-full">
         <Link href={`/product/${alias}`} prefetch={false}>
           <ProductCompareImage
             imgUrl={imgUrl}
