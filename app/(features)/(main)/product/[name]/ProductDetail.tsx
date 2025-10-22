@@ -90,10 +90,12 @@ const ProductDetail = ({
                 desc={analysis?.shortDesc}
               />
             ) : (
-              <UnlockButton
-                className="flex justify-start mt-6"
-                title="Unlock Premium to see this product analysis"
-              />
+              planType != PlanType.PRO && (
+                <UnlockButton
+                  className="flex justify-start mt-6"
+                  title="Unlock Premium to see this product analysis"
+                />
+              )
             )}
           </section>
         </header>
