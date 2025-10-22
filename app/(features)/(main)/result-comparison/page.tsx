@@ -99,6 +99,7 @@ const Page = async ({ searchParams }: { searchParams: SearchParams }) => {
 
   return (
     <ComparisonResult
+      planType={subscription.data?.planType ?? PlanType.FREE}
       data={productComparisons}
       productSummaries={
         (toProductSummaries(analysis) as ProductSummaryType[]) ?? []

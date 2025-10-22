@@ -6,7 +6,6 @@ import AppInput from "@/components/AppInput";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { userAtom } from "@/lib/atom/user.atom";
-import { cn } from "@/lib/utils";
 import { UserPrisma } from "@/types";
 import {
   loginSchema,
@@ -83,7 +82,7 @@ const Form = <T extends FormType>({ title, desc, type }: FormProps<T>) => {
           id: mutateData.id?.toString(),
         });
 
-        show({ type: "success", message: `Welcome back ${data?.name}` });
+        show({ type: "success", message: `Welcome ${data?.name} to skinwise` });
         setMutatestate(defaultState);
         redirect("/");
       });
@@ -100,12 +99,24 @@ const Form = <T extends FormType>({ title, desc, type }: FormProps<T>) => {
   };
 
   return (
-    <div className={cn("flex flex-col gap-6")}>
+    <div className={"flex flex-col gap-6"}>
       <div className="overflow-hidden p-0 m-0">
         <div className="grid md:grid-cols-2 m-0 bg-white rounded-2xl">
           <form className="p-6 md:p-8" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-1 space-y-4">
-              <header className="flex flex-col items-center text-center mb-4">
+              <header className="flex flex-col items-center text-center mt-2">
+                <div className="block md:hidden w-full justify-center text-center mb-3">
+                  <Link prefetch={false} href={"/"}>
+                    <Image
+                      src={SkinwiseLogoLight}
+                      alt="Image-Cover"
+                      width={10}
+                      height={10}
+                      className="h-fit w-40 dark:brightness-[0.2] dark:grayscale object-cover mx-auto"
+                    />
+                  </Link>
+                </div>
+
                 <h1 className="text-lg md:text-2xl font-bold">{title}</h1>
                 <p
                   className={clsx("text-muted-foreground text-sm md:text-lg ", {
@@ -202,13 +213,15 @@ const Form = <T extends FormType>({ title, desc, type }: FormProps<T>) => {
           </form>
 
           <div className="hidden w-full md:flex bg-secondary place-items-center justify-center rounded-r-2xl">
-            <Image
-              src={SkinwiseLogoLight}
-              alt="Image-Cover"
-              width={100}
-              height={100}
-              className=" h-fit w-fit dark:brightness-[0.2] dark:grayscale object-cover"
-            />
+            <Link prefetch={false} href={"/"}>
+              <Image
+                src={SkinwiseLogoLight}
+                alt="Image-Cover"
+                width={100}
+                height={100}
+                className=" h-fit w-fit dark:brightness-[0.2] dark:grayscale object-cover"
+              />
+            </Link>
           </div>
         </div>
       </div>

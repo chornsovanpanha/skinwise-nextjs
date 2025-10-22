@@ -9,7 +9,7 @@ import PageHeader from "@/components/PageHeader";
 import { Typography } from "@/components/Typography";
 import { Button } from "@/components/ui/button";
 import UnlockButton from "@/components/UnlockButton";
-import { ProductComparison } from "@/types";
+import { PlanType, ProductComparison } from "@/types";
 import { ProductSummaryType } from "@/types/response";
 import { IconFlask, IconTestPipe } from "@tabler/icons-react";
 import {
@@ -23,9 +23,11 @@ import { useRouter } from "nextjs-toploader/app";
 
 const ComparisonResult = ({
   data,
+  planType,
   productSummaries,
 }: {
   data?: ProductComparison[];
+  planType: PlanType;
   productSummaries?: ProductSummaryType[];
 }) => {
   const router = useRouter();
@@ -259,106 +261,109 @@ const ComparisonResult = ({
         </section>
 
         {/* **** Ingredient side by side  ****  */}
-        <section className="ingredients block space-y-4 sm:space-y-0 gap-4">
-          <ComparisonHeader
-            icon={<IconFlask className="w-6 h-6 sm:w-10 sm:h-10" />}
-            title="Ingredients side by side"
-          />
-          <div className="compare block space-y-4 sm:space-y-0 lg:flex gap-4">
-            <BoxOutlineWrapper title={""} className="flex-1/2 hover-box">
-              <header className="text-center mb-6">
-                <Typography
-                  variant="h6"
-                  as="p"
-                  className="text-secondary font-bold"
-                >
-                  {primaryProduct?.name}
-                </Typography>
-                {primaryProduct?.ingredients && (
-                  <Typography
-                    variant="caption"
-                    as="p"
-                    className="text-secondary font-bold"
-                  >
-                    {primaryProduct?.ingredients.length}{" "}
-                    {primaryProduct?.ingredients.length > 1
-                      ? "Ingredients"
-                      : "Ingredient"}
-                  </Typography>
-                )}
-              </header>
-              <main className="block sm:grid gap-4 lg:grid-cols-2 w-full space-y-6 sm:space-y-0">
-                {primaryProduct?.ingredients?.map((item, index) => (
-                  <BadgeItem
-                    className={"bg-transparent"}
-                    key={index}
-                    subtitle={item.ingredient?.desc ?? ""}
-                    title={item.ingredient?.name ?? ""}
-                    type="positive"
-                    icon={<IconTestPipe />}
-                  />
-                ))}
-                {!primaryProduct?.ingredients?.length && (
-                  <BadgeItem
-                    className={"bg-transparent"}
-                    subtitle={"N/A"}
-                    title={"No Information"}
-                    type="positive"
-                    icon={<IconTestPipe />}
-                  />
-                )}
-              </main>
-            </BoxOutlineWrapper>
-            <BoxOutlineWrapper
-              title={""}
-              className="flex-1/2 hover:scale-102 transform transition-transform duration-300 ease-in-out "
-            >
-              <header className="text-center mb-6">
-                <Typography
-                  variant="h6"
-                  as="p"
-                  className="text-secondary font-bold"
-                >
-                  {secondaryProduct?.name}
-                </Typography>
 
-                {secondaryProduct?.ingredients && (
+        {planType == PlanType.PRO ? (
+          <section className="ingredients block space-y-4 sm:space-y-0 gap-4">
+            <ComparisonHeader
+              icon={<IconFlask className="w-6 h-6 sm:w-10 sm:h-10" />}
+              title="Ingredients side by side"
+            />
+            <div className="compare block space-y-4 sm:space-y-0 lg:flex gap-4">
+              <BoxOutlineWrapper title={""} className="flex-1/2 hover-box">
+                <header className="text-center mb-6">
                   <Typography
-                    variant="caption"
+                    variant="h6"
                     as="p"
                     className="text-secondary font-bold"
                   >
-                    {secondaryProduct?.ingredients.length}{" "}
-                    {secondaryProduct?.ingredients.length > 1
-                      ? "Ingredients"
-                      : "Ingredient"}
+                    {primaryProduct?.name}
                   </Typography>
-                )}
-              </header>
-              <main className="block sm:grid gap-4 grid-cols-2 space-y-6 sm:space-y-0 w-full">
-                {secondaryProduct?.ingredients?.map((item, index) => (
-                  <BadgeItem
-                    className={"bg-transparent"}
-                    key={index}
-                    subtitle={item.ingredient?.desc ?? ""}
-                    title={item.ingredient?.name ?? ""}
-                    type="positive"
-                    icon={<IconTestPipe />}
-                  />
-                ))}
-                {!secondaryProduct?.ingredients?.length && (
-                  <BadgeItem
-                    className={"bg-transparent"}
-                    subtitle={"N/A"}
-                    title={"No Information"}
-                    type="positive"
-                    icon={<IconTestPipe />}
-                  />
-                )}
-              </main>
-            </BoxOutlineWrapper>
-          </div>
-        </section>
+                  {primaryProduct?.ingredients && (
+                    <Typography
+                      variant="caption"
+                      as="p"
+                      className="text-secondary font-bold"
+                    >
+                      {primaryProduct?.ingredients.length}{" "}
+                      {primaryProduct?.ingredients.length > 1
+                        ? "Ingredients"
+                        : "Ingredient"}
+                    </Typography>
+                  )}
+                </header>
+                <main className="block sm:grid gap-4 lg:grid-cols-2 w-full space-y-6 sm:space-y-0">
+                  {primaryProduct?.ingredients?.map((item, index) => (
+                    <BadgeItem
+                      className={"bg-transparent"}
+                      key={index}
+                      subtitle={item.ingredient?.desc ?? ""}
+                      title={item.ingredient?.name ?? ""}
+                      type="positive"
+                      icon={<IconTestPipe />}
+                    />
+                  ))}
+                  {!primaryProduct?.ingredients?.length && (
+                    <BadgeItem
+                      className={"bg-transparent"}
+                      subtitle={"N/A"}
+                      title={"No Information"}
+                      type="positive"
+                      icon={<IconTestPipe />}
+                    />
+                  )}
+                </main>
+              </BoxOutlineWrapper>
+              <BoxOutlineWrapper
+                title={""}
+                className="flex-1/2 hover:scale-102 transform transition-transform duration-300 ease-in-out "
+              >
+                <header className="text-center mb-6">
+                  <Typography
+                    variant="h6"
+                    as="p"
+                    className="text-secondary font-bold"
+                  >
+                    {secondaryProduct?.name}
+                  </Typography>
+
+                  {secondaryProduct?.ingredients && (
+                    <Typography
+                      variant="caption"
+                      as="p"
+                      className="text-secondary font-bold"
+                    >
+                      {secondaryProduct?.ingredients.length}{" "}
+                      {secondaryProduct?.ingredients.length > 1
+                        ? "Ingredients"
+                        : "Ingredient"}
+                    </Typography>
+                  )}
+                </header>
+                <main className="block sm:grid gap-4 grid-cols-2 space-y-6 sm:space-y-0 w-full">
+                  {secondaryProduct?.ingredients?.map((item, index) => (
+                    <BadgeItem
+                      className={"bg-transparent"}
+                      key={index}
+                      subtitle={item.ingredient?.desc ?? ""}
+                      title={item.ingredient?.name ?? ""}
+                      type="positive"
+                      icon={<IconTestPipe />}
+                    />
+                  ))}
+                  {!secondaryProduct?.ingredients?.length && (
+                    <BadgeItem
+                      className={"bg-transparent"}
+                      subtitle={"N/A"}
+                      title={"No Information"}
+                      type="positive"
+                      icon={<IconTestPipe />}
+                    />
+                  )}
+                </main>
+              </BoxOutlineWrapper>
+            </div>
+          </section>
+        ) : null}
 
         {/* **** Overview Comparison effects ****  */}
 

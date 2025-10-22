@@ -23,13 +23,15 @@ const ComparisonItem: React.FC<ComparisonItemProps> = ({
   ingredientsCount,
 }) => {
   return (
-    <Link href={`/product/${alias}`} prefetch={false}>
+    <>
       <section className="w-full flex flex-col justify-center items-center h-[480px]">
-        <ProductCompareImage
-          imgUrl={imgUrl}
-          showFlag={showFlag}
-          country={country ?? ""}
-        />
+        <Link href={`/product/${alias}`} prefetch={false}>
+          <ProductCompareImage
+            imgUrl={imgUrl}
+            showFlag={showFlag}
+            country={country ?? ""}
+          />
+        </Link>
 
         <div className="info w-full text-center mt-2">
           <Typography as="p" variant="h6" className="text-secondary">
@@ -43,7 +45,7 @@ const ComparisonItem: React.FC<ComparisonItemProps> = ({
           </Typography>
         </div>
       </section>
-    </Link>
+    </>
   );
 };
 

@@ -74,7 +74,7 @@ const SocialButton = () => {
             setMutatestate(defaultState);
             show({
               type: "success",
-              message: `Welcome back ${data?.name}`,
+              message: `Welcome ${data?.name} to skinwise`,
             });
             redirect("/");
           });
@@ -158,7 +158,7 @@ const SocialButton = () => {
             setMutatestate(defaultState);
             show({
               type: "success",
-              message: `Welcome back ${data?.name}`,
+              message: `Welcome ${data?.name} to skinwise`,
             });
             redirect("/");
           });
