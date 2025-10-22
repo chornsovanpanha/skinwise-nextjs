@@ -15,7 +15,7 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
-import { startTransition, useEffect, useState } from "react";
+import { startTransition, useLayoutEffect, useState } from "react";
 
 export default function PersonalQuiz() {
   const currentIndex = useAtomValue(quizStepIndexAtom);
@@ -70,11 +70,9 @@ export default function PersonalQuiz() {
     setNextStep((prev) => prev + 1);
   };
 
-  useEffect(() => {
-    return () => {
-      setNextStep(0);
-      setAnswer([]);
-    };
+  useLayoutEffect(() => {
+    setNextStep(0);
+    setAnswer([]);
   }, [setAnswer, setNextStep]);
 
   return (

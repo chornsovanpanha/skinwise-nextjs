@@ -13,6 +13,7 @@ import { startTransition, useEffect, useState } from "react";
 import ChooseProduct from "./ChooseProduct";
 import PersonalQuestion from "./PersonalQuestion";
 import ResultSkinType from "./ResultSkinType";
+import Link from "next/link";
 type StepContent = {
   title: string;
   subtitle?: string;
@@ -84,19 +85,21 @@ export default function ResultQuiz({
 
   return (
     <main>
-      <PageHeader
-        title=""
-        customDesc={
-          <Image
-            alt="img-quiz-result-cover"
-            src={SkinwiseLogoLight}
-            width={200}
-            height={200}
-          />
-        }
-        showBackgroundImg={true}
-        backgroundImage={QuizRoutineBg}
-      />
+      <Link prefetch={false} href={"/"}>
+        <PageHeader
+          title=""
+          customDesc={
+            <Image
+              alt="img-quiz-result-cover"
+              src={SkinwiseLogoLight}
+              width={200}
+              height={200}
+            />
+          }
+          showBackgroundImg={true}
+          backgroundImage={QuizRoutineBg}
+        />
+      </Link>
       <Wrapper className="flex flex-col items-center w-full">
         <section className="flex flex-col items-center my-6 space-y-6 w-full">
           <QuizResultHeader
