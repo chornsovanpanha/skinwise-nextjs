@@ -62,7 +62,6 @@ const RoutineBuilderDialog = ({
   };
 
   useEffect(() => {
-    console.log("Type is", type, usage);
     if (type || usage) {
       reset({
         type: type as RoutineType,

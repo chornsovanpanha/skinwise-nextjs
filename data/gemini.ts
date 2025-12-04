@@ -21,7 +21,7 @@ export const getProductUserAnalyse = async ({
   userSkinType,
   name,
 }: Params) => {
-  console.log("Analysis data is", userSkinType, name, skinConcerns);
+  // console.log("Analysis data is", userSkinType, name, skinConcerns);
   const response = await geminiAi.models.generateContent({
     model: "gemini-2.0-flash-001",
     contents: `
@@ -69,7 +69,7 @@ export const getUserIngredientAnalyse = async ({
   userSkinType,
   name,
 }: Params) => {
-  console.log("Analysis data is", userSkinType);
+  // console.log("Analysis data is", userSkinType);
   const response = await geminiAi.models.generateContent({
     model: "gemini-2.0-flash-001",
     contents: `

@@ -27,8 +27,8 @@ const auth = getAuth(app);
 // Only initialize performance in browser
 let perf: ReturnType<typeof getPerformance> | null = null;
 if (typeof window != "undefined") {
-  console.log("Firebase performance setup >>> init");
+  // console.log("Firebase performance setup >>> init");
   perf = getPerformance(app);
 }
-console.log("App frebase has been init", app.options.projectId, perf);
+// console.log("App frebase has been init", app.options.projectId, perf);
 export { app, auth, perf };

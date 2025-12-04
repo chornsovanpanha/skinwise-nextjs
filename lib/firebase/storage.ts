@@ -15,7 +15,7 @@ export const createFileUpload = async (file: File, originalName: string) => {
 };
 
 export const deleteFile = async (filePath: string) => {
-  console.log("File delete is", filePath);
+  // console.log("File delete is", filePath);
   const fileRef = bucket!.file(filePath);
   return await fileRef.delete();
 };
